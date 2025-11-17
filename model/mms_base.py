@@ -1,11 +1,17 @@
 import torch
 import torch.nn as nn
 
+from path_block_a import PathBlockA
+from path_block_b import PathBlockB
+from path_block_c import PathBlockC
+from path_block_d import PathBlockD
+from path_block_e import PathBlockE
+from bottleneck import Bottleneck
 
 class PathBlock(nn.Module):
     """
     One of the 3 parallel paths:
-    dilated conv → conv → BN+ReLU → avg pool → transposed conv
+    
     """
     def __init__(self, in_ch, mid_ch, out_ch, dilation=2):
         super().__init__()
