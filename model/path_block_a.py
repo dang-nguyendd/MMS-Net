@@ -7,6 +7,7 @@ class PathBlockA(PathBlock):
     Stride = 2
     DF = 2
     """
+
     def forward(self, x):
         x = self.dilated_conv(x)
         x = self.bn(x)
