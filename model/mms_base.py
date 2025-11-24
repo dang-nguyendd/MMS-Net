@@ -6,87 +6,134 @@ from path_block_b import PathBlockB
 from path_block_c import PathBlockC
 from path_block_d import PathBlockD
 from path_block_e import PathBlockE
-from bottleneck import Bottleneck
+from feature_booster import FeatureBooster
 
-class PathBlock(nn.Module):
+class MMSNet(nn.Module):
     """
-    One of the 3 parallel paths:
+    Full Path
     
     """
-    def __init__(self, in_ch, mid_ch, out_ch, dilation=2):
+    def __init__(self, in_ch = 3, fused_1_ch = 16, fused_2_ch = 48, fused_3_ch = 112, out_ch =2):
         super().__init__()
 
-        self.dilated_conv = nn.Conv2d(
-            in_channels=in_ch,
-            out_channels=mid_ch,
-            kernel_size=3,
-            padding=dilation,
-            dilation=dilation
-        )
+        self.path_a = PathBlockA(in_ch=in_ch, out_ch=in_ch)
+        self.path_b = PathBlockB(in_ch=in_ch, out_ch=in_ch)
+        self.path_c = PathBlockC(in_ch=in_ch, out_ch=in_ch)
+        self.path_d = PathBlockD(in_ch=in_ch, out_ch=in_ch)
+        self.path_e = PathBlockE(in_ch=fused_2_ch, out_ch=fused_2_ch)
+
+        self.feature_booster_1 = FeatureBooster(in_ch=in_ch, out_ch=fused_1_ch)
+        self.feature_booster_2 = FeatureBooster(in_ch=fused_2_ch, out_ch=fused_2_ch)
+
+        self.bn1 = nn.BatchNorm2d(out_ch)
+        self.bn2 = nn.BatchNorm2d(out_ch)
+        self.bn3 = nn.BatchNorm2d(out_ch)
+
+        self.relu1 = nn.ReLU(inplace=True)
+        self.relu2 = nn.ReLU(inplace=True)
+        self.relu3 = nn.ReLU(inplace=True)
 
         self.conv = nn.Conv2d(
-            in_channels=mid_ch,
-            out_channels=mid_ch,
+            in_channels=in_ch,
+            out_channels=fused_1_ch,
             kernel_size=3,
             padding=1
         )
 
-        self.bn = nn.BatchNorm2d(mid_ch)
-        self.relu = nn.ReLU(inplace=True)
+        self.conv_1x1 = nn.Conv2d(
+            in_channels=fused_2_ch,
+            out_channels=fused_2_ch,
+            kernel_size=1,
+            padding=0
+        )
 
-        self.pool = nn.AvgPool2d(kernel_size=2, stride=2)
+        self.de_conv_1 = nn.ConvTranspose2d(
+            in_channels=fused_2_ch,
+            out_channels=fused_2_ch,
+            kernel_size=2,
+            stride=2
+        )
 
-        # Upsample 2×
-        self.tconv = nn.ConvTranspose2d(
-            in_channels=mid_ch,
+        self.de_conv_2 = nn.ConvTranspose2d(
+            in_channels=out_ch,
             out_channels=out_ch,
             kernel_size=2,
             stride=2
         )
 
-    def forward(self, x):
-        x = self.dilated_conv(x)
-        x = self.conv(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        x = self.pool(x)
-        x = self.tconv(x)
-        return x
-
-
-class MultiPathModel(nn.Module):
-    def __init__(self, in_channels=3, base_channels=32):
-        super().__init__()
-
         # Input stem
-        self.stem = nn.Sequential(
-            nn.Conv2d(in_channels, base_channels, kernel_size=3, padding=1),
-            nn.BatchNorm2d(base_channels),
+        self.in_stem = nn.Sequential(
+            self.conv,
+            nn.BatchNorm2d(out_ch),        
             nn.ReLU(inplace=True)
         )
 
-        # Three parallel paths (with different dilations)
-        self.path1 = PathBlock(base_channels, base_channels, base_channels, dilation=2)
-        self.path2 = PathBlock(base_channels, base_channels, base_channels, dilation=3)
-        self.path3 = PathBlock(base_channels, base_channels, base_channels, dilation=4)
+        # Output stem
+        self.mid_stem = nn.Sequential(
+            self.de_conv_1,
+            nn.BatchNorm2d(fused_2_ch),        
+            nn.ReLU(inplace=True)  
+        )
+
+        # Output stem
+        self.out_stem = nn.Sequential(
+            self.de_conv_2,                 
+            nn.BatchNorm2d(out_ch),        
+            nn.ReLU(inplace=True),        
+            nn.Softmax(dim=1),          
+        )
 
     def forward(self, x):
-        x = self.stem(x)
+        x = self.in_stem(x)
 
+        #__________ Cascaded Path 1 __________
         # Parallel branches
-        p1 = self.path1(x)
-        p2 = self.path2(x)
-        p3 = self.path3(x)
+        path_a = self.path_a.forward(x)
+        path_b = self.path_b.forward(x)
+        path_c = self.path_c.forward(x)
+        fb_1 = self.feature_booster.forward(x)
+        dense_skip_path_1 = x
 
         # Depth-wise (channel dimension) concatenation
-        fused = torch.cat([p1, p2, p3], dim=1)
+        fused_1 = torch.cat([path_a, path_b, path_c, dense_skip_path_1], dim=1)
 
-        return fused
+        #__________ BottleNeck __________
+        x = self.conv_1x1(fused_1)
+        x = self.bn1(x)
+        x = self.relu1(x)
+
+        z = self.de_conv(x)
+        z = self.bn2(z)
+        z = self.relu2(z)
+    
+        x = self.de_conv(z)
+        x = self.bn3(x)
+        x = self.relu3(x)
+
+        #__________ Cascaded Path 2 __________
+        # Parallel branches
+        path_d = self.path_d.forward(x)
+        path_e = self.path_e.forward(x)
+        fb_2 = self.feature_booster.forward(x)
+        dense_skip_path_2 = z
+
+        # Depth-wise (channel dimension) concatenation
+        fused_2 = torch.cat([path_d, path_e, fb_2, dense_skip_path_2], dim=1)
+
+        x = self.mid_stem(fused_2)
+
+        #__________ Cascaded Path 3 __________
+        # Depth-wise (channel dimension) concatenation
+        fused_3 = torch.cat([x, fb_1], dim=1)
+        
+        x = self.out_stem(fused_3)
+
+        return x
 
 
-# Example
+
 if __name__ == "__main__":
-    model = MultiPathModel()
+    model = MMSNet()
     inp = torch.randn(1, 3, 128, 128)
     out = model(inp)
     print("Output shape:", out.shape)
