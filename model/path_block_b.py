@@ -7,6 +7,7 @@ class PathBlockB(nn.Module):
     F_scale = 1
     Stride = 1
     DF = 1
+    256x256 -> 64x64
     """
 
     def __init__(self, in_ch, out_ch):

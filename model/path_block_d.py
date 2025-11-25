@@ -7,6 +7,7 @@ class PathBlockD(nn.Module):
     F_scale = 4
     Stride = 4
     DF = 4
+    256x256 -> 128×128
     """
 
     def __init__(self, in_ch, out_ch, dilation=4, stride=4):
@@ -14,14 +15,7 @@ class PathBlockD(nn.Module):
 
         # Dilated conv
         self.dilated = nn.Sequential(
-            nn.Conv2d(in_ch, out_ch, 3, padding=dilation, dilation=dilation),
-            nn.BatchNorm2d(out_ch),
-            nn.ReLU(inplace=True),
-        )
-
-        # Strided conv
-        self.strided = nn.Sequential(
-            nn.Conv2d(out_ch, out_ch, 3, stride=stride, padding=1),
+            nn.Conv2d(in_ch, out_ch, 3, padding=dilation, stride=stride, dilation=dilation),
             nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
         )
@@ -33,13 +27,14 @@ class PathBlockD(nn.Module):
                 nn.BatchNorm2d(out_ch),
                 nn.ReLU(inplace=True),
             )
-
-        self.conv1 = block()
+        
+        # Two repeated conv blocks
+        self.block1 = nn.Sequential(block(), block())
 
         self.pool = nn.AvgPool2d(2, 2)
 
         # Two repeated conv blocks
-        self.block1 = nn.Sequential(block(), block())
+        self.block2 = nn.Sequential(block(), block())
 
         # Two deconv steps
         self.deconv= nn.Sequential(
@@ -57,13 +52,11 @@ class PathBlockD(nn.Module):
 
     def forward(self, x):
         x = self.dilated(x)
-        x = self.strided(x)
-
-        x = self.conv1(x)
+        x = self.block1(x)
 
         x = self.pool(x)
 
-        x = self.block1(x)
+        x = self.block2(x)
 
         x = self.deconv(x)
 

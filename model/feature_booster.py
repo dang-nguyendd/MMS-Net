@@ -8,6 +8,7 @@ class FeatureBooster(nn.Module):
     Stride = 1
     DF = 1
     Filters = 16 (default)
+    256x256 -> 256x256
     """
 
     def __init__(self, in_ch, out_ch=16):

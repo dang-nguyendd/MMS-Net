@@ -7,6 +7,7 @@ class PathBlockA(nn.Module):
     F_scale = 2
     Stride = 2
     DF = 2
+    256x256 -> 64x64
     """
 
     def __init__(self, in_ch, out_ch, dilation=2, stride=2):
@@ -14,11 +15,11 @@ class PathBlockA(nn.Module):
 
         # --- stage 1 ---
         self.block1 = nn.Sequential(
-            nn.Conv2d(in_ch, out_ch, 3, padding=dilation, dilation=dilation),
+            nn.Conv2d(in_ch, out_ch, 3, padding=dilation, dilation=dilation, stride=stride),
             nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(out_ch, out_ch, 3, stride=stride, padding=1),
+            nn.Conv2d(out_ch, out_ch, 3, padding=1),
             nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
 
