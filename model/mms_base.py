@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torchinfo import summary
 
 from path_block_a import PathBlockA
 from path_block_b import PathBlockB
@@ -13,21 +14,21 @@ class MMSNet(nn.Module):
     Full Path
     
     """
-    def __init__(self, in_ch = 3, fused_1_ch = 16, fused_2_ch = 48, fused_3_ch = 112, out_ch =2):
+    def __init__(self, in_ch = 3, out_ch =2):
         super().__init__()
 
-        self.path_a = PathBlockA(in_ch=in_ch, out_ch=in_ch)
-        self.path_b = PathBlockB(in_ch=in_ch, out_ch=in_ch)
-        self.path_c = PathBlockC(in_ch=in_ch, out_ch=in_ch)
-        self.path_d = PathBlockD(in_ch=in_ch, out_ch=in_ch)
-        self.path_e = PathBlockE(in_ch=fused_2_ch, out_ch=fused_2_ch)
+        self.path_a = PathBlockA(in_ch=in_ch)
+        self.path_b = PathBlockB(in_ch=in_ch)
+        self.path_c = PathBlockC(in_ch=in_ch)
+        self.path_d = PathBlockD(in_ch=in_ch)
+        self.path_e = PathBlockE(in_ch=in_ch)
 
-        self.feature_booster_1 = FeatureBooster(in_ch=in_ch, out_ch=fused_1_ch)
-        self.feature_booster_2 = FeatureBooster(in_ch=fused_2_ch, out_ch=fused_2_ch)
+        self.feature_booster_1 = FeatureBooster(in_ch=in_ch)
+        self.feature_booster_2 = FeatureBooster(in_ch=in_ch)
 
-        self.bn1 = nn.BatchNorm2d(out_ch)
-        self.bn2 = nn.BatchNorm2d(out_ch)
-        self.bn3 = nn.BatchNorm2d(out_ch)
+        self.bn1 = nn.BatchNorm2d(in_ch*4)
+        self.bn2 = nn.BatchNorm2d(in_ch*2)
+        self.bn3 = nn.BatchNorm2d(in_ch)
 
         self.relu1 = nn.ReLU(inplace=True)
         self.relu2 = nn.ReLU(inplace=True)
@@ -35,27 +36,41 @@ class MMSNet(nn.Module):
 
         self.conv = nn.Conv2d(
             in_channels=in_ch,
-            out_channels=fused_1_ch,
+            out_channels=in_ch,
             kernel_size=3,
             padding=1
         )
 
         self.conv_1x1 = nn.Conv2d(
-            in_channels=fused_2_ch,
-            out_channels=fused_2_ch,
+            in_channels=in_ch*12,
+            out_channels=in_ch*4,
             kernel_size=1,
             padding=0
         )
 
         self.de_conv_1 = nn.ConvTranspose2d(
-            in_channels=fused_2_ch,
-            out_channels=fused_2_ch,
+            in_channels=in_ch*4,
+            out_channels=in_ch*2,
             kernel_size=2,
             stride=2
         )
 
         self.de_conv_2 = nn.ConvTranspose2d(
-            in_channels=out_ch,
+            in_channels=in_ch*2,
+            out_channels=in_ch,
+            kernel_size=2,
+            stride=2
+        )
+
+        self.de_conv_3 = nn.ConvTranspose2d(
+            in_channels=in_ch*6,
+            out_channels=in_ch*2,
+            kernel_size=2,
+            stride=2
+        )
+
+        self.de_conv_4 = nn.ConvTranspose2d(
+            in_channels=in_ch*2 + 16,
             out_channels=out_ch,
             kernel_size=2,
             stride=2
@@ -64,20 +79,20 @@ class MMSNet(nn.Module):
         # Input stem
         self.in_stem = nn.Sequential(
             self.conv,
-            nn.BatchNorm2d(out_ch),        
+            nn.BatchNorm2d(in_ch),        
             nn.ReLU(inplace=True)
         )
 
-        # Output stem
+        # Mid stem
         self.mid_stem = nn.Sequential(
-            self.de_conv_1,
-            nn.BatchNorm2d(fused_2_ch),        
+            self.de_conv_3,
+            nn.BatchNorm2d(in_ch*2),        
             nn.ReLU(inplace=True)  
         )
 
         # Output stem
         self.out_stem = nn.Sequential(
-            self.de_conv_2,                 
+            self.de_conv_4,                 
             nn.BatchNorm2d(out_ch),        
             nn.ReLU(inplace=True),        
             nn.Softmax(dim=1),          
@@ -91,22 +106,22 @@ class MMSNet(nn.Module):
         path_a = self.path_a.forward(x)
         path_b = self.path_b.forward(x)
         path_c = self.path_c.forward(x)
-        fb_1 = self.feature_booster.forward(x)
-        dense_skip_path_1 = x
+        fb_1 = self.feature_booster_1.forward(x)
+        # dense_skip_path_1 = x
 
         # Depth-wise (channel dimension) concatenation
-        fused_1 = torch.cat([path_a, path_b, path_c, dense_skip_path_1], dim=1)
+        fused_1 = torch.cat([path_a, path_b, path_c], dim=1)
 
         #__________ BottleNeck __________
         x = self.conv_1x1(fused_1)
         x = self.bn1(x)
         x = self.relu1(x)
 
-        z = self.de_conv(x)
+        z = self.de_conv_1(x)
         z = self.bn2(z)
         z = self.relu2(z)
     
-        x = self.de_conv(z)
+        x = self.de_conv_2(z)
         x = self.bn3(x)
         x = self.relu3(x)
 
@@ -114,11 +129,11 @@ class MMSNet(nn.Module):
         # Parallel branches
         path_d = self.path_d.forward(x)
         path_e = self.path_e.forward(x)
-        fb_2 = self.feature_booster.forward(x)
+        # fb_2 = self.feature_booster_2.forward(x)
         dense_skip_path_2 = z
 
         # Depth-wise (channel dimension) concatenation
-        fused_2 = torch.cat([path_d, path_e, fb_2, dense_skip_path_2], dim=1)
+        fused_2 = torch.cat([path_d, path_e, dense_skip_path_2], dim=1)
 
         x = self.mid_stem(fused_2)
 
@@ -137,3 +152,5 @@ if __name__ == "__main__":
     inp = torch.randn(1, 3, 128, 128)
     out = model(inp)
     print("Output shape:", out.shape)
+    summary(model, input_size=(1, 3, 128, 128))
+    

@@ -10,21 +10,21 @@ class PathBlockA(nn.Module):
     256x256 -> 64x64
     """
 
-    def __init__(self, in_ch, out_ch, dilation=2, stride=2):
+    def __init__(self, in_ch, dilation=2, stride=2):
         super().__init__()
 
         # --- stage 1 ---
         self.block1 = nn.Sequential(
-            nn.Conv2d(in_ch, out_ch, 3, padding=dilation, dilation=dilation, stride=stride),
-            nn.BatchNorm2d(out_ch),
+            nn.Conv2d(in_ch, in_ch*2, 3, padding=dilation, dilation=dilation, stride=stride),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(out_ch, out_ch, 3, padding=1),
-            nn.BatchNorm2d(out_ch),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(out_ch, out_ch, 3, padding=1),
-            nn.BatchNorm2d(out_ch),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
         )
 
@@ -32,14 +32,19 @@ class PathBlockA(nn.Module):
         self.pool1 = nn.AvgPool2d(2, 2)
 
         # --- 3 repeated conv blocks ---
-        self.block2 = nn.Sequential(
+        self.block2_1 = nn.Sequential(
+            nn.Conv2d(in_ch*2, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
+        )
+        self.block2_2 = nn.Sequential(
             *[
                 nn.Sequential(
-                    nn.Conv2d(out_ch, out_ch, 3, padding=1),
-                    nn.BatchNorm2d(out_ch),
+                    nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+                    nn.BatchNorm2d(in_ch*4),
                     nn.ReLU(inplace=True),
                 )
-                for _ in range(3)
+                for _ in range(2)
             ]
         )
 
@@ -47,21 +52,22 @@ class PathBlockA(nn.Module):
         self.pool2 = nn.AvgPool2d(2, 2)
 
         # --- 2 repeated conv blocks ---
-        self.block3 = nn.Sequential(
-            *[
-                nn.Sequential(
-                    nn.Conv2d(out_ch, out_ch, 3, padding=1),
-                    nn.BatchNorm2d(out_ch),
-                    nn.ReLU(inplace=True),
-                )
-                for _ in range(2)
-            ]
+        self.block3_1 = nn.Sequential(
+            nn.Conv2d(in_ch*4, in_ch*8, 3, padding=1),
+            nn.BatchNorm2d(in_ch*8),
+            nn.ReLU(inplace=True),
+        )
+
+        self.block3_2 = nn.Sequential(
+            nn.Conv2d(in_ch*8, in_ch*8, 3, padding=1),
+            nn.BatchNorm2d(in_ch*8),
+            nn.ReLU(inplace=True),
         )
 
         # deconv
         self.deconv = nn.Sequential(
-            nn.ConvTranspose2d(out_ch, out_ch, 2, stride=2),
-            nn.BatchNorm2d(out_ch),
+            nn.ConvTranspose2d(in_ch*8, in_ch*4, 2, stride=2),
+            nn.BatchNorm2d(in_ch*4),
             nn.ReLU(inplace=True),
         )
 
@@ -70,10 +76,12 @@ class PathBlockA(nn.Module):
         x = self.block1(x)
         x = self.pool1(x)
 
-        x = self.block2(x)
+        x = self.block2_1(x)
+        x = self.block2_2(x)
         x = self.pool2(x)
 
-        x = self.block3(x)
+        x = self.block3_1(x)
+        x = self.block3_2(x)
         x = self.deconv(x)
 
         return x
