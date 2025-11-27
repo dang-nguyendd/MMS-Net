@@ -15,14 +15,25 @@ class AvgMeter(object):
         self.losses = []
 
     def update(self, val, n=1):
-        self.val = val
-        self.sum += val * n
+        # accept floats or tensors
+        if torch.is_tensor(val):
+            v = val.detach()
+        else:
+            v = torch.tensor(val, dtype=torch.float32)
+
+        self.val = v
+        self.sum += v.item() * n
         self.count += n
         self.avg = self.sum / self.count
-        self.losses.append(val)
+        self.losses.append(v)
 
     def show(self):
-        return torch.mean(torch.stack(self.losses[np.maximum(len(self.losses)-self.num, 0):]))
+        # get last N values
+        idx = max(len(self.losses) - self.num, 0)
+        window = self.losses[idx:]
+
+        # stack as tensors and return python float
+        return torch.mean(torch.stack(window)).item()
     
     
 def clip_gradient(optimizer, grad_clip):

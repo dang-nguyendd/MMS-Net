@@ -134,8 +134,6 @@ def inference(model, args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--backbone', type=str,
-                        default='b3')
     parser.add_argument('--weight', type=str,
                         default='')
     parser.add_argument('--test_path', type=str,

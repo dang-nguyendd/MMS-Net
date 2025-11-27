@@ -2,19 +2,19 @@ import torch
 import torch.nn as nn
 from torchinfo import summary
 
-from path_block_a import PathBlockA
-from path_block_b import PathBlockB
-from path_block_c import PathBlockC
-from path_block_d import PathBlockD
-from path_block_e import PathBlockE
-from feature_booster import FeatureBooster
+from .path_block_a import PathBlockA
+from .path_block_b import PathBlockB
+from .path_block_c import PathBlockC
+from .path_block_d import PathBlockD
+from .path_block_e import PathBlockE
+from .feature_booster import FeatureBooster
 
 class MMSNet(nn.Module):
     """
     Full Path
     
     """
-    def __init__(self, in_ch = 3, out_ch =2):
+    def __init__(self, in_ch = 16, out_ch =2):
         super().__init__()
 
         self.path_a = PathBlockA(in_ch=in_ch)
@@ -35,7 +35,7 @@ class MMSNet(nn.Module):
         self.relu3 = nn.ReLU(inplace=True)
 
         self.conv = nn.Conv2d(
-            in_channels=in_ch,
+            in_channels=3,
             out_channels=in_ch,
             kernel_size=3,
             padding=1
