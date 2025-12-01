@@ -1,13 +1,15 @@
 import torch
 import torch.nn as nn
 from torchinfo import summary
+import torch.nn.functional as F
 
-from .path_block_a import PathBlockA
-from .path_block_b import PathBlockB
-from .path_block_c import PathBlockC
-from .path_block_d import PathBlockD
-from .path_block_e import PathBlockE
-from .feature_booster import FeatureBooster
+
+from path_block_a import PathBlockA
+from path_block_b import PathBlockB
+from path_block_c import PathBlockC
+from path_block_d import PathBlockD
+from path_block_e import PathBlockE
+from feature_booster import FeatureBooster
 
 class MMSNet(nn.Module):
     """
@@ -42,7 +44,7 @@ class MMSNet(nn.Module):
         )
 
         self.conv_1x1 = nn.Conv2d(
-            in_channels=in_ch*12,
+            in_channels=in_ch*12 + 3,
             out_channels=in_ch*4,
             kernel_size=1,
             padding=0
@@ -98,9 +100,18 @@ class MMSNet(nn.Module):
             nn.Softmax(dim=1),          
         )
 
+    def down_sample(self, in_map, out_map):
+        x_resized = F.interpolate(
+            in_map,
+            size=out_map.size()[2:],
+            mode='bilinear',
+            align_corners=False
+        )
+        return x_resized
+
     def forward(self, x):
         fb_1 = self.feature_booster_1.forward(x)
-        dense_skip_path_1 = x
+        dense_skip_path_1 = x 
 
         x = self.in_stem(x)
 
@@ -109,9 +120,10 @@ class MMSNet(nn.Module):
         path_a = self.path_a.forward(x)
         path_b = self.path_b.forward(x)
         path_c = self.path_c.forward(x)
-
+        dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
+                                               
         # Depth-wise (channel dimension) concatenation
-        fused_1 = torch.cat([path_a, path_b, path_c], dim=1)
+        fused_1 = torch.cat([path_a, path_b, path_c, dense_skip_path_1], dim=1)
 
         #__________ BottleNeck __________
         x = self.conv_1x1(fused_1)
