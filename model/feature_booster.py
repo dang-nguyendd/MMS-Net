@@ -14,22 +14,23 @@ class FeatureBooster(nn.Module):
     def __init__(self, in_ch, out_ch=16):
         super().__init__()
 
-        self.bn = nn.BatchNorm2d(in_ch)
-        self.relu = nn.ReLU(inplace=True)
-
-        # 3 repeated conv layers
+        # 4 repeated conv layers
         self.conv = nn.Sequential(
             nn.Conv2d(in_ch, out_ch, 3, padding=1),
+            nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
             nn.Conv2d(out_ch, out_ch, 3, padding=1),
+            nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
             nn.Conv2d(out_ch, out_ch, 3, padding=1),
+            nn.BatchNorm2d(out_ch),
             nn.ReLU(inplace=True),
             nn.Conv2d(out_ch, out_ch, 3, padding=1),
+            nn.BatchNorm2d(out_ch),
+            nn.ReLU(inplace=True),
         )
 
     def forward(self, x):
-        x = self.bn(x)
-        x = self.relu(x)
+        
         x = self.conv(x)
         return x

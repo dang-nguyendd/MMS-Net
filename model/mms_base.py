@@ -23,7 +23,7 @@ class MMSNet(nn.Module):
         self.path_d = PathBlockD(in_ch=in_ch)
         self.path_e = PathBlockE(in_ch=in_ch)
 
-        self.feature_booster_1 = FeatureBooster(in_ch=in_ch)
+        self.feature_booster_1 = FeatureBooster(in_ch=3)
         self.feature_booster_2 = FeatureBooster(in_ch=in_ch*2)
 
         self.bn1 = nn.BatchNorm2d(in_ch*4)
@@ -70,7 +70,7 @@ class MMSNet(nn.Module):
         )
 
         self.conv_1x1_2 = nn.Conv2d(
-            in_channels=in_ch*2 + 16,
+            in_channels=in_ch*3,
             out_channels=out_ch,
             kernel_size=1,
             padding=0
@@ -99,6 +99,9 @@ class MMSNet(nn.Module):
         )
 
     def forward(self, x):
+        fb_1 = self.feature_booster_1.forward(x)
+        dense_skip_path_1 = x
+
         x = self.in_stem(x)
 
         #__________ Cascaded Path 1 __________
@@ -106,8 +109,6 @@ class MMSNet(nn.Module):
         path_a = self.path_a.forward(x)
         path_b = self.path_b.forward(x)
         path_c = self.path_c.forward(x)
-        fb_1 = self.feature_booster_1.forward(x)
-        # dense_skip_path_1 = x
 
         # Depth-wise (channel dimension) concatenation
         fused_1 = torch.cat([path_a, path_b, path_c], dim=1)
