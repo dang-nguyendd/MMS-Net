@@ -4,19 +4,19 @@ from torchinfo import summary
 import torch.nn.functional as F
 
 
-from path_block_a import PathBlockA
-from path_block_b import PathBlockB
-from path_block_c import PathBlockC
-from path_block_d import PathBlockD
-from path_block_e import PathBlockE
-from feature_booster import FeatureBooster
+from .path_block_a import PathBlockA
+from .path_block_b import PathBlockB
+from .path_block_c import PathBlockC
+from .path_block_d import PathBlockD
+from .path_block_e import PathBlockE
+from .feature_booster import FeatureBooster
 
 class MMSNet(nn.Module):
     """
     Full Path
     
     """
-    def __init__(self, in_ch = 16, out_ch =2):
+    def __init__(self, fb_ch = 8, in_ch = 16, bn_size = 2, out_ch =2):
         super().__init__()
 
         self.path_a = PathBlockA(in_ch=in_ch)
@@ -25,17 +25,20 @@ class MMSNet(nn.Module):
         self.path_d = PathBlockD(in_ch=in_ch)
         self.path_e = PathBlockE(in_ch=in_ch)
 
-        self.feature_booster_1 = FeatureBooster(in_ch=3)
-        self.feature_booster_2 = FeatureBooster(in_ch=in_ch*2)
+        self.feature_booster_1 = FeatureBooster(in_ch=3, out_ch= fb_ch)
+        self.feature_booster_2 = FeatureBooster(in_ch=in_ch*2, out_ch = fb_ch)
 
-        self.bn1 = nn.BatchNorm2d(in_ch*4)
+        self.bn = nn.BatchNorm2d(in_ch)
+        self.bn1 = nn.BatchNorm2d(in_ch*bn_size)
         self.bn2 = nn.BatchNorm2d(in_ch*2)
         self.bn3 = nn.BatchNorm2d(in_ch)
 
+        self.relu = nn.ReLU(inplace=True)
         self.relu1 = nn.ReLU(inplace=True)
         self.relu2 = nn.ReLU(inplace=True)
         self.relu3 = nn.ReLU(inplace=True)
 
+        # Input stem
         self.conv = nn.Conv2d(
             in_channels=3,
             out_channels=in_ch,
@@ -44,14 +47,14 @@ class MMSNet(nn.Module):
         )
 
         self.conv_1x1 = nn.Conv2d(
-            in_channels=in_ch*12 + 3,
-            out_channels=in_ch*4,
+            in_channels=in_ch*12 + in_ch,
+            out_channels=in_ch*bn_size,
             kernel_size=1,
             padding=0
         )
 
         self.de_conv_1 = nn.ConvTranspose2d(
-            in_channels=in_ch*4,
+            in_channels=in_ch*bn_size,
             out_channels=in_ch*2,
             kernel_size=2,
             stride=2
@@ -65,24 +68,18 @@ class MMSNet(nn.Module):
         )
 
         self.de_conv_3 = nn.ConvTranspose2d(
-            in_channels=in_ch*6 + 16,
+            in_channels=in_ch*4 + fb_ch + in_ch*2,
             out_channels=in_ch*2,
             kernel_size=2,
             stride=2
         )
 
-        self.conv_1x1_2 = nn.Conv2d(
-            in_channels=in_ch*3,
+        self.conv_1x1_2 = nn.ConvTranspose2d(
+            in_channels=in_ch*2 + fb_ch,
             out_channels=out_ch,
-            kernel_size=1,
-            padding=0
-        )
-
-        # Input stem
-        self.in_stem = nn.Sequential(
-            self.conv,
-            nn.BatchNorm2d(in_ch),        
-            nn.ReLU(inplace=True)
+            kernel_size=2,
+            stride=1, 
+            padding=1
         )
 
         # Mid stem
@@ -111,9 +108,12 @@ class MMSNet(nn.Module):
 
     def forward(self, x):
         fb_1 = self.feature_booster_1.forward(x)
+        
+        # Input stem
+        x = self.conv(x)
         dense_skip_path_1 = x 
-
-        x = self.in_stem(x)
+        x = self.bn(x)
+        x = self.relu(x)
 
         #__________ Cascaded Path 1 __________
         # Parallel branches
@@ -169,3 +169,13 @@ if __name__ == "__main__":
 
     print(torch.cuda.is_available())
     print(torch.cuda.get_device_name())
+
+
+    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    non_trainable = sum(p.numel() for p in model.parameters() if not p.requires_grad)
+    buffers = sum(b.numel() for b in model.buffers())
+
+    print("Trainable params:", trainable)
+    print("Non-trainable params:", non_trainable)
+    print("Non-trainable buffers:", buffers)
+    print("Total params including buffers:", trainable + non_trainable + buffers)

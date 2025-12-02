@@ -14,7 +14,7 @@ class PathBlockA(nn.Module):
         super().__init__()
 
         # --- stage 1 ---
-        self.block1 = nn.Sequential(
+        self.path_block_a = nn.Sequential(
             nn.Conv2d(in_ch, in_ch*2, 3, padding=dilation, dilation=dilation, stride=stride),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
@@ -26,46 +26,33 @@ class PathBlockA(nn.Module):
             nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
-        )
 
-        # pool 1
-        self.pool1 = nn.AvgPool2d(2, 2)
+            # pool 1
+            nn.AvgPool2d(2, 2),
 
-        # --- 3 repeated conv blocks ---
-        self.block2_1 = nn.Sequential(
             nn.Conv2d(in_ch*2, in_ch*4, 3, padding=1),
             nn.BatchNorm2d(in_ch*4),
             nn.ReLU(inplace=True),
-        )
-        self.block2_2 = nn.Sequential(
-            *[
-                nn.Sequential(
-                    nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
-                    nn.BatchNorm2d(in_ch*4),
-                    nn.ReLU(inplace=True),
-                )
-                for _ in range(2)
-            ]
-        )
 
-        # pool 2
-        self.pool2 = nn.AvgPool2d(2, 2)
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
+            
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-        # --- 2 repeated conv blocks ---
-        self.block3_1 = nn.Sequential(
+            # pool 2
+            nn.AvgPool2d(2, 2),
+
             nn.Conv2d(in_ch*4, in_ch*8, 3, padding=1),
             nn.BatchNorm2d(in_ch*8),
             nn.ReLU(inplace=True),
-        )
 
-        self.block3_2 = nn.Sequential(
             nn.Conv2d(in_ch*8, in_ch*8, 3, padding=1),
             nn.BatchNorm2d(in_ch*8),
             nn.ReLU(inplace=True),
-        )
 
-        # deconv
-        self.deconv = nn.Sequential(
             nn.ConvTranspose2d(in_ch*8, in_ch*4, 2, stride=2),
             nn.BatchNorm2d(in_ch*4),
             nn.ReLU(inplace=True),
@@ -73,15 +60,7 @@ class PathBlockA(nn.Module):
 
 
     def forward(self, x):
-        x = self.block1(x)
-        x = self.pool1(x)
 
-        x = self.block2_1(x)
-        x = self.block2_2(x)
-        x = self.pool2(x)
-
-        x = self.block3_1(x)
-        x = self.block3_2(x)
-        x = self.deconv(x)
+        x = self.path_block_a(x)
 
         return x

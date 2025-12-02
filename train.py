@@ -86,26 +86,26 @@ def iou_m(y_true, y_pred):
     recall = recall_m(y_true, y_pred)
     return recall*precision/(recall+precision-recall*precision + epsilon)
 
-
 class DiceLoss(nn.Module):
     def __init__(self, smooth=1e-6):
-        super(DiceLoss, self).__init__()
+        super().__init__()
         self.smooth = smooth
 
     def forward(self, pred, target):
-        # pred: raw logits → apply sigmoid
-        pred = torch.sigmoid(pred)
+        # pred: N × C × H × W (logits)
+        # target: N × H × W (class indices)
 
-        pred = pred.contiguous()
-        target = target.contiguous()
+        pred = torch.softmax(pred, dim=1)
 
-        intersection = (pred * target).sum(dim=(2, 3))
-        union = pred.sum(dim=(2, 3)) + target.sum(dim=(2, 3))
+        # convert to one-hot: target_onehot: N × C × H × W
+        target_onehot = torch.nn.functional.one_hot(target, num_classes=pred.shape[1])
+        target_onehot = target_onehot.permute(0, 3, 1, 2).float()
 
-        dice = (2. * intersection + self.smooth) / (union + self.smooth)
-        loss = 1 - dice
+        intersection = (pred * target_onehot).sum(dim=(2, 3))
+        union = pred.sum(dim=(2, 3)) + target_onehot.sum(dim=(2, 3))
 
-        return loss.mean()
+        dice = (2 * intersection + self.smooth) / (union + self.smooth)
+        return 1 - dice.mean()
 
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
@@ -126,37 +126,46 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
 
             images, gts = pack
             images = images.cuda()
-            gts = gts.cuda()
+            gts = gts.cuda()              # (B,H,W)
 
-            # ---- ensure mask shape is (B,1,H,W) ----
-            if gts.dim() == 3:   # (B,H,W)
-                gts = gts.unsqueeze(1)
-            gts = gts.float()     # ensure float for dice
+            if gts.dim() == 4:
+                gts = gts.squeeze(1)      # (B,1,H,W) → (B,H,W)
+            gts = gts.long()              # class indices
 
             for rate in size_rates:
 
                 optimizer.zero_grad()
 
-                # ---- rescale ----
-                trainsize = int(round(args.init_trainsize * rate / 32) * 32)
+                trainsize = int(np.ceil(args.init_trainsize * rate / 32) * 32)
 
-                images_resized = F.interpolate(images, size=(trainsize, trainsize),
-                                               mode='bilinear', align_corners=True)
+                images_resized = F.interpolate(
+                    images,
+                    size=(trainsize, trainsize),
+                    mode="bilinear",
+                    align_corners=True
+                )
 
-                gts_resized = F.interpolate(gts, size=(trainsize, trainsize),
-                                            mode='nearest')  # masks → nearest
+                gts_resized = F.interpolate(
+                    gts.unsqueeze(1).float(),
+                    size=(trainsize, trainsize),
+                    mode="nearest"
+                ).squeeze(1).long()       # BACK to int labels
 
                 # ---- forward ----
-                pred = model(images_resized)       # (B,2,H,W)
-                pred = pred[:, 1:2, :, :]          # keep class-1 probability
 
-                # DiceLoss already applies sigmoid internally
+                pred = model(images_resized)       # (B,2,H,W)
+
+                # ensure pred matches target size
+                if pred.shape[2:] != gts_resized.shape[1:]:
+                    pred = F.interpolate(pred, size=gts_resized.shape[1:], mode='bilinear', align_corners=False)
+
                 loss_fn = DiceLoss()
                 loss = loss_fn(pred, gts_resized)
 
                 # ---- metrics ----
-                dice_score = dice_m(torch.sigmoid(pred), gts_resized)
-                iou_score = iou_m(torch.sigmoid(pred), gts_resized)
+                prob = torch.softmax(pred, dim=1)[:, 1]     # (B,H,W)
+                dice_score = dice_m(prob, gts_resized.float())
+                iou_score = iou_m(prob, gts_resized.float())
 
                 # ---- backward ----
                 loss.backward()
@@ -169,13 +178,13 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                     dice_meter.update(dice_score.item(), args.batchsize)
                     iou_meter.update(iou_score.item(), args.batchsize)
 
-            # ---- print batch summary ----
             if i == total_step:
                 print('{} Training Epoch [{:03d}/{:03d}], '
                       '[loss: {:.4f}, dice: {:.4f}, iou: {:.4f}]'.format(
                           datetime.now(), epoch, args.num_epochs,
                           loss_record.show(), dice_meter.show(), iou_meter.show()
                 ))
+
 
     # ---- save checkpoint ----
     ckpt_path = save_path + 'last.pth'
@@ -192,7 +201,7 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--num_epochs', type=int, default=5, help='epoch number')
+    parser.add_argument('--num_epochs', type=int, default=20, help='epoch number')
     parser.add_argument('--init_lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=4, help='training batch size')
     parser.add_argument('--init_trainsize', type=int, default=352, help='training dataset size')
