@@ -16,7 +16,7 @@ class MMSNet(nn.Module):
     Full Path
     
     """
-    def __init__(self, fb_ch = 8, in_ch = 16, bn_size = 2, out_ch =2):
+    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 2, out_ch =2):
         super().__init__()
 
         self.path_a = PathBlockA(in_ch=in_ch)

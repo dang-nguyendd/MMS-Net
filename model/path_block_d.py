@@ -14,34 +14,34 @@ class PathBlockD(nn.Module):
         super().__init__()
 
         self.path_block_d = nn.Sequential(
-            nn.Conv2d(in_ch, in_ch*4, 3, padding=dilation, stride=stride, dilation=dilation),
-            nn.BatchNorm2d(in_ch*4),
+            nn.Conv2d(in_ch, in_ch*2, 3, padding=dilation, stride=stride, dilation=dilation),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
-            nn.BatchNorm2d(in_ch*4),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
-            nn.BatchNorm2d(in_ch*4),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
             nn.AvgPool2d(2, 2),
 
-            nn.Conv2d(in_ch*4, in_ch*8, 3, padding=1),
-            nn.BatchNorm2d(in_ch*8),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*8, in_ch*8, 3, padding=1),
-            nn.BatchNorm2d(in_ch*8),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
 
-            nn.ConvTranspose2d(in_ch*8, in_ch*4, 2, stride=2),
-            nn.BatchNorm2d(in_ch*4),
+            nn.ConvTranspose2d(in_ch*2, in_ch*2, 2, stride=2),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
     
-            nn.ConvTranspose2d(in_ch*4, in_ch*2, 2, stride=2),
+            nn.ConvTranspose2d(in_ch*2, in_ch*2, 2, stride=2),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
