@@ -172,3 +172,69 @@ Save path existed
 100% 161/161 [03:36<00:00,  1.34s/it]
 [Saving Checkpoint:] snapshots/MMS-Net+/last.pth
  65% 105/161 [02:21<01:13,  1.32s/it]
+Save path existed
+Loading checkpoint: snapshots/MMS-Net+/last.pth
+/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py:248: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(args.resume_path)
+Resuming from epoch 71
+#################### Start Training ####################
+ 99% 160/161 [02:07<00:00,  1.31it/s]2025-12-09 16:07:04.850190 Training Epoch [071/090], [loss: 0.4305, dice: 0.9169, iou: 0.8486]
+100% 161/161 [02:07<00:00,  1.26it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.32it/s]2025-12-09 16:09:08.260064 Training Epoch [072/090], [loss: 0.4223, dice: 0.9206, iou: 0.8539]
+100% 161/161 [02:03<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:01<00:00,  1.33it/s]2025-12-09 16:11:10.825038 Training Epoch [073/090], [loss: 0.4228, dice: 0.9203, iou: 0.8539]
+100% 161/161 [02:02<00:00,  1.32it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.29it/s]2025-12-09 16:13:13.765599 Training Epoch [074/090], [loss: 0.4209, dice: 0.9211, iou: 0.8546]
+100% 161/161 [02:02<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.33it/s]2025-12-09 16:15:16.724556 Training Epoch [075/090], [loss: 0.4222, dice: 0.9155, iou: 0.8460]
+100% 161/161 [02:02<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.33it/s]2025-12-09 16:17:20.505692 Training Epoch [076/090], [loss: 0.4199, dice: 0.9140, iou: 0.8438]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 16:19:25.247908 Training Epoch [077/090], [loss: 0.4268, dice: 0.9213, iou: 0.8552]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.34it/s]2025-12-09 16:21:29.379817 Training Epoch [078/090], [loss: 0.4265, dice: 0.9109, iou: 0.8392]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.30it/s]2025-12-09 16:23:32.520800 Training Epoch [079/090], [loss: 0.4230, dice: 0.9229, iou: 0.8578]
+100% 161/161 [02:03<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 16:25:36.945921 Training Epoch [080/090], [loss: 0.4224, dice: 0.9206, iou: 0.8540]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 16:27:41.131627 Training Epoch [081/090], [loss: 0.4283, dice: 0.9138, iou: 0.8427]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.33it/s]2025-12-09 16:29:44.927747 Training Epoch [082/090], [loss: 0.4208, dice: 0.9180, iou: 0.8498]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.28it/s]2025-12-09 16:31:49.141964 Training Epoch [083/090], [loss: 0.4198, dice: 0.9112, iou: 0.8398]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.26it/s]2025-12-09 16:33:52.470002 Training Epoch [084/090], [loss: 0.4224, dice: 0.9146, iou: 0.8446]
+100% 161/161 [02:03<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.28it/s]2025-12-09 16:35:56.004347 Training Epoch [085/090], [loss: 0.4255, dice: 0.9105, iou: 0.8377]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.28it/s]2025-12-09 16:37:59.778276 Training Epoch [086/090], [loss: 0.4225, dice: 0.9158, iou: 0.8463]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.34it/s]2025-12-09 16:40:03.637391 Training Epoch [087/090], [loss: 0.4185, dice: 0.9172, iou: 0.8490]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.30it/s]2025-12-09 16:42:09.020219 Training Epoch [088/090], [loss: 0.4276, dice: 0.9112, iou: 0.8385]
+100% 161/161 [02:05<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 16:44:13.340071 Training Epoch [089/090], [loss: 0.4280, dice: 0.9103, iou: 0.8371]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.28it/s]2025-12-09 16:46:17.171872 Training Epoch [090/090], [loss: 0.4163, dice: 0.9221, iou: 0.8564]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
