@@ -1,19 +1,16 @@
 import argparse
-import logging
 import os
-import random
-import sys
-import time
 import numpy as np
 import cv2
-from tqdm import tqdm
 from glob import glob
 import torch
+import torch.nn.functional as F
 
 from model.mms_base import MMSNet
 
-class Dataset(torch.utils.data.Dataset):
 
+# ---------------- Dataset ----------------
+class Dataset(torch.utils.data.Dataset):
     def __init__(self, img_paths, mask_paths, transform=None):
         self.img_paths = img_paths
         self.mask_paths = mask_paths
@@ -31,121 +28,114 @@ class Dataset(torch.utils.data.Dataset):
 
         mask = cv2.imread(mask_path, 0)
 
-        if self.transform:
-            augmented = self.transform(image=image, mask=mask)
-            image = augmented["image"]
-            mask = augmented["mask"]
-        else:
-            image = cv2.resize(image, (352, 352))
-            mask = cv2.resize(mask, (352, 352), interpolation=cv2.INTER_NEAREST)
+        image = cv2.resize(image, (352, 352))
+        mask = cv2.resize(mask, (352, 352), interpolation=cv2.INTER_NEAREST)
 
-        # image
         image = image.astype("float32") / 255.0
         image = image.transpose(2, 0, 1)
         image = torch.tensor(image, dtype=torch.float32)
 
-        # mask (class indices: 0 or 1)
-        mask = (mask > 127).astype(np.int64)   # binarize
+        mask = (mask > 127).astype(np.int64)
         mask = torch.tensor(mask, dtype=torch.long)
 
         return image, mask
 
 
+# --------------- Metrics ------------------
 epsilon = 1e-7
 
-def recall_np(y_true, y_pred):
-    true_positives = np.sum(np.round(np.clip(y_true * y_pred, 0, 1)))
-    possible_positives = np.sum(np.round(np.clip(y_true, 0, 1)))
-    recall = true_positives / (possible_positives + epsilon)
-    return recall
+def recall_np(gt, pr):
+    tp = np.sum(gt * pr)
+    pp = np.sum(gt)
+    return tp / (pp + epsilon)
 
-def precision_np(y_true, y_pred):
-    true_positives = np.sum(np.round(np.clip(y_true * y_pred, 0, 1)))
-    predicted_positives = np.sum(np.round(np.clip(y_pred, 0, 1)))
-    precision = true_positives / (predicted_positives + epsilon)
-    return precision
+def precision_np(gt, pr):
+    tp = np.sum(gt * pr)
+    pp = np.sum(pr)
+    return tp / (pp + epsilon)
 
-def dice_np(y_true, y_pred):
-    precision = precision_np(y_true, y_pred)
-    recall = recall_np(y_true, y_pred)
-    return 2*((precision*recall)/(precision+recall+epsilon))
+def dice_np(gt, pr):
+    p = precision_np(gt, pr)
+    r = recall_np(gt, pr)
+    return 2 * (p * r) / (p + r + epsilon)
 
-def iou_np(y_true, y_pred):
-    intersection = np.sum(np.round(np.clip(y_true * y_pred, 0, 1)))
-    union = np.sum(y_true)+np.sum(y_pred)-intersection
-    return intersection/(union+epsilon)
+def iou_np(gt, pr):
+    inter = np.sum(gt * pr)
+    union = np.sum(gt) + np.sum(pr) - inter
+    return inter / (union + epsilon)
+
 
 def get_scores(gts, prs):
-    mean_precision = 0
-    mean_recall = 0
-    mean_iou = 0
-    mean_dice = 0
+    dices = []
+    ious = []
+    precs = []
+    recs = []
+
     for gt, pr in zip(gts, prs):
-        mean_precision += precision_np(gt, pr)
-        mean_recall += recall_np(gt, pr)
-        mean_iou += iou_np(gt, pr)
-        mean_dice += dice_np(gt, pr)
+        dices.append(dice_np(gt, pr))
+        ious.append(iou_np(gt, pr))
+        precs.append(precision_np(gt, pr))
+        recs.append(recall_np(gt, pr))
 
-    mean_precision /= len(gts)
-    mean_recall /= len(gts)
-    mean_iou /= len(gts)
-    mean_dice /= len(gts)        
-    
-    print("scores: dice={}, miou={}, precision={}, recall={}".format(mean_dice, mean_iou, mean_precision, mean_recall))
-
-    return (mean_iou, mean_dice, mean_precision, mean_recall)
+    print("Dice:", np.mean(dices))
+    print("IoU:", np.mean(ious))
+    print("Precision:", np.mean(precs))
+    print("Recall:", np.mean(recs))
 
 
-
+# ---------------- Inference ----------------
 def inference(model, args):
-    print("#"*20)
+    print("#" * 20)
     model.eval()
-    
-    X_test = glob('{}/images/*'.format(args.test_path))
-    X_test.sort()
-    y_test = glob('{}/masks/*'.format(args.test_path))
-    y_test.sort()
 
-    test_dataset = Dataset(X_test, y_test)
-    test_loader = torch.utils.data.DataLoader(
-        test_dataset,
-        batch_size=1,
-        shuffle=False,
-        pin_memory=True,
-        drop_last=False)
+    X_test = sorted(glob(f"{args.test_path}/images/*"))
+    y_test = sorted(glob(f"{args.test_path}/masks/*"))
+
+    dataset = Dataset(X_test, y_test)
+    loader = torch.utils.data.DataLoader(dataset, batch_size=1,
+                                         shuffle=False, pin_memory=True)
 
     gts = []
     prs = []
-    for i, pack in enumerate(test_loader, start=1):
-        image, gt = pack
-        gt = gt[0][0]
-        gt = np.asarray(gt, np.float32)
+
+    for image, gt in loader:
+        gt = gt.squeeze().numpy().astype(np.float32)  # fix shape
+
         image = image.cuda()
 
-        res, res2, res3, res4 = model(image)
-        res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
-        res = res.sigmoid().data.cpu().numpy().squeeze()
-        res = (res - res.min()) / (res.max() - res.min() + 1e-8)
-        pr = res.round()
+        pred = model(image)
+        pred = F.interpolate(pred, size=gt.shape, mode='bilinear', align_corners=False)
+
+        # --- Case 1: model output is 2 channels (softmax) ---
+        if pred.shape[1] == 2:
+            pred = torch.softmax(pred, dim=1)[:, 1]
+
+        # --- Case 2: model output is 1 channel (sigmoid) ---
+        else:
+            pred = torch.sigmoid(pred)
+
+        pred = pred.detach().cpu().numpy().squeeze()
+        pr = (pred > 0.5).astype(np.float32)
+
         gts.append(gt)
         prs.append(pr)
+
     get_scores(gts, prs)
 
 
-if __name__ == '__main__':
+# ---------------- Main ---------------------
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weight', type=str,
-                        default='')
-    parser.add_argument('--test_path', type=str,
-                        default='./data/TestDataset', help='path to dataset')
+    parser.add_argument("--weight", type=str, default="")
+    parser.add_argument("--test_path", type=str,
+                        default="./data/TestDataset")
     args = parser.parse_args()
 
     model = MMSNet().cuda()
 
-    if args.weight != '':
-        ckpt_path = ""
-        checkpoint = torch.load(ckpt_path)
-        model.load_state_dict(checkpoint['state_dict'])
+    if args.weight != "":
+        checkpoint = torch.load(args.weight)
+        model.load_state_dict(checkpoint["state_dict"])
+        print("Loaded weights:", args.weight)
 
     inference(model, args)
-
