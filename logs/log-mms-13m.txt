@@ -1,0 +1,212 @@
+Save path existed
+#################### Start Training ####################
+ 99% 160/161 [02:10<00:00,  1.27it/s]2025-12-09 18:52:23.278596 Training Epoch [001/070], [loss: 0.5428, dice: 0.4431, iou: 0.2899]
+100% 161/161 [02:11<00:00,  1.23it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 18:54:27.483625 Training Epoch [002/070], [loss: 0.5242, dice: 0.4586, iou: 0.3022]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 18:56:31.374647 Training Epoch [003/070], [loss: 0.5065, dice: 0.5163, iou: 0.3521]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 18:58:35.842662 Training Epoch [004/070], [loss: 0.5034, dice: 0.5038, iou: 0.3409]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:05<00:00,  1.30it/s]2025-12-09 19:00:42.084137 Training Epoch [005/070], [loss: 0.4938, dice: 0.5366, iou: 0.3734]
+100% 161/161 [02:06<00:00,  1.28it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 19:02:45.990360 Training Epoch [006/070], [loss: 0.4957, dice: 0.5331, iou: 0.3685]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.26it/s]2025-12-09 19:04:50.979619 Training Epoch [007/070], [loss: 0.4851, dice: 0.5683, iou: 0.4009]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.32it/s]2025-12-09 19:06:54.745034 Training Epoch [008/070], [loss: 0.4790, dice: 0.6003, iou: 0.4314]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.30it/s]2025-12-09 19:09:00.076235 Training Epoch [009/070], [loss: 0.4766, dice: 0.5884, iou: 0.4261]
+100% 161/161 [02:05<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.25it/s]2025-12-09 19:11:04.480317 Training Epoch [010/070], [loss: 0.4682, dice: 0.6203, iou: 0.4568]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.28it/s]2025-12-09 19:13:08.930009 Training Epoch [011/070], [loss: 0.4666, dice: 0.6204, iou: 0.4553]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.33it/s]2025-12-09 19:15:12.740904 Training Epoch [012/070], [loss: 0.4541, dice: 0.6653, iou: 0.5052]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.26it/s]2025-12-09 19:17:16.540149 Training Epoch [013/070], [loss: 0.4616, dice: 0.6621, iou: 0.5006]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.28it/s]2025-12-09 19:19:21.050700 Training Epoch [014/070], [loss: 0.4545, dice: 0.6773, iou: 0.5180]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.28it/s]2025-12-09 19:21:24.730353 Training Epoch [015/070], [loss: 0.4548, dice: 0.6890, iou: 0.5331]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.29it/s]2025-12-09 19:23:28.307601 Training Epoch [016/070], [loss: 0.4520, dice: 0.7048, iou: 0.5500]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 19:25:33.055300 Training Epoch [017/070], [loss: 0.4541, dice: 0.6967, iou: 0.5415]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.27it/s]2025-12-09 19:27:37.298348 Training Epoch [018/070], [loss: 0.4436, dice: 0.7332, iou: 0.5832]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 19:29:41.266470 Training Epoch [019/070], [loss: 0.4487, dice: 0.7163, iou: 0.5641]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.30it/s]2025-12-09 19:31:46.713998 Training Epoch [020/070], [loss: 0.4509, dice: 0.7151, iou: 0.5626]
+100% 161/161 [02:05<00:00,  1.28it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.31it/s]2025-12-09 19:33:51.634066 Training Epoch [021/070], [loss: 0.4479, dice: 0.7398, iou: 0.5919]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.29it/s]2025-12-09 19:35:56.689909 Training Epoch [022/070], [loss: 0.4472, dice: 0.7399, iou: 0.5937]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 19:38:01.265547 Training Epoch [023/070], [loss: 0.4422, dice: 0.7838, iou: 0.6478]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 19:40:05.999766 Training Epoch [024/070], [loss: 0.4427, dice: 0.7615, iou: 0.6178]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.32it/s]2025-12-09 19:42:11.149089 Training Epoch [025/070], [loss: 0.4385, dice: 0.7872, iou: 0.6569]
+100% 161/161 [02:05<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.32it/s]2025-12-09 19:44:16.310434 Training Epoch [026/070], [loss: 0.4427, dice: 0.7688, iou: 0.6307]
+100% 161/161 [02:05<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.31it/s]2025-12-09 19:46:20.167520 Training Epoch [027/070], [loss: 0.4397, dice: 0.7885, iou: 0.6560]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 19:48:24.826688 Training Epoch [028/070], [loss: 0.4433, dice: 0.7771, iou: 0.6413]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.30it/s]2025-12-09 19:50:29.579571 Training Epoch [029/070], [loss: 0.4411, dice: 0.7938, iou: 0.6609]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.32it/s]2025-12-09 19:52:33.350282 Training Epoch [030/070], [loss: 0.4389, dice: 0.7873, iou: 0.6547]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.34it/s]2025-12-09 19:54:38.176194 Training Epoch [031/070], [loss: 0.4432, dice: 0.7918, iou: 0.6598]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.30it/s]2025-12-09 19:56:42.066315 Training Epoch [032/070], [loss: 0.4367, dice: 0.8038, iou: 0.6756]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.30it/s]2025-12-09 19:58:45.921787 Training Epoch [033/070], [loss: 0.4393, dice: 0.8091, iou: 0.6832]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 20:00:50.529364 Training Epoch [034/070], [loss: 0.4338, dice: 0.8310, iou: 0.7148]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.32it/s]2025-12-09 20:02:55.509930 Training Epoch [035/070], [loss: 0.4369, dice: 0.8315, iou: 0.7172]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 20:05:00.011306 Training Epoch [036/070], [loss: 0.4327, dice: 0.8321, iou: 0.7172]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.34it/s]2025-12-09 20:07:05.561754 Training Epoch [037/070], [loss: 0.4340, dice: 0.8416, iou: 0.7304]
+100% 161/161 [02:05<00:00,  1.28it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.30it/s]2025-12-09 20:09:09.646777 Training Epoch [038/070], [loss: 0.4343, dice: 0.8323, iou: 0.7179]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.30it/s]2025-12-09 20:11:13.690993 Training Epoch [039/070], [loss: 0.4318, dice: 0.8444, iou: 0.7343]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.30it/s]2025-12-09 20:13:17.555768 Training Epoch [040/070], [loss: 0.4246, dice: 0.8633, iou: 0.7635]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 20:15:21.535562 Training Epoch [041/070], [loss: 0.4352, dice: 0.8530, iou: 0.7483]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.33it/s]2025-12-09 20:17:24.475685 Training Epoch [042/070], [loss: 0.4332, dice: 0.8658, iou: 0.7669]
+100% 161/161 [02:02<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.28it/s]2025-12-09 20:19:28.940569 Training Epoch [043/070], [loss: 0.4265, dice: 0.8707, iou: 0.7729]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.30it/s]2025-12-09 20:21:34.620898 Training Epoch [044/070], [loss: 0.4264, dice: 0.8784, iou: 0.7868]
+100% 161/161 [02:05<00:00,  1.28it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.32it/s]2025-12-09 20:23:39.656884 Training Epoch [045/070], [loss: 0.4248, dice: 0.8874, iou: 0.7994]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 20:25:44.303781 Training Epoch [046/070], [loss: 0.4298, dice: 0.8753, iou: 0.7814]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.29it/s]2025-12-09 20:27:48.517104 Training Epoch [047/070], [loss: 0.4299, dice: 0.8876, iou: 0.8000]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 20:29:53.379809 Training Epoch [048/070], [loss: 0.4204, dice: 0.8891, iou: 0.8023]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.34it/s]2025-12-09 20:31:57.877321 Training Epoch [049/070], [loss: 0.4270, dice: 0.8945, iou: 0.8112]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 20:34:01.812286 Training Epoch [050/070], [loss: 0.4262, dice: 0.8889, iou: 0.8027]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.30it/s]2025-12-09 20:36:06.992341 Training Epoch [051/070], [loss: 0.4240, dice: 0.9075, iou: 0.8321]
+100% 161/161 [02:05<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 20:38:10.869258 Training Epoch [052/070], [loss: 0.4246, dice: 0.8873, iou: 0.8011]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 20:40:15.531529 Training Epoch [053/070], [loss: 0.4238, dice: 0.8995, iou: 0.8197]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.30it/s]2025-12-09 20:42:19.307591 Training Epoch [054/070], [loss: 0.4221, dice: 0.8996, iou: 0.8191]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.31it/s]2025-12-09 20:44:23.146011 Training Epoch [055/070], [loss: 0.4249, dice: 0.9084, iou: 0.8359]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.28it/s]2025-12-09 20:46:27.402094 Training Epoch [056/070], [loss: 0.4263, dice: 0.9025, iou: 0.8250]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 20:48:32.003896 Training Epoch [057/070], [loss: 0.4253, dice: 0.9003, iou: 0.8208]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.27it/s]2025-12-09 20:50:36.146722 Training Epoch [058/070], [loss: 0.4230, dice: 0.9188, iou: 0.8510]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 20:52:40.049514 Training Epoch [059/070], [loss: 0.4233, dice: 0.9184, iou: 0.8502]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.29it/s]2025-12-09 20:54:44.347942 Training Epoch [060/070], [loss: 0.4239, dice: 0.9156, iou: 0.8461]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.32it/s]2025-12-09 20:56:48.261442 Training Epoch [061/070], [loss: 0.4227, dice: 0.9151, iou: 0.8455]
+100% 161/161 [02:03<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.31it/s]2025-12-09 20:58:52.779152 Training Epoch [062/070], [loss: 0.4211, dice: 0.9199, iou: 0.8528]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:04<00:00,  1.31it/s]2025-12-09 21:00:58.514887 Training Epoch [063/070], [loss: 0.4219, dice: 0.9184, iou: 0.8502]
+100% 161/161 [02:05<00:00,  1.28it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:01<00:00,  1.31it/s]2025-12-09 21:03:01.024396 Training Epoch [064/070], [loss: 0.4270, dice: 0.9270, iou: 0.8650]
+100% 161/161 [02:02<00:00,  1.32it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.34it/s]2025-12-09 21:05:04.102851 Training Epoch [065/070], [loss: 0.4200, dice: 0.9273, iou: 0.8660]
+100% 161/161 [02:02<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.28it/s]2025-12-09 21:07:08.321527 Training Epoch [066/070], [loss: 0.4206, dice: 0.9203, iou: 0.8533]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.33it/s]2025-12-09 21:09:12.774340 Training Epoch [067/070], [loss: 0.4253, dice: 0.9200, iou: 0.8529]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:02<00:00,  1.32it/s]2025-12-09 21:11:16.017564 Training Epoch [068/070], [loss: 0.4301, dice: 0.9126, iou: 0.8418]
+100% 161/161 [02:03<00:00,  1.31it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.34it/s]2025-12-09 21:13:20.216764 Training Epoch [069/070], [loss: 0.4185, dice: 0.9254, iou: 0.8626]
+100% 161/161 [02:04<00:00,  1.30it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+ 99% 160/161 [02:03<00:00,  1.30it/s]2025-12-09 21:15:24.831557 Training Epoch [070/070], [loss: 0.4252, dice: 0.9302, iou: 0.8702]
+100% 161/161 [02:04<00:00,  1.29it/s]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
