@@ -185,6 +185,9 @@ def validate(val_loader, model):
         gts = gts.cuda().long()
 
         pred = model(images)
+        if pred.shape[-2:] != gts.shape[-2:]:
+            pred = F.interpolate(pred, size=gts.shape[-2:], mode="bilinear", align_corners=False)
+
         pred = torch.softmax(pred, dim=1)[:, 1]
 
         dice = dice_m(pred, gts.float())
@@ -372,6 +375,7 @@ if __name__ == '__main__':
     # ---- Training Loop ----
     print("#" * 20, "Start Training", "#" * 20)
     for epoch in range(start_epoch, args.num_epochs + 1):
+        print(len(train_img_paths))
         best_dice = 0
 
         for epoch in range(start_epoch, args.num_epochs + 1):
