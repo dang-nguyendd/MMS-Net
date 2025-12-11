@@ -1,0 +1,506 @@
+/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py:32: UserWarning: Argument(s) 'value' are not valid for transform PadIfNeeded
+  A.PadIfNeeded(
+/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py:43: UserWarning: Argument(s) 'value' are not valid for transform PadIfNeeded
+  A.PadIfNeeded(
+/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py:59: UserWarning: Argument(s) 'max_holes, max_height, max_width, fill_value' are not valid for transform CoarseDropout
+  A.CoarseDropout(
+/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py:73: UserWarning: Argument(s) 'value, mask_value' are not valid for transform PadIfNeeded
+  A.PadIfNeeded(352, 352, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0),
+Save path existed
+#################### Start Training ####################
+1288
+ 99% 160/161 [04:06<00:01,  1.48s/it]2025-12-11 11:51:41.037132 Training Epoch [001/070], [loss: 0.5488, dice: 0.4309, iou: 0.2831]
+100% 161/161 [04:07<00:00,  1.54s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 1 | Dice: 0.3792 | IoU: 0.2609
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.46s/it]2025-12-11 11:55:42.559900 Training Epoch [002/070], [loss: 0.5438, dice: 0.4054, iou: 0.2639]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 2 | Dice: 0.3862 | IoU: 0.2714
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 11:59:44.366927 Training Epoch [003/070], [loss: 0.5347, dice: 0.4445, iou: 0.2923]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 3 | Dice: 0.4277 | IoU: 0.2934
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 12:03:46.453480 Training Epoch [004/070], [loss: 0.5393, dice: 0.4622, iou: 0.3081]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 4 | Dice: 0.3970 | IoU: 0.2754
+ 99% 160/161 [03:57<00:01,  1.50s/it]2025-12-11 12:07:49.106695 Training Epoch [005/070], [loss: 0.5258, dice: 0.5129, iou: 0.3529]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 5 | Dice: 0.4094 | IoU: 0.2830
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 12:11:51.495297 Training Epoch [006/070], [loss: 0.5242, dice: 0.5028, iou: 0.3439]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 6 | Dice: 0.4208 | IoU: 0.2922
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 12:15:53.787659 Training Epoch [007/070], [loss: 0.5246, dice: 0.4894, iou: 0.3281]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 7 | Dice: 0.4959 | IoU: 0.3607
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 12:19:56.135641 Training Epoch [008/070], [loss: 0.5184, dice: 0.5253, iou: 0.3604]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 8 | Dice: 0.5078 | IoU: 0.3711
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 12:23:58.750395 Training Epoch [009/070], [loss: 0.5132, dice: 0.5261, iou: 0.3641]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 9 | Dice: 0.4674 | IoU: 0.3322
+ 99% 160/161 [03:57<00:01,  1.46s/it]2025-12-11 12:28:01.497336 Training Epoch [010/070], [loss: 0.5109, dice: 0.5442, iou: 0.3822]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 10 | Dice: 0.5380 | IoU: 0.4021
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 12:32:03.361905 Training Epoch [011/070], [loss: 0.4977, dice: 0.5833, iou: 0.4190]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 11 | Dice: 0.5353 | IoU: 0.3986
+ 99% 160/161 [03:55<00:01,  1.48s/it]2025-12-11 12:36:04.382889 Training Epoch [012/070], [loss: 0.4999, dice: 0.5702, iou: 0.4081]
+100% 161/161 [03:57<00:00,  1.47s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 12 | Dice: 0.4932 | IoU: 0.3618
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 12:40:06.281530 Training Epoch [013/070], [loss: 0.5059, dice: 0.5654, iou: 0.3991]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 13 | Dice: 0.5286 | IoU: 0.3946
+ 99% 160/161 [03:56<00:01,  1.46s/it]2025-12-11 12:44:07.614017 Training Epoch [014/070], [loss: 0.4979, dice: 0.5878, iou: 0.4243]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 14 | Dice: 0.5235 | IoU: 0.3926
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 12:48:09.158455 Training Epoch [015/070], [loss: 0.4944, dice: 0.6039, iou: 0.4404]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 15 | Dice: 0.5813 | IoU: 0.4471
+Saved best model!
+ 99% 160/161 [03:55<00:01,  1.47s/it]2025-12-11 12:52:10.104453 Training Epoch [016/070], [loss: 0.4859, dice: 0.6165, iou: 0.4536]
+100% 161/161 [03:57<00:00,  1.47s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 16 | Dice: 0.5994 | IoU: 0.4726
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.46s/it]2025-12-11 12:56:11.971076 Training Epoch [017/070], [loss: 0.4867, dice: 0.5996, iou: 0.4327]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 17 | Dice: 0.6154 | IoU: 0.4873
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 13:00:14.218290 Training Epoch [018/070], [loss: 0.4868, dice: 0.6355, iou: 0.4725]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 18 | Dice: 0.5785 | IoU: 0.4541
+ 99% 160/161 [03:56<00:01,  1.49s/it]2025-12-11 13:04:16.116978 Training Epoch [019/070], [loss: 0.4863, dice: 0.6374, iou: 0.4756]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 19 | Dice: 0.5927 | IoU: 0.4630
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 13:08:18.358959 Training Epoch [020/070], [loss: 0.4737, dice: 0.6697, iou: 0.5108]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 20 | Dice: 0.5702 | IoU: 0.4330
+ 99% 160/161 [03:56<00:01,  1.50s/it]2025-12-11 13:12:20.447517 Training Epoch [021/070], [loss: 0.4824, dice: 0.6367, iou: 0.4744]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 21 | Dice: 0.6238 | IoU: 0.4974
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 13:16:22.430184 Training Epoch [022/070], [loss: 0.4746, dice: 0.6695, iou: 0.5107]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 22 | Dice: 0.5941 | IoU: 0.4594
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 13:20:25.593682 Training Epoch [023/070], [loss: 0.4728, dice: 0.6707, iou: 0.5134]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 23 | Dice: 0.6365 | IoU: 0.5112
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 13:24:28.444091 Training Epoch [024/070], [loss: 0.4748, dice: 0.6649, iou: 0.5065]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 24 | Dice: 0.6462 | IoU: 0.5185
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 13:28:31.059349 Training Epoch [025/070], [loss: 0.4730, dice: 0.6645, iou: 0.5082]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 25 | Dice: 0.6722 | IoU: 0.5561
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.46s/it]2025-12-11 13:32:33.251646 Training Epoch [026/070], [loss: 0.4674, dice: 0.7047, iou: 0.5510]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 26 | Dice: 0.6781 | IoU: 0.5559
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 13:36:36.366923 Training Epoch [027/070], [loss: 0.4672, dice: 0.6891, iou: 0.5316]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 27 | Dice: 0.6093 | IoU: 0.4745
+ 99% 160/161 [03:57<00:01,  1.51s/it]2025-12-11 13:40:38.732135 Training Epoch [028/070], [loss: 0.4606, dice: 0.7294, iou: 0.5816]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 28 | Dice: 0.6942 | IoU: 0.5779
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 13:44:40.833937 Training Epoch [029/070], [loss: 0.4599, dice: 0.7111, iou: 0.5585]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 29 | Dice: 0.6563 | IoU: 0.5343
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 13:48:42.888603 Training Epoch [030/070], [loss: 0.4546, dice: 0.7121, iou: 0.5597]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 30 | Dice: 0.6507 | IoU: 0.5282
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 13:52:45.693382 Training Epoch [031/070], [loss: 0.4520, dice: 0.7230, iou: 0.5740]
+100% 161/161 [03:59<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 31 | Dice: 0.6833 | IoU: 0.5654
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 13:56:48.942039 Training Epoch [032/070], [loss: 0.4589, dice: 0.7237, iou: 0.5728]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 32 | Dice: 0.6689 | IoU: 0.5499
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 14:00:51.372683 Training Epoch [033/070], [loss: 0.4552, dice: 0.7334, iou: 0.5846]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 33 | Dice: 0.6746 | IoU: 0.5549
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 14:04:54.130942 Training Epoch [034/070], [loss: 0.4606, dice: 0.7233, iou: 0.5742]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 34 | Dice: 0.6968 | IoU: 0.5794
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 14:08:57.206519 Training Epoch [035/070], [loss: 0.4575, dice: 0.7215, iou: 0.5725]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 35 | Dice: 0.7134 | IoU: 0.6004
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 14:12:59.920717 Training Epoch [036/070], [loss: 0.4575, dice: 0.7179, iou: 0.5681]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 36 | Dice: 0.6798 | IoU: 0.5639
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 14:17:02.893448 Training Epoch [037/070], [loss: 0.4596, dice: 0.7157, iou: 0.5655]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 37 | Dice: 0.6496 | IoU: 0.5253
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 14:21:05.614254 Training Epoch [038/070], [loss: 0.4557, dice: 0.7238, iou: 0.5757]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 38 | Dice: 0.7043 | IoU: 0.5837
+ 99% 160/161 [03:57<00:01,  1.46s/it]2025-12-11 14:25:07.926401 Training Epoch [039/070], [loss: 0.4547, dice: 0.7207, iou: 0.5736]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 39 | Dice: 0.6916 | IoU: 0.5708
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 14:29:09.864920 Training Epoch [040/070], [loss: 0.4508, dice: 0.7185, iou: 0.5673]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 40 | Dice: 0.6724 | IoU: 0.5509
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 14:33:12.421912 Training Epoch [041/070], [loss: 0.4569, dice: 0.7378, iou: 0.5935]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 41 | Dice: 0.6885 | IoU: 0.5683
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 14:37:15.705355 Training Epoch [042/070], [loss: 0.4440, dice: 0.7455, iou: 0.6012]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 42 | Dice: 0.6869 | IoU: 0.5684
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 14:41:18.109588 Training Epoch [043/070], [loss: 0.4460, dice: 0.7385, iou: 0.5950]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 43 | Dice: 0.7059 | IoU: 0.5903
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 14:45:20.305943 Training Epoch [044/070], [loss: 0.4520, dice: 0.7326, iou: 0.5864]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 44 | Dice: 0.6823 | IoU: 0.5585
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 14:49:22.807852 Training Epoch [045/070], [loss: 0.4516, dice: 0.7368, iou: 0.5899]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 45 | Dice: 0.7177 | IoU: 0.6013
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.49s/it]2025-12-11 14:53:25.048486 Training Epoch [046/070], [loss: 0.4521, dice: 0.7102, iou: 0.5650]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 46 | Dice: 0.7236 | IoU: 0.6090
+Saved best model!
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 14:57:29.100217 Training Epoch [047/070], [loss: 0.4500, dice: 0.7514, iou: 0.6082]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 47 | Dice: 0.7070 | IoU: 0.5889
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 15:01:31.932028 Training Epoch [048/070], [loss: 0.4468, dice: 0.7542, iou: 0.6127]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 48 | Dice: 0.7324 | IoU: 0.6191
+Saved best model!
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 15:05:35.529643 Training Epoch [049/070], [loss: 0.4404, dice: 0.7605, iou: 0.6196]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 49 | Dice: 0.7376 | IoU: 0.6252
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 15:09:38.804355 Training Epoch [050/070], [loss: 0.4488, dice: 0.7647, iou: 0.6264]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 50 | Dice: 0.7204 | IoU: 0.6041
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 15:13:42.502289 Training Epoch [051/070], [loss: 0.4456, dice: 0.7669, iou: 0.6270]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 51 | Dice: 0.7235 | IoU: 0.6054
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 15:17:46.088974 Training Epoch [052/070], [loss: 0.4359, dice: 0.7888, iou: 0.6585]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 52 | Dice: 0.7285 | IoU: 0.6197
+ 99% 160/161 [03:59<00:01,  1.50s/it]2025-12-11 15:21:50.475210 Training Epoch [053/070], [loss: 0.4362, dice: 0.7752, iou: 0.6390]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 53 | Dice: 0.7106 | IoU: 0.5945
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 15:25:54.849708 Training Epoch [054/070], [loss: 0.4444, dice: 0.7741, iou: 0.6388]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 54 | Dice: 0.7256 | IoU: 0.6112
+ 99% 160/161 [03:58<00:01,  1.50s/it]2025-12-11 15:29:58.928447 Training Epoch [055/070], [loss: 0.4408, dice: 0.7725, iou: 0.6368]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 55 | Dice: 0.7110 | IoU: 0.5924
+ 99% 160/161 [04:00<00:01,  1.49s/it]2025-12-11 15:34:04.733828 Training Epoch [056/070], [loss: 0.4364, dice: 0.7802, iou: 0.6436]
+100% 161/161 [04:01<00:00,  1.50s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 56 | Dice: 0.7274 | IoU: 0.6173
+ 99% 160/161 [03:59<00:01,  1.49s/it]2025-12-11 15:38:09.843720 Training Epoch [057/070], [loss: 0.4388, dice: 0.7572, iou: 0.6173]
+100% 161/161 [04:01<00:00,  1.50s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 57 | Dice: 0.7369 | IoU: 0.6241
+ 99% 160/161 [03:59<00:01,  1.49s/it]2025-12-11 15:42:14.638093 Training Epoch [058/070], [loss: 0.4436, dice: 0.7581, iou: 0.6199]
+100% 161/161 [04:00<00:00,  1.50s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 58 | Dice: 0.7362 | IoU: 0.6259
+ 99% 160/161 [03:58<00:01,  1.50s/it]2025-12-11 15:46:18.954782 Training Epoch [059/070], [loss: 0.4270, dice: 0.8009, iou: 0.6733]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 59 | Dice: 0.7404 | IoU: 0.6287
+Saved best model!
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 15:50:23.233536 Training Epoch [060/070], [loss: 0.4469, dice: 0.7611, iou: 0.6241]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 60 | Dice: 0.7362 | IoU: 0.6222
+ 99% 160/161 [03:59<00:01,  1.48s/it]2025-12-11 15:54:27.909099 Training Epoch [061/070], [loss: 0.4464, dice: 0.7565, iou: 0.6157]
+100% 161/161 [04:00<00:00,  1.50s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 61 | Dice: 0.7312 | IoU: 0.6177
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 15:58:32.368057 Training Epoch [062/070], [loss: 0.4404, dice: 0.7883, iou: 0.6572]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 62 | Dice: 0.7289 | IoU: 0.6129
+ 99% 160/161 [03:58<00:01,  1.50s/it]2025-12-11 16:02:36.597892 Training Epoch [063/070], [loss: 0.4402, dice: 0.7824, iou: 0.6470]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 63 | Dice: 0.7324 | IoU: 0.6258
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 16:06:39.126675 Training Epoch [064/070], [loss: 0.4401, dice: 0.7687, iou: 0.6335]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 64 | Dice: 0.7312 | IoU: 0.6174
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 16:10:43.020214 Training Epoch [065/070], [loss: 0.4347, dice: 0.7807, iou: 0.6488]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 65 | Dice: 0.7269 | IoU: 0.6101
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 16:14:47.048304 Training Epoch [066/070], [loss: 0.4404, dice: 0.7624, iou: 0.6226]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 66 | Dice: 0.7353 | IoU: 0.6215
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 16:18:50.452922 Training Epoch [067/070], [loss: 0.4409, dice: 0.7667, iou: 0.6310]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 67 | Dice: 0.7338 | IoU: 0.6215
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 16:22:54.416213 Training Epoch [068/070], [loss: 0.4332, dice: 0.8003, iou: 0.6723]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 68 | Dice: 0.7454 | IoU: 0.6351
+Saved best model!
+ 99% 160/161 [03:58<00:01,  1.50s/it]2025-12-11 16:26:57.945659 Training Epoch [069/070], [loss: 0.4438, dice: 0.7574, iou: 0.6229]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 69 | Dice: 0.7303 | IoU: 0.6151
+ 99% 160/161 [03:59<00:01,  1.49s/it]2025-12-11 16:31:02.708966 Training Epoch [070/070], [loss: 0.4447, dice: 0.7689, iou: 0.6296]
+100% 161/161 [04:00<00:00,  1.50s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 70 | Dice: 0.7253 | IoU: 0.6103
+1288
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 16:35:06.384225 Training Epoch [001/070], [loss: 0.4481, dice: 0.7226, iou: 0.5739]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 1 | Dice: 0.6536 | IoU: 0.5331
+Saved best model!
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 16:39:09.440383 Training Epoch [002/070], [loss: 0.4471, dice: 0.7493, iou: 0.6065]
+100% 161/161 [03:59<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 2 | Dice: 0.7372 | IoU: 0.6261
+Saved best model!
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 16:43:12.832010 Training Epoch [003/070], [loss: 0.4423, dice: 0.7528, iou: 0.6122]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 3 | Dice: 0.7130 | IoU: 0.5965
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 16:47:16.310136 Training Epoch [004/070], [loss: 0.4451, dice: 0.7591, iou: 0.6191]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 4 | Dice: 0.7176 | IoU: 0.6016
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 16:51:19.966428 Training Epoch [005/070], [loss: 0.4402, dice: 0.7698, iou: 0.6307]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 5 | Dice: 0.7365 | IoU: 0.6264
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 16:55:23.496833 Training Epoch [006/070], [loss: 0.4387, dice: 0.7690, iou: 0.6316]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 6 | Dice: 0.7215 | IoU: 0.6060
+ 99% 160/161 [03:57<00:01,  1.51s/it]2025-12-11 16:59:26.723551 Training Epoch [007/070], [loss: 0.4343, dice: 0.7706, iou: 0.6336]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 7 | Dice: 0.7289 | IoU: 0.6162
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 17:03:29.990397 Training Epoch [008/070], [loss: 0.4413, dice: 0.7533, iou: 0.6146]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 8 | Dice: 0.7263 | IoU: 0.6126
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 17:07:33.870553 Training Epoch [009/070], [loss: 0.4401, dice: 0.7732, iou: 0.6420]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 9 | Dice: 0.7284 | IoU: 0.6158
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 17:11:36.691702 Training Epoch [010/070], [loss: 0.4442, dice: 0.7500, iou: 0.6058]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 10 | Dice: 0.7361 | IoU: 0.6244
+ 99% 160/161 [03:57<00:01,  1.50s/it]2025-12-11 17:15:39.524845 Training Epoch [011/070], [loss: 0.4435, dice: 0.7703, iou: 0.6338]
+100% 161/161 [03:59<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 11 | Dice: 0.7286 | IoU: 0.6143
+ 99% 160/161 [03:57<00:01,  1.50s/it]2025-12-11 17:19:42.192700 Training Epoch [012/070], [loss: 0.4400, dice: 0.7889, iou: 0.6581]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 12 | Dice: 0.7395 | IoU: 0.6297
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.49s/it]2025-12-11 17:23:44.283228 Training Epoch [013/070], [loss: 0.4313, dice: 0.7869, iou: 0.6532]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 13 | Dice: 0.7359 | IoU: 0.6233
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 17:27:46.752941 Training Epoch [014/070], [loss: 0.4358, dice: 0.7761, iou: 0.6395]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 14 | Dice: 0.7339 | IoU: 0.6202
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 17:31:48.389689 Training Epoch [015/070], [loss: 0.4441, dice: 0.7744, iou: 0.6397]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 15 | Dice: 0.7392 | IoU: 0.6284
+ 99% 160/161 [03:55<00:01,  1.47s/it]2025-12-11 17:35:49.396066 Training Epoch [016/070], [loss: 0.4395, dice: 0.7749, iou: 0.6412]
+100% 161/161 [03:57<00:00,  1.47s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 16 | Dice: 0.7338 | IoU: 0.6205
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 17:39:51.432733 Training Epoch [017/070], [loss: 0.4438, dice: 0.7778, iou: 0.6451]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 17 | Dice: 0.7309 | IoU: 0.6184
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 17:43:53.265258 Training Epoch [018/070], [loss: 0.4353, dice: 0.7839, iou: 0.6531]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 18 | Dice: 0.7363 | IoU: 0.6227
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 17:47:55.924903 Training Epoch [019/070], [loss: 0.4377, dice: 0.7773, iou: 0.6438]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 19 | Dice: 0.7359 | IoU: 0.6247
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 17:51:58.667732 Training Epoch [020/070], [loss: 0.4437, dice: 0.7685, iou: 0.6322]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 20 | Dice: 0.7359 | IoU: 0.6254
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 17:56:00.966341 Training Epoch [021/070], [loss: 0.4451, dice: 0.7645, iou: 0.6249]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 21 | Dice: 0.7297 | IoU: 0.6213
+ 99% 160/161 [03:57<00:01,  1.49s/it]2025-12-11 18:00:03.878021 Training Epoch [022/070], [loss: 0.4379, dice: 0.7752, iou: 0.6400]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 22 | Dice: 0.7293 | IoU: 0.6179
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 18:04:06.662102 Training Epoch [023/070], [loss: 0.4333, dice: 0.7795, iou: 0.6472]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 23 | Dice: 0.7331 | IoU: 0.6179
+ 99% 160/161 [03:56<00:01,  1.46s/it]2025-12-11 18:08:08.956144 Training Epoch [024/070], [loss: 0.4376, dice: 0.7748, iou: 0.6404]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 24 | Dice: 0.7292 | IoU: 0.6149
+ 99% 160/161 [03:55<00:01,  1.47s/it]2025-12-11 18:12:10.065593 Training Epoch [025/070], [loss: 0.4457, dice: 0.7639, iou: 0.6248]
+100% 161/161 [03:57<00:00,  1.47s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 25 | Dice: 0.7412 | IoU: 0.6324
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 18:16:11.787242 Training Epoch [026/070], [loss: 0.4426, dice: 0.7681, iou: 0.6293]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 26 | Dice: 0.6996 | IoU: 0.5788
+ 99% 160/161 [03:56<00:01,  1.50s/it]2025-12-11 18:20:13.195316 Training Epoch [027/070], [loss: 0.4307, dice: 0.7766, iou: 0.6417]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 27 | Dice: 0.7075 | IoU: 0.5883
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 18:24:14.583070 Training Epoch [028/070], [loss: 0.4426, dice: 0.7609, iou: 0.6210]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 28 | Dice: 0.7471 | IoU: 0.6276
+Saved best model!
+ 99% 160/161 [03:56<00:01,  1.48s/it]2025-12-11 18:28:16.460431 Training Epoch [029/070], [loss: 0.4445, dice: 0.7764, iou: 0.6425]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 29 | Dice: 0.6963 | IoU: 0.5762
+ 99% 160/161 [03:56<00:01,  1.49s/it]2025-12-11 18:32:18.094975 Training Epoch [030/070], [loss: 0.4385, dice: 0.7835, iou: 0.6514]
+100% 161/161 [03:57<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 30 | Dice: 0.7127 | IoU: 0.5965
+ 99% 160/161 [03:56<00:01,  1.47s/it]2025-12-11 18:36:20.181118 Training Epoch [031/070], [loss: 0.4368, dice: 0.7775, iou: 0.6429]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 31 | Dice: 0.7215 | IoU: 0.6108
+ 99% 160/161 [03:57<00:01,  1.52s/it]2025-12-11 18:40:22.653422 Training Epoch [032/070], [loss: 0.4388, dice: 0.7642, iou: 0.6214]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 32 | Dice: 0.7268 | IoU: 0.6110
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 18:44:26.786390 Training Epoch [033/070], [loss: 0.4295, dice: 0.7838, iou: 0.6510]
+100% 161/161 [04:00<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 33 | Dice: 0.7198 | IoU: 0.6010
+ 99% 160/161 [03:58<00:01,  1.47s/it]2025-12-11 18:48:30.487313 Training Epoch [034/070], [loss: 0.4351, dice: 0.7694, iou: 0.6325]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 34 | Dice: 0.7177 | IoU: 0.6092
+ 99% 160/161 [03:58<00:01,  1.49s/it]2025-12-11 18:52:34.009523 Training Epoch [035/070], [loss: 0.4401, dice: 0.7660, iou: 0.6330]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 35 | Dice: 0.6847 | IoU: 0.5664
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 18:56:37.116672 Training Epoch [036/070], [loss: 0.4425, dice: 0.7622, iou: 0.6230]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 36 | Dice: 0.7045 | IoU: 0.5972
+ 99% 160/161 [03:57<00:01,  1.50s/it]2025-12-11 19:00:40.153283 Training Epoch [037/070], [loss: 0.4341, dice: 0.7786, iou: 0.6457]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 37 | Dice: 0.7111 | IoU: 0.5961
+ 99% 160/161 [03:57<00:01,  1.47s/it]2025-12-11 19:04:43.077141 Training Epoch [038/070], [loss: 0.4344, dice: 0.7559, iou: 0.6145]
+100% 161/161 [03:58<00:00,  1.48s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 38 | Dice: 0.7123 | IoU: 0.5948
+ 99% 160/161 [03:58<00:01,  1.47s/it]2025-12-11 19:08:46.801119 Training Epoch [039/070], [loss: 0.4414, dice: 0.7603, iou: 0.6197]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 39 | Dice: 0.7033 | IoU: 0.5873
+ 99% 160/161 [03:58<00:01,  1.50s/it]2025-12-11 19:12:50.378091 Training Epoch [040/070], [loss: 0.4363, dice: 0.7561, iou: 0.6143]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 40 | Dice: 0.7396 | IoU: 0.6385
+ 99% 160/161 [03:58<00:01,  1.48s/it]2025-12-11 19:16:54.289747 Training Epoch [041/070], [loss: 0.4367, dice: 0.7628, iou: 0.6231]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 41 | Dice: 0.7031 | IoU: 0.5911
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 19:20:57.642235 Training Epoch [042/070], [loss: 0.4358, dice: 0.7635, iou: 0.6237]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 42 | Dice: 0.7359 | IoU: 0.6253
+ 99% 160/161 [03:57<00:01,  1.48s/it]2025-12-11 19:25:00.633378 Training Epoch [043/070], [loss: 0.4399, dice: 0.7556, iou: 0.6133]
+100% 161/161 [03:59<00:00,  1.49s/it]
+[Saving Checkpoint:] snapshots/MMS-Net+/last.pth
+[VALID] Epoch 43 | Dice: 0.6774 | IoU: 0.5570
+ 64% 103/161 [02:34<01:26,  1.50s/it]
+Traceback (most recent call last):
+  File "/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py", line 383, in <module>
+    train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+  File "/content/drive/MyDrive/Colab Notebooks/MMS-Net/train.py", line 262, in train
+    loss.backward()
+  File "/usr/local/lib/python3.12/dist-packages/torch/_tensor.py", line 625, in backward
+    torch.autograd.backward(
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py", line 354, in backward
+    _engine_run_backward(
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

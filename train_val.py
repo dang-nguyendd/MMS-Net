@@ -378,16 +378,14 @@ if __name__ == '__main__':
         print(len(train_img_paths))
         best_dice = 0
 
-        for epoch in range(start_epoch, args.num_epochs + 1):
+        train(train_loader, model, optimizer, epoch, lr_scheduler, args)
 
-            train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+        # ---- VALIDATION ----
+        val_dice, val_iou = validate(val_loader, model)
+        print(f"[VALID] Epoch {epoch} | Dice: {val_dice:.4f} | IoU: {val_iou:.4f}")
 
-            # ---- VALIDATION ----
-            val_dice, val_iou = validate(val_loader, model)
-            print(f"[VALID] Epoch {epoch} | Dice: {val_dice:.4f} | IoU: {val_iou:.4f}")
-
-            # ---- save best model ----
-            if val_dice > best_dice:
-                best_dice = val_dice
-                torch.save(model.state_dict(), save_path + "best_model.pth")
-                print("Saved best model!")
+        # ---- save best model ----
+        if val_dice > best_dice:
+            best_dice = val_dice
+            torch.save(model.state_dict(), save_path + "best_model.pth")
+            print("Saved best model!")
