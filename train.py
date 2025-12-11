@@ -18,8 +18,38 @@ from utils import clip_gradient, AvgMeter
 from torch.autograd import Variable
 from datetime import datetime
 import torch.nn.functional as F
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
 
 from model.mms_base import MMSNet
+
+
+train_transform = A.Compose([
+    A.RandomResizedCrop(352, 352, scale=(0.7, 1.3), ratio=(0.9, 1.1)),  # random crop + scale
+    A.HorizontalFlip(p=0.5),
+    A.VerticalFlip(p=0.5),
+
+    # rotation 0°–90°
+    A.Rotate(limit=90, p=0.7),
+
+    # brightness augmentation
+    A.RandomBrightnessContrast(p=0.4),
+
+    # cutout
+    A.Cutout(num_holes=4, max_h_size=40, max_w_size=40, fill_value=0, p=0.5),
+
+    # center crop as final fix (optional)
+    A.CenterCrop(352, 352, p=1.0),
+
+    # convert to tensor
+    ToTensorV2()
+])
+
+val_transform = A.Compose([
+    A.Resize(352, 352),
+    ToTensorV2()
+])
+
 
 
 class Dataset(torch.utils.data.Dataset):
@@ -44,7 +74,7 @@ class Dataset(torch.utils.data.Dataset):
         if self.transform:
             augmented = self.transform(image=image, mask=mask)
             image = augmented["image"]
-            mask = augmented["mask"]
+            mask = augmented["mask"].long() 
         else:
             image = cv2.resize(image, (352, 352))
             mask = cv2.resize(mask, (352, 352), interpolation=cv2.INTER_NEAREST)
@@ -106,6 +136,27 @@ class DiceLoss(nn.Module):
 
         dice = (2 * intersection + self.smooth) / (union + self.smooth)
         return 1 - dice.mean()
+
+@torch.no_grad()
+def validate(val_loader, model):
+    model.eval()
+    dice_meter = AvgMeter()
+    iou_meter = AvgMeter()
+
+    for images, gts in val_loader:
+        images = images.cuda()
+        gts = gts.cuda().long()
+
+        pred = model(images)
+        pred = torch.softmax(pred, dim=1)[:, 1]
+
+        dice = dice_m(pred, gts.float())
+        iou = iou_m(pred, gts.float())
+
+        dice_meter.update(dice.item(), 1)
+        iou_meter.update(iou.item(), 1)
+
+    return dice_meter.show(), iou_meter.show()
 
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
@@ -218,10 +269,37 @@ if __name__ == '__main__':
         print("Save path existed")
 
     # ---- Load training images ----
-    train_img_paths = sorted(glob(f'{args.train_path}/images/*'))
-    train_mask_paths = sorted(glob(f'{args.train_path}/masks/*'))
+    all_imgs = sorted(glob(f'{args.train_path}/images/*'))
+    all_masks = sorted(glob(f'{args.train_path}/masks/*'))
 
-    train_dataset = Dataset(train_img_paths, train_mask_paths)
+    # Split 80/10/10
+    split_idx = int((0.80 / 0.90) * len(all_imgs))
+
+    train_img_paths = all_imgs[:split_idx]
+    train_mask_paths = all_masks[:split_idx]
+
+    val_img_paths = all_imgs[split_idx:]
+    val_mask_paths = all_masks[split_idx:]
+
+    val_dataset = Dataset(
+        val_img_paths,
+        val_mask_paths,
+        transform=val_transform
+    )
+
+    val_loader = torch.utils.data.DataLoader(
+        val_dataset,
+        batch_size=1,
+        shuffle=False,
+        pin_memory=True
+    )
+
+    train_dataset = Dataset(
+        train_img_paths,
+        train_mask_paths,
+        transform=train_transform
+    )
+
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=args.batchsize,
@@ -257,4 +335,18 @@ if __name__ == '__main__':
     # ---- Training Loop ----
     print("#" * 20, "Start Training", "#" * 20)
     for epoch in range(start_epoch, args.num_epochs + 1):
-        train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+        best_dice = 0
+
+        for epoch in range(start_epoch, args.num_epochs + 1):
+
+            train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+
+            # ---- VALIDATION ----
+            val_dice, val_iou = validate(val_loader, model)
+            print(f"[VALID] Epoch {epoch} | Dice: {val_dice:.4f} | IoU: {val_iou:.4f}")
+
+            # ---- save best model ----
+            if val_dice > best_dice:
+                best_dice = val_dice
+                torch.save(model.state_dict(), save_path + "best_model.pth")
+                print("Saved best model!")
