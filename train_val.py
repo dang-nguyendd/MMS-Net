@@ -18,8 +18,61 @@ from utils import clip_gradient, AvgMeter
 from torch.autograd import Variable
 from datetime import datetime
 import torch.nn.functional as F
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
 
 from model.mms_base import MMSNet
+
+
+train_transform = A.Compose([
+    # Make sure the image is large BEFORE scaling
+    A.LongestMaxSize(max_size=600),
+
+    # Guarantee minimum size BEFORE RandomScale
+    A.PadIfNeeded(
+        min_height=500,
+        min_width=500,
+        border_mode=cv2.BORDER_CONSTANT,
+        value=0,
+    ),
+
+    # Random scaling → now safe
+    A.RandomScale(scale_limit=0.3, p=1.0),
+
+    # After scaling, enforce minimum size AGAIN
+    A.PadIfNeeded(
+        min_height=352,
+        min_width=352,
+        border_mode=cv2.BORDER_CONSTANT,
+        value=0,
+    ),
+
+    # Now cropping is always safe
+    A.RandomCrop(height=352, width=352, p=1.0),
+
+    # Extra aug
+    A.HorizontalFlip(p=0.5),
+    A.VerticalFlip(p=0.5),
+    A.Rotate(limit=90, p=0.7),
+    A.RandomBrightnessContrast(p=0.4),
+
+    A.CoarseDropout(
+        max_holes=4,
+        max_height=40,
+        max_width=40,
+        fill_value=0,
+        p=0.5,
+    ),
+])
+
+
+
+
+val_transform = A.Compose([
+    A.LongestMaxSize(max_size=352),
+    A.PadIfNeeded(352, 352, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0),
+])
+
 
 
 class Dataset(torch.utils.data.Dataset):
@@ -41,6 +94,7 @@ class Dataset(torch.utils.data.Dataset):
 
         mask = cv2.imread(mask_path, 0)
 
+        # --- Albumentations ---
         if self.transform:
             augmented = self.transform(image=image, mask=mask)
             image = augmented["image"]
@@ -49,16 +103,29 @@ class Dataset(torch.utils.data.Dataset):
             image = cv2.resize(image, (352, 352))
             mask = cv2.resize(mask, (352, 352), interpolation=cv2.INTER_NEAREST)
 
-        # image
-        image = image.astype("float32") / 255.0
-        image = image.transpose(2, 0, 1)
-        image = torch.tensor(image, dtype=torch.float32)
+        # ----------- FIX STARTS HERE -----------
+        # Normalize
+        image = image.astype(np.float32) / 255.0
 
-        # mask (class indices: 0 or 1)
-        mask = (mask > 127).astype(np.int64)   # binarize
+        # Ensure RGB (3 channels)
+        if image.ndim == 2:  # shape (H, W)
+            image = np.stack([image, image, image], axis=-1)
+
+        elif image.shape[2] == 1:  # shape (H, W, 1)
+            image = np.repeat(image, 3, axis=-1)
+
+        # (H, W, C) → (C, H, W)
+        image = np.transpose(image, (2, 0, 1))
+        image = torch.from_numpy(image).float()
+        # ----------- FIX ENDS HERE -------------
+
+        # Mask handling
         mask = torch.tensor(mask, dtype=torch.long)
+        mask = (mask > 127).long()
 
         return image, mask
+        
+
 
 
 epsilon = 1e-7
@@ -106,6 +173,30 @@ class DiceLoss(nn.Module):
 
         dice = (2 * intersection + self.smooth) / (union + self.smooth)
         return 1 - dice.mean()
+
+@torch.no_grad()
+def validate(val_loader, model):
+    model.eval()
+    dice_meter = AvgMeter()
+    iou_meter = AvgMeter()
+
+    for images, gts in val_loader:
+        images = images.cuda()
+        gts = gts.cuda().long()
+
+        pred = model(images)
+        if pred.shape[-2:] != gts.shape[-2:]:
+            pred = F.interpolate(pred, size=gts.shape[-2:], mode="bilinear", align_corners=False)
+
+        pred = torch.softmax(pred, dim=1)[:, 1]
+
+        dice = dice_m(pred, gts.float())
+        iou = iou_m(pred, gts.float())
+
+        dice_meter.update(dice.item(), 1)
+        iou_meter.update(iou.item(), 1)
+
+    return dice_meter.show(), iou_meter.show()
 
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
@@ -208,7 +299,7 @@ if __name__ == '__main__':
     parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
     parser.add_argument('--train_path', type=str, default='./data/train', help='path to train dataset')
     parser.add_argument('--train_save', type=str, default='MMS-Net+')
-    parser.add_argument('--resume_path', type=str, default='snapshots/MMS-Net+/last.pth', help='path to checkpoint for resume training')
+    parser.add_argument('--resume_path', type=str, default='', help='path to checkpoint for resume training')
     args = parser.parse_args()
 
     save_path = f'snapshots/{args.train_save}/'
@@ -218,10 +309,37 @@ if __name__ == '__main__':
         print("Save path existed")
 
     # ---- Load training images ----
-    train_img_paths = sorted(glob(f'{args.train_path}/images/*'))
-    train_mask_paths = sorted(glob(f'{args.train_path}/masks/*'))
+    all_imgs = sorted(glob(f'{args.train_path}/images/*'))
+    all_masks = sorted(glob(f'{args.train_path}/masks/*'))
 
-    train_dataset = Dataset(train_img_paths, train_mask_paths)
+    # Split 80/10/10
+    split_idx = int((0.80 / 0.90) * len(all_imgs))
+
+    train_img_paths = all_imgs[:split_idx]
+    train_mask_paths = all_masks[:split_idx]
+
+    val_img_paths = all_imgs[split_idx:]
+    val_mask_paths = all_masks[split_idx:]
+
+    val_dataset = Dataset(
+        val_img_paths,
+        val_mask_paths,
+        transform=val_transform
+    )
+
+    val_loader = torch.utils.data.DataLoader(
+        val_dataset,
+        batch_size=1,
+        shuffle=False,
+        pin_memory=True
+    )
+
+    train_dataset = Dataset(
+        train_img_paths,
+        train_mask_paths,
+        transform=train_transform
+    )
+
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=args.batchsize,
@@ -257,4 +375,19 @@ if __name__ == '__main__':
     # ---- Training Loop ----
     print("#" * 20, "Start Training", "#" * 20)
     for epoch in range(start_epoch, args.num_epochs + 1):
-        train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+        print(len(train_img_paths))
+        best_dice = 0
+
+        for epoch in range(start_epoch, args.num_epochs + 1):
+
+            train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+
+            # ---- VALIDATION ----
+            val_dice, val_iou = validate(val_loader, model)
+            print(f"[VALID] Epoch {epoch} | Dice: {val_dice:.4f} | IoU: {val_iou:.4f}")
+
+            # ---- save best model ----
+            if val_dice > best_dice:
+                best_dice = val_dice
+                torch.save(model.state_dict(), save_path + "best_model.pth")
+                print("Saved best model!")
