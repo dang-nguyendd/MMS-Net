@@ -25,29 +25,52 @@ from model.mms_base import MMSNet
 
 
 train_transform = A.Compose([
-    A.RandomResizedCrop(352, 352, scale=(0.7, 1.3), ratio=(0.9, 1.1)),  # random crop + scale
+    # Make sure the image is large BEFORE scaling
+    A.LongestMaxSize(max_size=600),
+
+    # Guarantee minimum size BEFORE RandomScale
+    A.PadIfNeeded(
+        min_height=500,
+        min_width=500,
+        border_mode=cv2.BORDER_CONSTANT,
+        value=0,
+    ),
+
+    # Random scaling → now safe
+    A.RandomScale(scale_limit=0.3, p=1.0),
+
+    # After scaling, enforce minimum size AGAIN
+    A.PadIfNeeded(
+        min_height=352,
+        min_width=352,
+        border_mode=cv2.BORDER_CONSTANT,
+        value=0,
+    ),
+
+    # Now cropping is always safe
+    A.RandomCrop(height=352, width=352, p=1.0),
+
+    # Extra aug
     A.HorizontalFlip(p=0.5),
     A.VerticalFlip(p=0.5),
-
-    # rotation 0°–90°
     A.Rotate(limit=90, p=0.7),
-
-    # brightness augmentation
     A.RandomBrightnessContrast(p=0.4),
 
-    # cutout
-    A.Cutout(num_holes=4, max_h_size=40, max_w_size=40, fill_value=0, p=0.5),
-
-    # center crop as final fix (optional)
-    A.CenterCrop(352, 352, p=1.0),
-
-    # convert to tensor
-    ToTensorV2()
+    A.CoarseDropout(
+        max_holes=4,
+        max_height=40,
+        max_width=40,
+        fill_value=0,
+        p=0.5,
+    ),
 ])
 
+
+
+
 val_transform = A.Compose([
-    A.Resize(352, 352),
-    ToTensorV2()
+    A.LongestMaxSize(max_size=352),
+    A.PadIfNeeded(352, 352, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0),
 ])
 
 
@@ -71,24 +94,38 @@ class Dataset(torch.utils.data.Dataset):
 
         mask = cv2.imread(mask_path, 0)
 
+        # --- Albumentations ---
         if self.transform:
             augmented = self.transform(image=image, mask=mask)
             image = augmented["image"]
-            mask = augmented["mask"].long() 
+            mask = augmented["mask"]
         else:
             image = cv2.resize(image, (352, 352))
             mask = cv2.resize(mask, (352, 352), interpolation=cv2.INTER_NEAREST)
 
-        # image
-        image = image.astype("float32") / 255.0
-        image = image.transpose(2, 0, 1)
-        image = torch.tensor(image, dtype=torch.float32)
+        # ----------- FIX STARTS HERE -----------
+        # Normalize
+        image = image.astype(np.float32) / 255.0
 
-        # mask (class indices: 0 or 1)
-        mask = (mask > 127).astype(np.int64)   # binarize
+        # Ensure RGB (3 channels)
+        if image.ndim == 2:  # shape (H, W)
+            image = np.stack([image, image, image], axis=-1)
+
+        elif image.shape[2] == 1:  # shape (H, W, 1)
+            image = np.repeat(image, 3, axis=-1)
+
+        # (H, W, C) → (C, H, W)
+        image = np.transpose(image, (2, 0, 1))
+        image = torch.from_numpy(image).float()
+        # ----------- FIX ENDS HERE -------------
+
+        # Mask handling
         mask = torch.tensor(mask, dtype=torch.long)
+        mask = (mask > 127).long()
 
         return image, mask
+        
+
 
 
 epsilon = 1e-7
