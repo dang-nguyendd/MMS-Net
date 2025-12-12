@@ -126,9 +126,9 @@ def inference(model, args):
 # ---------------- Main ---------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weight", type=str, default="")
+    parser.add_argument("--weight", type=str, default="./snapshots/MMS-Net+/last.pth")
     parser.add_argument("--test_path", type=str,
-                        default="./data/TestDataset")
+                        default="./data/test")
     args = parser.parse_args()
 
     model = MMSNet().cuda()
