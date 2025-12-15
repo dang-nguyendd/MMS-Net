@@ -4,12 +4,14 @@ from torchinfo import summary
 import torch.nn.functional as F
 
 
-from path_block_a import PathBlockA
-from path_block_b import PathBlockB
-from path_block_c import PathBlockC
-from path_block_d import PathBlockD
-from path_block_e import PathBlockE
-from feature_booster import FeatureBooster
+from .path_block_a import PathBlockA
+from .path_block_b import PathBlockB
+from .path_block_c import PathBlockC
+from .path_block_d import PathBlockD
+from .path_block_e import PathBlockE
+from .feature_booster import FeatureBooster
+from .se import ChannelSpatialSELayer
+
 
 class MMSNet(nn.Module):
     """
@@ -18,6 +20,12 @@ class MMSNet(nn.Module):
     """
     def __init__(self, fb_ch = 8, in_ch = 16, bn_size = 4, out_ch =2):
         super().__init__()
+
+        self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_b = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_c = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*2)
+        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*2)
 
         self.path_a = PathBlockA(in_ch=in_ch)
         self.path_b = PathBlockB(in_ch=in_ch)
@@ -74,12 +82,11 @@ class MMSNet(nn.Module):
             stride=2
         )
 
-        self.conv_1x1_2 = nn.ConvTranspose2d(
+        self.conv_1x1_2 = nn.Conv2d(
             in_channels=in_ch*2 + fb_ch,
             out_channels=out_ch,
-            kernel_size=2,
-            stride=1, 
-            padding=1
+            kernel_size=1,
+            padding=0
         )
 
         # Mid stem
@@ -120,6 +127,13 @@ class MMSNet(nn.Module):
         path_a = self.path_a.forward(x)
         path_b = self.path_b.forward(x)
         path_c = self.path_c.forward(x)
+
+        # Enhance with SE block
+        path_a = self.se_a.forward(path_a)
+        path_b = self.se_b.forward(path_b)
+        path_c = self.se_c.forward(path_c)
+
+
         dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
                                                
         # Depth-wise (channel dimension) concatenation
@@ -142,6 +156,11 @@ class MMSNet(nn.Module):
         # Parallel branches
         path_d = self.path_d.forward(x)
         path_e = self.path_e.forward(x)
+
+        # Enhance with SE block
+        path_d = self.se_d.forward(path_d)
+        path_e = self.se_e.forward(path_e)
+
         fb_2 = self.feature_booster_2.forward(z)
         dense_skip_path_2 = z
 

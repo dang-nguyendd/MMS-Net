@@ -53,7 +53,12 @@ train_transform = A.Compose([
     # Extra aug
     A.HorizontalFlip(p=0.5),
     A.VerticalFlip(p=0.5),
-    A.Rotate(limit=90, p=0.7),
+    A.Rotate(
+        limit=90,
+        interpolation=cv2.INTER_LINEAR,
+        mask_interpolation=cv2.INTER_NEAREST,
+        p=0.7
+    ),
     A.RandomBrightnessContrast(p=0.4),
 
     A.CoarseDropout(
@@ -260,7 +265,7 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
 
                 # ---- backward ----
                 loss.backward()
-                clip_gradient(optimizer, args.clip)
+                # clip_gradient(optimizer, args.clip)
                 optimizer.step()
 
                 # ---- logging ----
@@ -296,7 +301,7 @@ if __name__ == '__main__':
     parser.add_argument('--init_lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=8, help='training batch size')
     parser.add_argument('--init_trainsize', type=int, default=352, help='training dataset size')
-    parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
+    # parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
     parser.add_argument('--train_path', type=str, default='./data/train', help='path to train dataset')
     parser.add_argument('--train_save', type=str, default='MMS-Net+')
     parser.add_argument('--resume_path', type=str, default='', help='path to checkpoint for resume training')
@@ -375,7 +380,6 @@ if __name__ == '__main__':
     # ---- Training Loop ----
     print("#" * 20, "Start Training", "#" * 20)
     for epoch in range(start_epoch, args.num_epochs + 1):
-        print(len(train_img_paths))
         best_dice = 0
 
         train(train_loader, model, optimizer, epoch, lr_scheduler, args)
