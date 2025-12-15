@@ -33,7 +33,8 @@ train_transform = A.Compose([
         min_height=500,
         min_width=500,
         border_mode=cv2.BORDER_CONSTANT,
-        value=0,
+        fill=0,
+        fill_mask=0,
     ),
 
     # Random scaling → now safe
@@ -44,7 +45,8 @@ train_transform = A.Compose([
         min_height=352,
         min_width=352,
         border_mode=cv2.BORDER_CONSTANT,
-        value=0,
+        fill=0,
+        fill_mask=0,
     ),
 
     # Now cropping is always safe
@@ -62,10 +64,11 @@ train_transform = A.Compose([
     A.RandomBrightnessContrast(p=0.4),
 
     A.CoarseDropout(
-        max_holes=4,
-        max_height=40,
-        max_width=40,
-        fill_value=0,
+        num_holes_range=(1, 4),
+        hole_height_range=(20, 40),
+        hole_width_range=(20, 40),
+        fill=0,
+        fill_mask=None,  # DO NOT touch mask
         p=0.5,
     ),
 ])
@@ -75,7 +78,13 @@ train_transform = A.Compose([
 
 val_transform = A.Compose([
     A.LongestMaxSize(max_size=352),
-    A.PadIfNeeded(352, 352, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0),
+    A.PadIfNeeded(
+        min_height=352,
+        min_width=352,
+        border_mode=cv2.BORDER_CONSTANT,
+        fill=0,
+        fill_mask=0,
+    ),
 ])
 
 
