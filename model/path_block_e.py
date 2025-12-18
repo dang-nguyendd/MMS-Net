@@ -16,11 +16,11 @@ class PathBlockE(nn.Module):
 
         self.path_block_e = nn.Sequential(
 
-            nn.Conv2d(in_ch, in_ch*2, 3, padding=dilation, dilation=dilation, stride=stride),
+            nn.Conv2d(in_ch, in_ch*2, 3, padding=dilation, dilation=dilation),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1, stride=stride),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
