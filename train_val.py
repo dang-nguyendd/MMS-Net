@@ -250,7 +250,7 @@ if __name__ == '__main__':
     assert len(all_imgs) == len(all_masks)
 
     num_total = len(all_imgs)
-    num_train = int(0.9 * num_total)
+    num_train = int((0.8/0.9) * num_total)
 
     train_img_paths = all_imgs[:num_train]
     train_mask_paths = all_masks[:num_train]
