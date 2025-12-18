@@ -18,7 +18,7 @@ class MMSNet(nn.Module):
     Full Path
     
     """
-    def __init__(self, fb_ch = 8, in_ch = 16, bn_size = 4, out_ch =2):
+    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 4, out_ch =2):
         super().__init__()
 
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
@@ -104,21 +104,32 @@ class MMSNet(nn.Module):
             nn.Softmax(dim=1),          
         )
 
-    def down_sample(self, in_map, out_map):
-        x_resized = F.interpolate(
-            in_map,
-            size=out_map.size()[2:],
-            mode='bilinear',
-            align_corners=False
+        self.conv_down_sample = nn.Sequential(
+            nn.AvgPool2d(2, 2),
+            nn.Conv2d(in_ch, in_ch, 3, padding=1),
+            nn.BatchNorm2d(in_ch),        
+            nn.ReLU(inplace=True), 
+            nn.AvgPool2d(2, 2),
+            nn.Conv2d(in_ch, in_ch, 3, padding=1),
+            nn.BatchNorm2d(in_ch),        
+            nn.ReLU(inplace=True), 
         )
-        return x_resized
+
+    # def down_sample(self, in_map, out_map):
+    #     x_resized = F.interpolate(
+    #         in_map,
+    #         size=out_map.size()[2:],
+    #         mode='bilinear',
+    #         align_corners=False
+    #     )
+    #     return x_resized
 
     def forward(self, x):
         fb_1 = self.feature_booster_1.forward(x)
         
         # Input stem
         x = self.conv(x)
-        dense_skip_path_1 = x 
+        dense_skip_path_1 = self.conv_down_sample(x)
         x = self.bn(x)
         x = self.relu(x)
 
@@ -134,7 +145,8 @@ class MMSNet(nn.Module):
         path_c = self.se_c.forward(path_c)
 
 
-        dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
+        # dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
+        # dense_skip_path_1 = self.conv_down_sample(dense_skip_path_1)
                                                
         # Depth-wise (channel dimension) concatenation
         fused_1 = torch.cat([path_a, path_b, path_c, dense_skip_path_1], dim=1)
