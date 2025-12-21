@@ -165,4 +165,4 @@ def histogram_equalise(
         print(f"To:   {output_dir}")
 
 
-histogram_equalise()
+# histogram_equalise()
