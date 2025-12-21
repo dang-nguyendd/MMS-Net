@@ -232,7 +232,7 @@ if __name__ == '__main__':
     parser.add_argument('--init_lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=8, help='training batch size')
     parser.add_argument('--init_trainsize', type=int, default=352, help='training dataset size')
-    parser.add_argument('--train_path', type=str, default='./data/train', help='path to train dataset')
+    parser.add_argument('--train_path', type=str, default='./data/train_hist', help='path to train dataset')
     parser.add_argument('--train_save', type=str, default='MMS-Net+')
     parser.add_argument('--resume_path', type=str, default='', help='path to checkpoint for resume training')
     args = parser.parse_args()
