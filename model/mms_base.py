@@ -4,13 +4,13 @@ from torchinfo import summary
 import torch.nn.functional as F
 
 
-from .path_block_a import PathBlockA
-from .path_block_b import PathBlockB
-from .path_block_c import PathBlockC
-from .path_block_d import PathBlockD
-from .path_block_e import PathBlockE
-from .feature_booster import FeatureBooster
-from .se import ChannelSpatialSELayer
+from path_block_a import PathBlockA
+from path_block_b import PathBlockB
+from path_block_c import PathBlockC
+from path_block_d import PathBlockD
+from path_block_e import PathBlockE
+from feature_booster import FeatureBooster
+from se import ChannelSpatialSELayer
 
 
 class MMSNet(nn.Module):
@@ -18,7 +18,7 @@ class MMSNet(nn.Module):
     Full Path
     
     """
-    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 4, out_ch =2):
+    def __init__(self, fb_ch = 8, in_ch = 16, bn_size = 2, out_ch =2):
         super().__init__()
 
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
