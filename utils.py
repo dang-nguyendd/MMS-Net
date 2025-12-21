@@ -1,9 +1,13 @@
 import numpy as np
 import torch
-import torch.nn as nn
 import os
 import shutil
 import random
+import numpy as np
+import os
+import cv2
+from glob import glob
+
 
 class AvgMeter(object):
     def __init__(self, num=40):
@@ -88,3 +92,77 @@ def split_train_test(base_dir = "./data"):
 
     print(f"Done! {len(train_files)} train files, {len(test_files)} test files.")
 
+def histogram_equalise(
+        input_dir="./data/test/images",
+        output_dir="./data/test_hist/images",
+        clip_limit=2.0,
+        tile_grid_size=(8, 8)
+    ):
+        os.makedirs(output_dir, exist_ok=True)
+
+        image_paths = glob(os.path.join(input_dir, "*"))
+
+        clahe = cv2.createCLAHE(
+            clipLimit=clip_limit,
+            tileGridSize=tile_grid_size
+        )
+
+        for img_path in image_paths:
+            img = cv2.imread(img_path)
+            if img is None:
+                continue
+
+            # Convert BGR → LAB
+            lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+            l, a, b = cv2.split(lab)
+
+            # Apply CLAHE to L channel
+            l_eq = clahe.apply(l)
+
+            # Merge channels back
+            lab_eq = cv2.merge((l_eq, a, b))
+            img_eq = cv2.cvtColor(lab_eq, cv2.COLOR_LAB2BGR)
+
+            # Save result
+            filename = os.path.basename(img_path)
+            save_path = os.path.join(output_dir, filename)
+            cv2.imwrite(save_path, img_eq)
+        
+
+        os.makedirs(output_dir, exist_ok=True)
+        image_paths = glob(os.path.join(input_dir, "*.*"))
+
+        count = 0
+        for img_path in image_paths:
+            if os.path.isfile(img_path):
+                filename = os.path.basename(img_path)
+                dst_path = os.path.join(output_dir, filename)
+                shutil.copy2(img_path, dst_path)
+                count += 1
+
+        print(f"CLAHE applied to {len(image_paths)} images.")
+        print(f"Saved results to: {output_dir}")
+
+        # change images -> masks
+        input_dir = input_dir.replace("images", "masks")
+        output_dir = output_dir.replace("images", "masks")
+
+        os.makedirs(output_dir, exist_ok=True)
+
+        image_paths = glob(os.path.join(input_dir, "*.*"))
+
+        count = 0
+        for img_path in image_paths:
+            if os.path.isfile(img_path):
+                filename = os.path.basename(img_path)
+                dst_path = os.path.join(output_dir, filename)
+
+                shutil.copy2(img_path, dst_path)
+                count += 1
+
+        print(f"Copied {count} files.")
+        print(f"From: {input_dir}")
+        print(f"To:   {output_dir}")
+
+
+histogram_equalise()
