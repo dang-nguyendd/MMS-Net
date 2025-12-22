@@ -32,9 +32,9 @@ class PathBlockD(nn.Module):
             nn.BatchNorm2d(in_ch*8),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*8, in_ch*8, 3, padding=1),
-            nn.BatchNorm2d(in_ch*8),
-            nn.ReLU(inplace=True),
+            # nn.Conv2d(in_ch*8, in_ch*8, 3, padding=1),
+            # nn.BatchNorm2d(in_ch*8),
+            # nn.ReLU(inplace=True),
 
 
             nn.ConvTranspose2d(in_ch*8, in_ch*4, 2, stride=2),

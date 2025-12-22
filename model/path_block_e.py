@@ -30,9 +30,9 @@ class PathBlockE(nn.Module):
             nn.BatchNorm2d(in_ch*4),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
-            nn.BatchNorm2d(in_ch*4),
-            nn.ReLU(inplace=True),
+            # nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            # nn.BatchNorm2d(in_ch*4),
+            # nn.ReLU(inplace=True),
 
             nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
             nn.BatchNorm2d(in_ch*4),

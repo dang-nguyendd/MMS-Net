@@ -4,13 +4,13 @@ from torchinfo import summary
 import torch.nn.functional as F
 
 
-from .path_block_a import PathBlockA
-from .path_block_b import PathBlockB
-from .path_block_c import PathBlockC
-from .path_block_d import PathBlockD
-from .path_block_e import PathBlockE
-from .feature_booster import FeatureBooster
-from .se import ChannelSpatialSELayer
+from path_block_a import PathBlockA
+from path_block_b import PathBlockB
+from path_block_c import PathBlockC
+from path_block_d import PathBlockD
+from path_block_e import PathBlockE
+from feature_booster import FeatureBooster
+from se import ChannelSpatialSELayer
 
 
 class MMSNet(nn.Module):
@@ -104,32 +104,32 @@ class MMSNet(nn.Module):
             nn.Softmax(dim=1),          
         )
 
-        self.conv_down_sample = nn.Sequential(
-            nn.AvgPool2d(2, 2),
-            nn.Conv2d(in_ch, in_ch, 3, padding=1),
-            nn.BatchNorm2d(in_ch),        
-            nn.ReLU(inplace=True), 
-            nn.AvgPool2d(2, 2),
-            nn.Conv2d(in_ch, in_ch, 3, padding=1),
-            nn.BatchNorm2d(in_ch),        
-            nn.ReLU(inplace=True), 
-        )
+        # self.conv_down_sample = nn.Sequential(
+        #     nn.AvgPool2d(2, 2),
+        #     nn.Conv2d(in_ch, in_ch, 3, padding=1),
+        #     nn.BatchNorm2d(in_ch),        
+        #     nn.ReLU(inplace=True), 
+        #     nn.AvgPool2d(2, 2),
+        #     nn.Conv2d(in_ch, in_ch, 3, padding=1),
+        #     nn.BatchNorm2d(in_ch),        
+        #     nn.ReLU(inplace=True), 
+        # )
 
-    # def down_sample(self, in_map, out_map):
-    #     x_resized = F.interpolate(
-    #         in_map,
-    #         size=out_map.size()[2:],
-    #         mode='bilinear',
-    #         align_corners=False
-    #     )
-    #     return x_resized
+    def down_sample(self, in_map, out_map):
+        x_resized = F.interpolate(
+            in_map,
+            size=out_map.size()[2:],
+            mode='bilinear',
+            align_corners=False
+        )
+        return x_resized
 
     def forward(self, x):
         fb_1 = self.feature_booster_1.forward(x)
         
         # Input stem
         x = self.conv(x)
-        dense_skip_path_1 = self.conv_down_sample(x)
+        dense_skip_path_1 = x
         x = self.bn(x)
         x = self.relu(x)
 
@@ -145,7 +145,7 @@ class MMSNet(nn.Module):
         path_c = self.se_c.forward(path_c)
 
 
-        # dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
+        dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
         # dense_skip_path_1 = self.conv_down_sample(dense_skip_path_1)
                                                
         # Depth-wise (channel dimension) concatenation
