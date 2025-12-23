@@ -128,7 +128,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--weight", type=str, default="./snapshots/MMS-Net+/best-16m.pth")
     parser.add_argument("--test_path", type=str,
-                        default="./data/test_hist")
+                        default="./data/test")
     args = parser.parse_args()
 
     model = MMSNet().cuda()
