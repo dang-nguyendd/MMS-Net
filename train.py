@@ -185,7 +185,6 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                           loss_record.show(), dice_meter.show(), iou_meter.show()
                 ))
 
-
     # ---- save checkpoint ----
     ckpt_path = save_path + 'last.pth'
     print('[Saving Checkpoint:]', ckpt_path)
@@ -198,6 +197,11 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     }
     torch.save(checkpoint, ckpt_path)
 
+    avg_loss = loss_record.show()
+    avg_dice = dice_meter.show()
+    avg_iou  = iou_meter.show()
+
+    return avg_loss, avg_dice, avg_iou
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -261,7 +265,7 @@ if __name__ == '__main__':
 
     for epoch in range(start_epoch, args.num_epochs + 1):
 
-        train_loss = train(
+        train_loss, train_dice, train_iou = train(
             train_loader,
             model,
             optimizer,
