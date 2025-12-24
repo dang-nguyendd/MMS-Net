@@ -18,7 +18,7 @@ class MMSNet(nn.Module):
     Full Path
     
     """
-    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 2, out_ch =2):
+    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 4, out_ch =2):
         super().__init__()
 
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)

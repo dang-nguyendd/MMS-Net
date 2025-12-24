@@ -169,7 +169,7 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
 
                 # ---- backward ----
                 loss.backward()
-                clip_gradient(optimizer, args.clip)
+                # clip_gradient(optimizer, args.clip)
                 optimizer.step()
 
                 # ---- logging ----
@@ -256,5 +256,31 @@ if __name__ == '__main__':
 
     # ---- Training Loop ----
     print("#" * 20, "Start Training", "#" * 20)
+
+    best_loss = float("inf")
+
     for epoch in range(start_epoch, args.num_epochs + 1):
-        train(train_loader, model, optimizer, epoch, lr_scheduler, args)
+
+        train_loss = train(
+            train_loader,
+            model,
+            optimizer,
+            epoch,
+            lr_scheduler,
+            args
+        )
+
+        # ---- Save best model ----
+        if train_loss < best_loss:
+            best_loss = train_loss
+            best_epoch = epoch
+
+            torch.save({
+                'epoch': epoch,
+                'state_dict': model.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                'scheduler': lr_scheduler.state_dict(),
+                'best_loss': best_loss
+            }, os.path.join(save_path, 'best.pth'))
+
+            print(f"✅ Saved best model at epoch {epoch} (loss={best_loss:.4f})")
