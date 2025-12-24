@@ -126,7 +126,7 @@ def inference(model, args):
 # ---------------- Main ---------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weight", type=str, default="./snapshots/MMS-Net+/best-16m.pth")
+    parser.add_argument("--weight", type=str, default="./snapshots/MMS-Net+/last.pth")
     parser.add_argument("--test_path", type=str,
                         default="./data/test")
     args = parser.parse_args()
@@ -134,10 +134,10 @@ if __name__ == "__main__":
     model = MMSNet().cuda()
 
     if args.weight != "":
-        # checkpoint = torch.load(args.weight)
-        # model.load_state_dict(checkpoint["state_dict"])
-        checkpoint = torch.load(args.weight, weights_only=True)
-        model.load_state_dict(checkpoint)
+        checkpoint = torch.load(args.weight)
+        model.load_state_dict(checkpoint["state_dict"])
+        # checkpoint = torch.load(args.weight, weights_only=True)
+        # model.load_state_dict(checkpoint)
         print("Loaded weights:", args.weight)
 
     inference(model, args)
