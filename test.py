@@ -134,10 +134,10 @@ if __name__ == "__main__":
     model = MMSNet().cuda()
 
     if args.weight != "":
-        # checkpoint = torch.load(args.weight)
-        # model.load_state_dict(checkpoint["state_dict"])
-        checkpoint = torch.load(args.weight, weights_only=True)
-        model.load_state_dict(checkpoint)
+        checkpoint = torch.load(args.weight)
+        model.load_state_dict(checkpoint["state_dict"])
+        # checkpoint = torch.load(args.weight, weights_only=True)
+        # model.load_state_dict(checkpoint)
         print("Loaded weights:", args.weight)
 
     inference(model, args)
