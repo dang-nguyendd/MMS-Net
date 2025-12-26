@@ -106,7 +106,8 @@ class DiceLoss(nn.Module):
 
         dice = (2 * intersection + self.smooth) / (union + self.smooth)
         
-        return (1 - dice) ** 2
+        loss = (1 - dice) ** 2
+        return loss.mean()
 
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
