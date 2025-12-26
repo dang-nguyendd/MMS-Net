@@ -105,7 +105,8 @@ class DiceLoss(nn.Module):
         union = pred.sum(dim=(2, 3)) + target_onehot.sum(dim=(2, 3))
 
         dice = (2 * intersection + self.smooth) / (union + self.smooth)
-        return 1 - dice.mean()
+        
+        return (1 - dice) ** 2
 
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
