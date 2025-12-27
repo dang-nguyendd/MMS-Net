@@ -26,19 +26,19 @@ class PathBlockE(nn.Module):
 
             nn.AvgPool2d(2, 2),
 
-            nn.Conv2d(in_ch*2, in_ch*4, 3, padding=1),
-            nn.BatchNorm2d(in_ch*4),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
-            nn.BatchNorm2d(in_ch*4),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
-            nn.BatchNorm2d(in_ch*4),
+            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 
-            nn.ConvTranspose2d(in_ch*4, in_ch*2, 2, stride=2),
+            nn.ConvTranspose2d(in_ch*2, in_ch*2, 2, stride=2),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
 

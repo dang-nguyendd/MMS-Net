@@ -15,22 +15,22 @@ class PathBlockA(nn.Module):
 
         # --- stage 1 ---
         self.path_block_a = nn.Sequential(
-            nn.Conv2d(in_ch, in_ch*2, 3, padding=dilation, dilation=dilation, stride=stride),
-            nn.BatchNorm2d(in_ch*2),
+            nn.Conv2d(in_ch, in_ch* 4, 3, padding=dilation, dilation=dilation, stride=stride),
+            nn.BatchNorm2d(in_ch* 4),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
-            nn.BatchNorm2d(in_ch*2),
+            nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
+            nn.BatchNorm2d(in_ch* 4),
             nn.ReLU(inplace=True),
 
-            nn.Conv2d(in_ch*2, in_ch*2, 3, padding=1),
-            nn.BatchNorm2d(in_ch*2),
+            nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
+            nn.BatchNorm2d(in_ch* 4),
             nn.ReLU(inplace=True),
 
             # pool 1
             nn.AvgPool2d(2, 2),
 
-            nn.Conv2d(in_ch*2, in_ch*4, 3, padding=1),
+            nn.Conv2d(in_ch* 4, in_ch*4, 3, padding=1),
             nn.BatchNorm2d(in_ch*4),
             nn.ReLU(inplace=True),
 

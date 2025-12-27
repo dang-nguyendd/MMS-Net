@@ -263,7 +263,7 @@ if __name__ == '__main__':
     # ---- Training Loop ----
     print("#" * 20, "Start Training", "#" * 20)
 
-    best_loss = float("inf")
+    best_dice = 0.0
 
     for epoch in range(start_epoch, args.num_epochs + 1):
 
@@ -277,8 +277,8 @@ if __name__ == '__main__':
         )
 
         # ---- Save best model ----
-        if train_loss < best_loss:
-            best_loss = train_loss
+        if train_dice > best_dice:
+            best_dice = train_dice
             best_epoch = epoch
 
             torch.save({
@@ -286,7 +286,7 @@ if __name__ == '__main__':
                 'state_dict': model.state_dict(),
                 'optimizer': optimizer.state_dict(),
                 'scheduler': lr_scheduler.state_dict(),
-                'best_loss': best_loss
+                'best_loss': best_dice
             }, os.path.join(save_path, 'best.pth'))
 
-            print(f"✅ Saved best model at epoch {epoch} (loss={best_loss:.4f})")
+            print(f"✅ Saved best model at epoch {epoch} (loss={best_dice:.4f})")

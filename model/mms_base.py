@@ -19,7 +19,7 @@ class MMSNet(nn.Module):
     Full Path
     
     """
-    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 4, out_ch =2):
+    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 2, out_ch =2):
         super().__init__()
 
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
@@ -60,7 +60,7 @@ class MMSNet(nn.Module):
         )
 
         self.conv_1x1 = nn.Conv2d(
-            in_channels=in_ch*12 + in_ch,
+            in_channels=in_ch*12,
             out_channels=in_ch*bn_size,
             kernel_size=1,
             padding=0
@@ -155,7 +155,7 @@ class MMSNet(nn.Module):
         # dense_skip_path_1 = self.conv_down_sample(dense_skip_path_1)
                                                
         # Depth-wise (channel dimension) concatenation
-        fused_1 = torch.cat([path_a, path_b, path_c, dense_skip_path_1], dim=1)
+        fused_1 = torch.cat([path_a, path_b, path_c], dim=1)
 
         #__________ BottleNeck __________
         x = self.conv_1x1(fused_1)
