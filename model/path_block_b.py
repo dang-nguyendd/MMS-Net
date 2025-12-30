@@ -15,50 +15,49 @@ class PathBlockB(nn.Module):
 
         # factory for a single conv-bn-relu block
         self.path_block_b = nn.Sequential(
-                nn.Conv2d(in_ch, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.AvgPool2d(2, 2),
+            nn.AvgPool2d(2, 2),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
-                
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
+            
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.AvgPool2d(2, 2),
+            nn.AvgPool2d(2, 2),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
-                
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
+            
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
 
-                nn.Conv2d(in_ch* 4, in_ch* 4, 3, padding=1),
-                nn.BatchNorm2d(in_ch* 4),
-                nn.ReLU(inplace=True),
-
+            nn.Conv2d(in_ch*4, in_ch*4, 3, padding=1),
+            nn.BatchNorm2d(in_ch*4),
+            nn.ReLU(inplace=True),
             )
      
 

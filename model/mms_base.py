@@ -12,22 +12,52 @@ from .path_block_e import PathBlockE
 from .path_block_f import PathBlockF
 from .feature_booster import FeatureBooster
 from .se import ChannelSpatialSELayer
-
+from .reverse_attention import ReverseAttention
 
 class MMSNet(nn.Module):
     """
     Full Path
     
     """
-    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 2, out_ch =2):
+    def __init__(self, fb_ch = 16, in_ch = 16, bn_size = 4, out_ch = 1):
         super().__init__()
+
+        # Reverse attention
+        self.ra_1 = ReverseAttention(in_ch=in_ch*12 + in_ch) 
+        self.ra_2 = ReverseAttention(in_ch=in_ch*12 + fb_ch + in_ch*2) 
+
+        self.ra_1_down_conv = nn.Sequential(
+            nn.Conv2d(in_channels=in_ch*12 + in_ch, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels=in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels=in_ch*2, out_channels=out_ch, kernel_size=1),
+            # nn.BatchNorm2d(out_ch),
+            # nn.ReLU(inplace=True),
+            # nn.Sigmoid()
+        )
+
+        self.ra_2_down_conv = nn.Sequential(
+            nn.Conv2d(in_channels=in_ch*12 + fb_ch + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels=in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.BatchNorm2d(in_ch*2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels=in_ch*2, out_channels=out_ch, kernel_size=1),
+            # nn.BatchNorm2d(out_ch),
+            # nn.ReLU(inplace=True),
+            # nn.Sigmoid()
+        )
 
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_b = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_c = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*2)
-        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*2)
-        self.se_f = ChannelSpatialSELayer(num_channels=in_ch*2)
+        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_f = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_fb_1 = ChannelSpatialSELayer(num_channels=fb_ch)
         self.se_fb_2 = ChannelSpatialSELayer(num_channels=fb_ch)
 
@@ -60,7 +90,7 @@ class MMSNet(nn.Module):
         )
 
         self.conv_1x1 = nn.Conv2d(
-            in_channels=in_ch*12,
+            in_channels=in_ch*12 + in_ch,
             out_channels=in_ch*bn_size,
             kernel_size=1,
             padding=0
@@ -81,18 +111,18 @@ class MMSNet(nn.Module):
         )
 
         self.de_conv_3 = nn.ConvTranspose2d(
-            in_channels=in_ch*6 + fb_ch + in_ch*2,
+            in_channels=in_ch*12 + fb_ch + in_ch*2,
             out_channels=in_ch*2,
             kernel_size=2,
             stride=2
         )
 
-        self.conv_1x1_2 = nn.Conv2d(
-            in_channels=in_ch*2 + fb_ch,
-            out_channels=out_ch,
-            kernel_size=1,
-            padding=0
-        )
+        # self.conv_1x1_2 = nn.Conv2d(
+        #     in_channels=in_ch*2 + fb_ch,
+        #     out_channels=out_ch,
+        #     kernel_size=1,
+        #     padding=0
+        # )
 
         # Mid stem
         self.mid_stem = nn.Sequential(
@@ -102,28 +132,19 @@ class MMSNet(nn.Module):
         )
 
         # Output stem
-        self.out_stem = nn.Sequential(
-            self.conv_1x1_2,                 
-            nn.BatchNorm2d(out_ch),        
-            nn.ReLU(inplace=True),        
-            nn.Softmax(dim=1),          
-        )
+        # self.out_stem = nn.Sequential(
+        #     self.conv_1x1_2,                 
+        #     nn.BatchNorm2d(out_ch),        
+        #     nn.ReLU(inplace=True),        
+        #     # nn.Sigmoid(),          
+        # )
+        self.out_stem = nn.Conv2d(in_ch*2 + fb_ch, out_ch, kernel_size=1)
 
-        self.conv_down_sample = nn.Sequential(
-            nn.AvgPool2d(2, 2),
-            nn.Conv2d(in_ch, in_ch, 3, padding=1),
-            nn.BatchNorm2d(in_ch),        
-            nn.ReLU(inplace=True), 
-            nn.AvgPool2d(2, 2),
-            nn.Conv2d(in_ch, in_ch, 3, padding=1),
-            nn.BatchNorm2d(in_ch),        
-            nn.ReLU(inplace=True), 
-        )
 
-    def down_sample(self, in_map, out_map):
+    def resize(self, in_map, scale_factor):
         x_resized = F.interpolate(
             in_map,
-            size=out_map.size()[2:],
+            scale_factor=scale_factor,
             mode='bilinear',
             align_corners=False
         )
@@ -151,11 +172,11 @@ class MMSNet(nn.Module):
         fb_1 = self.se_fb_1.forward(fb_1)
 
 
-        dense_skip_path_1 = self.down_sample(dense_skip_path_1, path_a)
+        dense_skip_path_1 = self.resize(dense_skip_path_1, 0.25)
         # dense_skip_path_1 = self.conv_down_sample(dense_skip_path_1)
                                                
         # Depth-wise (channel dimension) concatenation
-        fused_1 = torch.cat([path_a, path_b, path_c], dim=1)
+        fused_1 = torch.cat([path_a, path_b, path_c, dense_skip_path_1], dim=1)
 
         #__________ BottleNeck __________
         x = self.conv_1x1(fused_1)
@@ -179,7 +200,7 @@ class MMSNet(nn.Module):
         # Enhance with SE block
         path_d = self.se_d.forward(path_d)
         path_e = self.se_e.forward(path_e)
-        path_f = self.se_e.forward(path_f)
+        path_f = self.se_f.forward(path_f)
 
         fb_2 = self.feature_booster_2.forward(z)
         fb_2 = self.se_fb_2.forward(fb_2)
@@ -193,17 +214,35 @@ class MMSNet(nn.Module):
         #__________ Cascaded Path 3 __________
         # Depth-wise (channel dimension) concatenation
         fused_3 = torch.cat([x, fb_1], dim=1)
-        
-        x = self.out_stem(fused_3)
 
-        return x
+        #_________ Deep supervision __________ 
+        # Output 3
+        lateral_map_3 = self.out_stem(fused_3)
+
+        # Output 2
+        resized_lateral_map_3 = self.resize(lateral_map_3, 0.5)
+        side_fused_2 = self.ra_2(fused_2, resized_lateral_map_3)
+        logit_2 = self.ra_2_down_conv(side_fused_2) + resized_lateral_map_3
+        lateral_map_2 = self.resize(logit_2, 2)
+
+        # Output 1
+        resized_lateral_map_2 = self.resize(lateral_map_2, 0.25)
+        side_fused_1 = self.ra_1(fused_1, resized_lateral_map_2)
+        logit_1 = self.ra_1_down_conv(side_fused_1) + resized_lateral_map_2
+        lateral_map_1 = self.resize(logit_1, 4)
+
+        return lateral_map_1, lateral_map_2, lateral_map_3
 
 
 if __name__ == "__main__":
     model = MMSNet()
     inp = torch.randn(1, 3, 128, 128) 
-    out = model(inp)
-    print("Output shape:", out.shape)
+    out1, out2, out3 = model(inp)
+
+    print("Output 1 shape:", out1.shape)
+    print("Output 2 shape:", out2.shape)
+    print("Output 3 shape:", out3.shape)
+
     summary(model, input_size=(1, 3, 128, 128))
 
     print(torch.cuda.is_available())
