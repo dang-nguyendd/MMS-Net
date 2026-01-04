@@ -136,8 +136,6 @@ class DiceLoss(nn.Module):
         loss = (1 - dice) ** 2
         return loss.mean()
 
-dice_loss = DiceLoss()
-
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     model.train()
     # ---- multi-scale training ----
@@ -166,6 +164,7 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                     mode='nearest'
                 )
                 # ---- forward ----
+                dice_loss = DiceLoss()
                 map1, map2, map3 = model(images)
                 map1 = F.interpolate(map1, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
                 map2 = F.interpolate(map2, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
