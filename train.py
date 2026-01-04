@@ -103,7 +103,7 @@ class DiceLoss(nn.Module):
 
         dice = (2. * intersection + self.smooth) / (union + self.smooth)
 
-        loss = (1 - dice) ** 2
+        loss = (1 - dice)
         return loss.mean()
 
 
