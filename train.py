@@ -92,20 +92,17 @@ class DiceLoss(nn.Module):
         self.smooth = smooth
 
     def forward(self, pred, target):
-        # pred: N × C × H × W (logits)
-        # target: N × H × W (class indices)
+        # pred: N × 1 × H × W (after sigmoid)
+        # target: N × 1 × H × W (0 or 1)
 
-        pred = torch.softmax(pred, dim=1)
+        pred = pred.contiguous()
+        target = target.contiguous()
 
-        # convert to one-hot: target_onehot: N × C × H × W
-        target_onehot = torch.nn.functional.one_hot(target, num_classes=pred.shape[1])
-        target_onehot = target_onehot.permute(0, 3, 1, 2).float()
+        intersection = (pred * target).sum(dim=(2, 3))
+        union = pred.sum(dim=(2, 3)) + target.sum(dim=(2, 3))
 
-        intersection = (pred * target_onehot).sum(dim=(2, 3))
-        union = pred.sum(dim=(2, 3)) + target_onehot.sum(dim=(2, 3))
+        dice = (2. * intersection + self.smooth) / (union + self.smooth)
 
-        dice = (2 * intersection + self.smooth) / (union + self.smooth)
-        
         loss = (1 - dice) ** 2
         return loss.mean()
 
