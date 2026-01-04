@@ -159,7 +159,7 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                 gts = Variable(gts).cuda()
                 # ---- rescale ----
                 trainsize = int(round(args.init_trainsize*rate/32)*32)
-                images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
+                images = F.interpolate(images, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
                 gts = F.interpolate(
                     gts,
                     size=(trainsize, trainsize),
@@ -167,9 +167,9 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                 )
                 # ---- forward ----
                 map1, map2, map3 = model(images)
-                map1 = F.upsample(map1, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
-                map2 = F.upsample(map2, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
-                map3 = F.upsample(map3, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
+                map1 = F.interpolate(map1, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
+                map2 = F.interpolate(map2, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
+                map3 = F.interpolate(map3, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
                 loss = dice_loss(map1, gts) + dice_loss(map2, gts) + dice_loss(map3, gts) 
             
                 # ---- metrics ----
