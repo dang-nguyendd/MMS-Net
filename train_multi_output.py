@@ -121,20 +121,21 @@ class DiceLoss(nn.Module):
         super().__init__()
         self.smooth = smooth
 
-    def forward(self, pred, target):
-        # pred: N × 1 × H × W (after sigmoid)
+    def forward(self, logits, target):
+        # logits: N × 1 × H × W
         # target: N × 1 × H × W (0 or 1)
 
-        pred = pred.contiguous()
-        target = target.contiguous()
+        pred = torch.sigmoid(logits)
+        target = target.float()
 
         intersection = (pred * target).sum(dim=(2, 3))
         union = pred.sum(dim=(2, 3)) + target.sum(dim=(2, 3))
 
         dice = (2. * intersection + self.smooth) / (union + self.smooth)
+        loss = (1 - dice)
 
-        loss = (1 - dice) ** 2
         return loss.mean()
+
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     model.train()
@@ -172,8 +173,10 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                 loss = dice_loss(map1, gts) + dice_loss(map2, gts) + dice_loss(map3, gts) 
             
                 # ---- metrics ----
-                dice_score = dice_m(map1, gts)
-                iou_score = iou_m(map1, gts)
+                pred = torch.sigmoid(map1)
+
+                dice_score = dice_m(pred, gts)
+                iou_score  = iou_m(pred, gts)
                 # ---- backward ----
                 loss.backward()
                 # clip_gradient(optimizer, args.clip)
