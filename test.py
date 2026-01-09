@@ -84,6 +84,40 @@ def get_scores(gts, prs):
 
 
 # ---------------- Inference ----------------
+def multi_inference(model, args):
+    print("#"*20)
+    model.eval()
+    
+    X_test = glob('{}/images/*'.format(args.test_path))
+    X_test.sort()
+    y_test = glob('{}/masks/*'.format(args.test_path))
+    y_test.sort()
+
+    test_dataset = Dataset(X_test, y_test)
+    test_loader = torch.utils.data.DataLoader(
+        test_dataset,
+        batch_size=1,
+        shuffle=False,
+        pin_memory=True,
+        drop_last=False)
+
+    gts = []
+    prs = []
+    for i, pack in enumerate(test_loader, start=1):
+        image, gt = pack
+        gt = gt[0][0]
+        gt = np.asarray(gt, np.float32)
+        image = image.cuda()
+
+        res, res2, res3, res4 = model(image)
+        res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+        res = res.sigmoid().data.cpu().numpy().squeeze()
+        res = (res - res.min()) / (res.max() - res.min() + 1e-8)
+        pr = res.round()
+        gts.append(gt)
+        prs.append(pr)
+    get_scores(gts, prs)
+
 def inference(model, args):
     print("#" * 20)
     model.eval()
@@ -126,7 +160,7 @@ def inference(model, args):
 # ---------------- Main ---------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weight", type=str, default="./snapshots/MMS-Net+/best.pth")
+    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/last.pth")
     parser.add_argument("--test_path", type=str,
                         default="./data/test")
     args = parser.parse_args()
@@ -140,4 +174,4 @@ if __name__ == "__main__":
         # model.load_state_dict(checkpoint)
         print("Loaded weights:", args.weight)
 
-    inference(model, args)
+    multi_inference(model, args)
