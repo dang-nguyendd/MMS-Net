@@ -24,7 +24,8 @@ class MMSNet(nn.Module):
 
         # Reverse attention
         self.ra_1 = ReverseAttention(in_ch=in_ch*12 + in_ch) 
-        self.ra_2 = ReverseAttention(in_ch=in_ch*12 + fb_ch + in_ch*2) 
+        # self.ra_2 = ReverseAttention(in_ch=in_ch*12 + fb_ch + in_ch*2) 
+        self.ra_2 = ReverseAttention(in_ch=in_ch*12 + in_ch*2) 
 
         self.ra_1_down_conv = nn.Sequential(
             nn.Conv2d(in_channels=in_ch*12 + in_ch, out_channels=in_ch*2, kernel_size=3, padding=1),
@@ -40,7 +41,8 @@ class MMSNet(nn.Module):
         )
 
         self.ra_2_down_conv = nn.Sequential(
-            nn.Conv2d(in_channels=in_ch*12 + fb_ch + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            # nn.Conv2d(in_channels=in_ch*12 + fb_ch + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels=in_ch*12 + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
             nn.Conv2d(in_channels=in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
@@ -58,8 +60,8 @@ class MMSNet(nn.Module):
         self.se_d = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_e = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_f = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_fb_1 = ChannelSpatialSELayer(num_channels=fb_ch)
-        self.se_fb_2 = ChannelSpatialSELayer(num_channels=fb_ch)
+        # self.se_fb_1 = ChannelSpatialSELayer(num_channels=fb_ch)
+        # self.se_fb_2 = ChannelSpatialSELayer(num_channels=fb_ch)
 
         self.path_a = PathBlockA(in_ch=in_ch)
         self.path_b = PathBlockB(in_ch=in_ch)
@@ -68,8 +70,8 @@ class MMSNet(nn.Module):
         self.path_e = PathBlockE(in_ch=in_ch)
         self.path_f = PathBlockF(in_ch=in_ch)
 
-        self.feature_booster_1 = FeatureBooster(in_ch=in_ch, out_ch= fb_ch)
-        self.feature_booster_2 = FeatureBooster(in_ch=in_ch*2, out_ch = fb_ch)
+        # self.feature_booster_1 = FeatureBooster(in_ch=in_ch, out_ch= fb_ch)
+        # self.feature_booster_2 = FeatureBooster(in_ch=in_ch*2, out_ch = fb_ch)
 
         self.bn = nn.BatchNorm2d(in_ch)
         self.bn1 = nn.BatchNorm2d(in_ch*bn_size)
@@ -111,7 +113,8 @@ class MMSNet(nn.Module):
         )
 
         self.de_conv_3 = nn.ConvTranspose2d(
-            in_channels=in_ch*12 + fb_ch + in_ch*2,
+            # in_channels=in_ch*12 + fb_ch + in_ch*2,
+            in_channels=in_ch*12 + in_ch*2,
             out_channels=in_ch*2,
             kernel_size=2,
             stride=2
@@ -138,7 +141,8 @@ class MMSNet(nn.Module):
         #     nn.ReLU(inplace=True),        
         #     # nn.Sigmoid(),          
         # )
-        self.out_stem = nn.Conv2d(in_ch*2 + fb_ch, out_ch, kernel_size=1)
+        # self.out_stem = nn.Conv2d(in_ch*2 + fb_ch, out_ch, kernel_size=1)
+        self.out_stem = nn.Conv2d(in_ch*2, out_ch, kernel_size=1)
 
 
     def resize(self, in_map, scale_factor):
@@ -154,7 +158,7 @@ class MMSNet(nn.Module):
         
         # Input stem
         x = self.conv(x)
-        fb_1 = self.feature_booster_1.forward(x)
+        # fb_1 = self.feature_booster_1.forward(x)
         dense_skip_path_1 = x
         x = self.bn(x)
         x = self.relu(x)
@@ -169,7 +173,7 @@ class MMSNet(nn.Module):
         path_a = self.se_a.forward(path_a)
         path_b = self.se_b.forward(path_b)
         path_c = self.se_c.forward(path_c)
-        fb_1 = self.se_fb_1.forward(fb_1)
+        # fb_1 = self.se_fb_1.forward(fb_1)
 
 
         dense_skip_path_1 = self.resize(dense_skip_path_1, 0.25)
@@ -202,18 +206,18 @@ class MMSNet(nn.Module):
         path_e = self.se_e.forward(path_e)
         path_f = self.se_f.forward(path_f)
 
-        fb_2 = self.feature_booster_2.forward(z)
-        fb_2 = self.se_fb_2.forward(fb_2)
+        # fb_2 = self.feature_booster_2.forward(z)
+        # fb_2 = self.se_fb_2.forward(fb_2)
         dense_skip_path_2 = z
 
         # Depth-wise (channel dimension) concatenation
-        fused_2 = torch.cat([path_d, path_e, path_f, dense_skip_path_2, fb_2], dim=1)
+        fused_2 = torch.cat([path_d, path_e, path_f, dense_skip_path_2], dim=1)
 
         x = self.mid_stem(fused_2)
 
         #__________ Cascaded Path 3 __________
         # Depth-wise (channel dimension) concatenation
-        fused_3 = torch.cat([x, fb_1], dim=1)
+        fused_3 = x
 
         #_________ Deep supervision __________ 
         # Output 3

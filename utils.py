@@ -92,6 +92,51 @@ def split_train_test(base_dir = "./data"):
 
     print(f"Done! {len(train_files)} train files, {len(test_files)} test files.")
 
+def split_train_test_random(base_dir="./data"):
+    # Paths
+    img_dir = os.path.join(base_dir, "images")
+    mask_dir = os.path.join(base_dir, "masks")
+
+    train_dir = os.path.join(base_dir, "train")
+    test_dir = os.path.join(base_dir, "test")
+
+    train_img_dir = os.path.join(train_dir, "images")
+    train_mask_dir = os.path.join(train_dir, "masks")
+    test_img_dir = os.path.join(test_dir, "images")
+    test_mask_dir = os.path.join(test_dir, "masks")
+
+    # Remove existing train/test folders if they exist
+    for path in [train_dir, test_dir]:
+        if os.path.exists(path):
+            shutil.rmtree(path)
+
+    # Recreate target folders
+    for path in [train_img_dir, train_mask_dir, test_img_dir, test_mask_dir]:
+        os.makedirs(path, exist_ok=True)
+
+    # List all images
+    images = sorted(os.listdir(img_dir))
+
+    # Shuffle for randomness
+    random.shuffle(images)
+
+    # 80/20 split
+    split_idx = int(0.8 * len(images))
+    train_files = images[:split_idx]
+    test_files = images[split_idx:]
+
+    # Copy files
+    for fname in train_files:
+        shutil.copy(os.path.join(img_dir, fname), train_img_dir)
+        shutil.copy(os.path.join(mask_dir, fname), train_mask_dir)
+
+    for fname in test_files:
+        shutil.copy(os.path.join(img_dir, fname), test_img_dir)
+        shutil.copy(os.path.join(mask_dir, fname), test_mask_dir)
+
+    print(f"Done! {len(train_files)} train files, {len(test_files)} test files.")
+
+
 def histogram_equalise(
         input_dir="./data/test/images",
         output_dir="./data/test_hist/images",
