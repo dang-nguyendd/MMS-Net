@@ -105,12 +105,14 @@ def multi_inference(model, args):
     prs = []
     for i, pack in enumerate(test_loader, start=1):
         image, gt = pack
-        gt = gt[0][0]
+        gt = gt[0]
         gt = np.asarray(gt, np.float32)
+        
         image = image.cuda()
 
-        res, res2, res3, res4 = model(image)
-        res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+        res, res2, res3 = model(image)
+        H, W = gt.shape
+        res = F.interpolate(res, size=(H, W), mode='bilinear', align_corners=False)
         res = res.sigmoid().data.cpu().numpy().squeeze()
         res = (res - res.min()) / (res.max() - res.min() + 1e-8)
         pr = res.round()
@@ -160,7 +162,7 @@ def inference(model, args):
 # ---------------- Main ---------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/last.pth")
+    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/best.pth")
     parser.add_argument("--test_path", type=str,
                         default="./data/test")
     args = parser.parse_args()

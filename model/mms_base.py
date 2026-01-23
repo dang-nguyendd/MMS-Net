@@ -25,7 +25,7 @@ class MMSNet(nn.Module):
         # Reverse attention
         self.ra_1 = ReverseAttention(in_ch=in_ch*12 + in_ch) 
         # self.ra_2 = ReverseAttention(in_ch=in_ch*12 + fb_ch + in_ch*2) 
-        self.ra_2 = ReverseAttention(in_ch=in_ch*12 + in_ch*2) 
+        self.ra_2 = ReverseAttention(in_ch=in_ch*6 + in_ch*2) 
 
         self.ra_1_down_conv = nn.Sequential(
             nn.Conv2d(in_channels=in_ch*12 + in_ch, out_channels=in_ch*2, kernel_size=3, padding=1),
@@ -42,7 +42,7 @@ class MMSNet(nn.Module):
 
         self.ra_2_down_conv = nn.Sequential(
             # nn.Conv2d(in_channels=in_ch*12 + fb_ch + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
-            nn.Conv2d(in_channels=in_ch*12 + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels=in_ch*6 + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
             nn.Conv2d(in_channels=in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
@@ -57,9 +57,9 @@ class MMSNet(nn.Module):
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_b = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_c = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_f = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*2)
+        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*2)
+        self.se_f = ChannelSpatialSELayer(num_channels=in_ch*2)
         # self.se_fb_1 = ChannelSpatialSELayer(num_channels=fb_ch)
         # self.se_fb_2 = ChannelSpatialSELayer(num_channels=fb_ch)
 
@@ -114,7 +114,7 @@ class MMSNet(nn.Module):
 
         self.de_conv_3 = nn.ConvTranspose2d(
             # in_channels=in_ch*12 + fb_ch + in_ch*2,
-            in_channels=in_ch*12 + in_ch*2,
+            in_channels=in_ch*6 + in_ch*2,
             out_channels=in_ch*2,
             kernel_size=2,
             stride=2
