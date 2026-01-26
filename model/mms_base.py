@@ -4,15 +4,15 @@ from torchinfo import summary
 import torch.nn.functional as F
 
 
-from .path_block_a import PathBlockA
-from .path_block_b import PathBlockB
-from .path_block_c import PathBlockC
-from .path_block_d import PathBlockD
-from .path_block_e import PathBlockE
-from .path_block_f import PathBlockF
-from .feature_booster import FeatureBooster
-from .se import ChannelSpatialSELayer
-from .reverse_attention import ReverseAttention
+from path_block_a import PathBlockA
+from path_block_b import PathBlockB
+from path_block_c import PathBlockC
+from path_block_d import PathBlockD
+from path_block_e import PathBlockE
+from path_block_f import PathBlockF
+from feature_booster import FeatureBooster
+from se import ChannelSpatialSELayer
+from reverse_attention import ReverseAttention
 
 class MMSNet(nn.Module):
     """
@@ -24,7 +24,7 @@ class MMSNet(nn.Module):
 
         # Reverse attention
         self.ra_1 = ReverseAttention(in_ch=in_ch*12 + in_ch) 
-        self.ra_2 = ReverseAttention(in_ch=in_ch*12 + fb_ch + in_ch*2) 
+        self.ra_2 = ReverseAttention(in_ch=in_ch*4 + fb_ch + in_ch*2) 
 
         self.ra_1_down_conv = nn.Sequential(
             nn.Conv2d(in_channels=in_ch*12 + in_ch, out_channels=in_ch*2, kernel_size=3, padding=1),
@@ -40,7 +40,7 @@ class MMSNet(nn.Module):
         )
 
         self.ra_2_down_conv = nn.Sequential(
-            nn.Conv2d(in_channels=in_ch*12 + fb_ch + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels=in_ch*4 + fb_ch + in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
             nn.BatchNorm2d(in_ch*2),
             nn.ReLU(inplace=True),
             nn.Conv2d(in_channels=in_ch*2, out_channels=in_ch*2, kernel_size=3, padding=1),
@@ -55,9 +55,9 @@ class MMSNet(nn.Module):
         self.se_a = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_b = ChannelSpatialSELayer(num_channels=in_ch*4)
         self.se_c = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*4)
-        self.se_f = ChannelSpatialSELayer(num_channels=in_ch*4)
+        self.se_d = ChannelSpatialSELayer(num_channels=in_ch*2)
+        self.se_e = ChannelSpatialSELayer(num_channels=in_ch*2)
+        # self.se_f = ChannelSpatialSELayer(num_channels=in_ch*2)
         self.se_fb_1 = ChannelSpatialSELayer(num_channels=fb_ch)
         self.se_fb_2 = ChannelSpatialSELayer(num_channels=fb_ch)
 
@@ -66,7 +66,7 @@ class MMSNet(nn.Module):
         self.path_c = PathBlockC(in_ch=in_ch)
         self.path_d = PathBlockD(in_ch=in_ch)
         self.path_e = PathBlockE(in_ch=in_ch)
-        self.path_f = PathBlockF(in_ch=in_ch)
+        # self.path_f = PathBlockF(in_ch=in_ch)
 
         self.feature_booster_1 = FeatureBooster(in_ch=in_ch, out_ch= fb_ch)
         self.feature_booster_2 = FeatureBooster(in_ch=in_ch*2, out_ch = fb_ch)
@@ -111,7 +111,7 @@ class MMSNet(nn.Module):
         )
 
         self.de_conv_3 = nn.ConvTranspose2d(
-            in_channels=in_ch*12 + fb_ch + in_ch*2,
+            in_channels=in_ch*4 + fb_ch + in_ch*2,
             out_channels=in_ch*2,
             kernel_size=2,
             stride=2
@@ -195,19 +195,19 @@ class MMSNet(nn.Module):
         # Parallel branches
         path_d = self.path_d.forward(x)
         path_e = self.path_e.forward(x)
-        path_f = self.path_f.forward(x)
+        # path_f = self.path_f.forward(x)
         
         # Enhance with SE block
         path_d = self.se_d.forward(path_d)
         path_e = self.se_e.forward(path_e)
-        path_f = self.se_f.forward(path_f)
+        # path_f = self.se_f.forward(path_f)
 
         fb_2 = self.feature_booster_2.forward(z)
         fb_2 = self.se_fb_2.forward(fb_2)
         dense_skip_path_2 = z
 
         # Depth-wise (channel dimension) concatenation
-        fused_2 = torch.cat([path_d, path_e, path_f, dense_skip_path_2, fb_2], dim=1)
+        fused_2 = torch.cat([path_d, path_e, dense_skip_path_2, fb_2], dim=1)
 
         x = self.mid_stem(fused_2)
 
