@@ -136,7 +136,7 @@ if __name__ == '__main__':
                         default='./data/test', help='path to dataset')
     args = parser.parse_args()
 
-    model = MMSNet()
+    model = MMSNet().cuda()
 
     if args.weight != '':
         checkpoint = torch.load(ckpt_path)

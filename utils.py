@@ -8,7 +8,6 @@ import os
 import cv2
 from glob import glob
 
-
 class AvgMeter(object):
     def __init__(self, num=40):
         self.num = num
@@ -56,8 +55,56 @@ def clip_gradient(optimizer, grad_clip):
                 param.grad.data.clamp_(-grad_clip, grad_clip)
             
 
-def split_train_test(base_dir = "./data"):
-    # Paths
+# def split_train_test(base_dir = "./data/ETIS"):
+#     # Paths
+#     img_dir = os.path.join(base_dir, "images")
+#     mask_dir = os.path.join(base_dir, "masks")
+
+#     train_img_dir = os.path.join(base_dir, "train/images")
+#     train_mask_dir = os.path.join(base_dir, "train/masks")
+#     test_img_dir = os.path.join(base_dir, "test/images")
+#     test_mask_dir = os.path.join(base_dir, "test/masks")
+
+#     # Create target folders
+#     for path in [train_img_dir, train_mask_dir, test_img_dir, test_mask_dir]:
+#         os.makedirs(path, exist_ok=True)
+
+#     # List all images
+#     images = sorted(os.listdir(img_dir))
+
+#     # Shuffle for randomness
+#     random.shuffle(images)
+
+#     # 80/20 split
+#     split_idx = int(0.9 * len(images))
+#     train_files = images[:split_idx]
+#     test_files = images[split_idx:]
+
+#     # Move files
+#     for fname in train_files:
+#         shutil.copy(os.path.join(img_dir, fname), train_img_dir)
+#         shutil.copy(os.path.join(mask_dir, fname), train_mask_dir)
+
+#     for fname in test_files:
+#         shutil.copy(os.path.join(img_dir, fname), test_img_dir)
+#         shutil.copy(os.path.join(mask_dir, fname), test_mask_dir)
+
+#     print(f"Done! {len(train_files)} train files, {len(test_files)} test files.")
+
+import os
+import shutil
+import random
+import hashlib
+
+def hash_name(name: str) -> str:
+    """Deterministic hash (keeps extension)."""
+    stem, ext = os.path.splitext(name)
+    h = hashlib.sha256(stem.encode()).hexdigest()[:16]
+    return f"{h}{ext}"
+
+def split_train_test(base_dir="./data/ETIS", split_ratio=0.9, seed=42):
+    random.seed(seed)
+
     img_dir = os.path.join(base_dir, "images")
     mask_dir = os.path.join(base_dir, "masks")
 
@@ -66,31 +113,45 @@ def split_train_test(base_dir = "./data"):
     test_img_dir = os.path.join(base_dir, "test/images")
     test_mask_dir = os.path.join(base_dir, "test/masks")
 
-    # Create target folders
     for path in [train_img_dir, train_mask_dir, test_img_dir, test_mask_dir]:
         os.makedirs(path, exist_ok=True)
 
-    # List all images
+    # Build (image, mask) pairs safely
     images = sorted(os.listdir(img_dir))
+    masks = set(os.listdir(mask_dir))
 
-    # Shuffle for randomness
-    random.shuffle(images)
+    pairs = []
+    for img in images:
+        if img in masks:
+            pairs.append(img)
+        else:
+            print(f"⚠️ No mask found for image: {img}")
 
-    # 80/20 split
-    split_idx = int(0.8 * len(images))
-    train_files = images[:split_idx]
-    test_files = images[split_idx:]
+    random.shuffle(pairs)
 
-    # Move files
-    for fname in train_files:
-        shutil.copy(os.path.join(img_dir, fname), train_img_dir)
-        shutil.copy(os.path.join(mask_dir, fname), train_mask_dir)
+    split_idx = int(split_ratio * len(pairs))
+    train_files = pairs[:split_idx]
+    test_files = pairs[split_idx:]
 
-    for fname in test_files:
-        shutil.copy(os.path.join(img_dir, fname), test_img_dir)
-        shutil.copy(os.path.join(mask_dir, fname), test_mask_dir)
+    def copy_pairs(files, img_out, mask_out):
+        for fname in files:
+            new_name = hash_name(fname)
 
-    print(f"Done! {len(train_files)} train files, {len(test_files)} test files.")
+            shutil.copy(
+                os.path.join(img_dir, fname),
+                os.path.join(img_out, new_name)
+            )
+            shutil.copy(
+                os.path.join(mask_dir, fname),
+                os.path.join(mask_out, new_name)
+            )
+
+    copy_pairs(train_files, train_img_dir, train_mask_dir)
+    copy_pairs(test_files, test_img_dir, test_mask_dir)
+
+    print(f"Done! {len(train_files)} train pairs, {len(test_files)} test pairs.")
+
+split_train_test()
 
 def histogram_equalise(
         input_dir="./data/test/images",
@@ -165,4 +226,63 @@ def histogram_equalise(
         print(f"To:   {output_dir}")
 
 
-# histogram_equalise()
+
+def convert_multiclass_to_binary_clean(
+    input_dir,
+    output_dir,
+    min_area=100,        # remove tiny blobs (tune this)
+    kernel_size=3        # morphology strength
+):
+    os.makedirs(output_dir, exist_ok=True)
+
+    kernel = np.ones((kernel_size, kernel_size), np.uint8)
+    converted = 0
+
+    for root, _, files in os.walk(input_dir):
+        for filename in files:
+            if not filename.lower().endswith(
+                (".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp")
+            ):
+                continue
+
+            mask_path = os.path.join(root, filename)
+            mask = cv2.imread(mask_path, cv2.IMREAD_UNCHANGED)
+
+            if mask is None:
+                continue
+
+            # RGB → grayscale if needed
+            if mask.ndim == 3:
+                mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+
+            # Step 1: binarize (non-black = foreground)
+            binary = np.zeros_like(mask, dtype=np.uint8)
+            binary[mask != 0] = 255
+
+            # Step 2: morphological cleanup
+            binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
+            binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
+
+            # Step 3: remove small connected components
+            num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(
+                binary, connectivity=8
+            )
+
+            clean = np.zeros_like(binary)
+            for i in range(1, num_labels):  # skip background
+                if stats[i, cv2.CC_STAT_AREA] >= min_area:
+                    clean[labels == i] = 255
+
+            save_path = os.path.join(output_dir, filename)
+            cv2.imwrite(save_path, clean)
+            converted += 1
+
+    print(f"✅ Converted and cleaned {converted} masks.")
+
+
+# input_dir = "data/bkai-igh-neopolyp/train_gt/train_gt"
+# output_dir = "data/bkai-igh-neopolyp/train_gt/train_gt_bin"
+
+# convert_multiclass_to_binary_clean(input_dir, output_dir)
+
+
