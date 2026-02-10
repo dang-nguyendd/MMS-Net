@@ -151,8 +151,6 @@ def split_train_test(base_dir="./data/ETIS", split_ratio=0.9, seed=42):
 
     print(f"Done! {len(train_files)} train pairs, {len(test_files)} test pairs.")
 
-split_train_test()
-
 def histogram_equalise(
         input_dir="./data/test/images",
         output_dir="./data/test_hist/images",
@@ -278,6 +276,32 @@ def convert_multiclass_to_binary_clean(
             converted += 1
 
     print(f"✅ Converted and cleaned {converted} masks.")
+
+# import os
+# from PIL import Image
+# import numpy as np
+
+# input_dir = "data/bkai-igh-neopolyp/train_gt/train_gt"
+# output_dir = "data/bkai-igh-neopolyp/train_gt/train_gt_bin"
+# os.makedirs(output_dir, exist_ok=True)
+
+# for filename in os.listdir(input_dir):
+#     if filename.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".tiff")):
+#         img_path = os.path.join(input_dir, filename)
+
+#         img = Image.open(img_path).convert("RGB")
+#         arr = np.array(img)
+
+#         # mask for exact black pixels
+#         black_mask = np.all(arr == [0, 0, 0], axis=-1)
+
+#         # create output: start all white
+#         out = np.ones_like(arr) * 255
+
+#         # keep black pixels
+#         out[black_mask] = [0, 0, 0]
+
+#         Image.fromarray(out).save(os.path.join(output_dir, filename))
 
 
 # input_dir = "data/bkai-igh-neopolyp/train_gt/train_gt"
