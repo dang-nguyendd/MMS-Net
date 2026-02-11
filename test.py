@@ -179,7 +179,14 @@ def visualize_random_samples(model, args, num_samples=10):
         image_input = image.unsqueeze(0).cuda()
 
         with torch.no_grad():
-            pred = model(image_input)
+            outputs = model(image_input)
+
+            # If model returns multiple outputs (like MMSNet)
+            if isinstance(outputs, tuple):
+                pred = outputs[0]
+            else:
+                pred = outputs
+
 
             pred = F.interpolate(
                 pred, size=gt_np.shape,
