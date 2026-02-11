@@ -160,7 +160,7 @@ def inference(model, args):
 # ---------------- Main ---------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/best.pth")
+    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/best (1).pth")
     parser.add_argument("--test_path", type=str,
                         default="./data/test")
     args = parser.parse_args()
