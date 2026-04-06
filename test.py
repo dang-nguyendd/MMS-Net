@@ -243,6 +243,6 @@ if __name__ == "__main__":
         # model.load_state_dict(checkpoint)
         print("Loaded weights:", args.weight)
 
-    # multi_inference(model, args)
-    visualize_random_samples(model, args, num_samples=10)
+    multi_inference(model, args)
+    # visualize_random_samples(model, args, num_samples=10)
 
