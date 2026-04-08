@@ -14,7 +14,7 @@ from torch.autograd import Variable
 from datetime import datetime
 import torch.nn.functional as F
 
-from model.mms_base import MMSNet
+from model.mms_net import MMSNet
 
 class Dataset(torch.utils.data.Dataset):
     
