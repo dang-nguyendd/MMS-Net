@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 import random
 import matplotlib.pyplot as plt
-from model.mms_base import MMSNet
+from model.mms_net import MMSNet
 
 
 # ---------------- Dataset ----------------

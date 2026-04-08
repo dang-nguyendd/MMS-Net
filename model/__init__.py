@@ -4,7 +4,7 @@ from .path_block_c import PathBlockC
 from .path_block_d import PathBlockD
 from .path_block_e import PathBlockE
 from .feature_booster import FeatureBooster
-from .mms_base import MMSNet
+from .mms_net import MMSNet
 
 __all__ = [
     "PathBlockA",
