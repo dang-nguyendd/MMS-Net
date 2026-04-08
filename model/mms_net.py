@@ -10,7 +10,6 @@ from path_block_c import PathBlockC
 from path_block_d import PathBlockD
 from path_block_e import PathBlockE
 from path_block_f import PathBlockF
-from feature_booster import FeatureBooster
 from se import ChannelSpatialSELayer
 from reverse_attention import ReverseAttention
 from multi_head_attention import MultiHeadAttention
@@ -42,6 +41,30 @@ def make_ra_head(in_ch, mid_ch, out_ch):
         nn.Conv2d(mid_ch, out_ch, kernel_size=1)
     )
 
+import torch.nn as nn
+
+class MHA(nn.Module):
+    def __init__(self, in_channels, n_head):
+        super().__init__()
+
+        self.mha = MultiHeadAttention(
+            n_head=n_head,
+            d_model=in_channels,
+            d_k=in_channels // n_head,
+            d_v=in_channels // n_head
+        )
+
+    def forward(self, x):
+        B, C, H, W = x.shape
+
+        # Flatten
+        x_flat = x.view(B, C, H * W).permute(0, 2, 1)
+        # Attention
+        out, _ = self.mha(x_flat, x_flat, x_flat)
+        # Restore
+        out = out.permute(0, 2, 1).contiguous().view(B, C, H, W)
+
+        return out
 
 # -----------------------------
 # 🔹 Main Model
@@ -100,6 +123,8 @@ class MMSNet(nn.Module):
             nn.ReLU(inplace=True),
         )
 
+        self.attention = MHA(in_channels=c1 * bn_size, n_head=4)
+
         self.up1 = DeconvBNReLU(c1 * bn_size, c2)
         self.up2 = DeconvBNReLU(c2, c1)
 
@@ -116,8 +141,6 @@ class MMSNet(nn.Module):
 
         self.ra1_head = make_ra_head(c12 + c1, c2, out_ch)
         self.ra2_head = make_ra_head(c2 * 3 + c2, c2, out_ch)
-
-        # self.attention = MultiHeadAttention(n_head=4, d_model=128, d_k=32, d_v=32)
 
         # -----------------
         # Output
@@ -143,6 +166,7 @@ class MMSNet(nn.Module):
 
         # -------- Bottleneck --------
         x = self.bottleneck(fused1)
+        x = self.attention(x)
         z = self.up1(x)
         x = self.up2(z)
 
