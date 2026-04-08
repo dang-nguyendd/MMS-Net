@@ -70,7 +70,7 @@ class MHA(nn.Module):
 # 🔹 Main Model
 # -----------------------------
 class MMSNet(nn.Module):
-    def __init__(self, in_ch=16, bn_size=4, out_ch=1):
+    def __init__(self, in_ch=16, bn_size=1, out_ch=1):
         super().__init__()
 
         # Channel config 

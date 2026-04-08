@@ -7,7 +7,7 @@ from .scaled_dot_attention import ScaledDotProductAttention
 class MultiHeadAttention(nn.Module):
     ''' Multi-Head Attention module '''
 
-    def __init__(self, n_head, d_model, d_k, d_v, dropout=0.1):
+    def __init__(self, n_head, d_model, d_k, d_v, dropout=0.3):
         super().__init__()
 
         self.n_head = n_head
