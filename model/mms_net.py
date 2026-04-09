@@ -166,7 +166,7 @@ class MMSNet(nn.Module):
 
         # -------- Bottleneck --------
         x = self.bottleneck(fused1)
-        # x = self.attention(x)
+        x = self.attention(x)
         z = self.up1(x)
         x = self.up2(z)
 
