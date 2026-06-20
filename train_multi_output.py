@@ -116,26 +116,55 @@ def iou_m(y_true, y_pred):
 #     wiou = 1 - (inter + 1)/(union - inter+1)
 #     return (wfocal + wiou).mean()
 
-class DiceLoss(nn.Module):
-    def __init__(self, smooth=1e-6):
+# class DiceLoss(nn.Module):
+#     def __init__(self, smooth=1e-6):
+#         super().__init__()
+#         self.smooth = smooth
+
+#     def forward(self, logits, target):
+#         # logits: N × 1 × H × W
+#         # target: N × 1 × H × W (0 or 1)
+
+#         pred = torch.sigmoid(logits)
+#         target = target.float()
+
+#         intersection = (pred * target).sum(dim=(2, 3))
+#         union = pred.sum(dim=(2, 3)) + target.sum(dim=(2, 3))
+
+#         dice = (2. * intersection + self.smooth) / (union + self.smooth)
+#         loss = (1 - dice)
+
+#         return loss.mean()
+
+
+class TverskyLoss(nn.Module):
+    def __init__(self, alpha=0.7, beta=0.3, smooth=1e-6):
         super().__init__()
+        self.alpha = alpha
+        self.beta = beta
         self.smooth = smooth
 
     def forward(self, logits, target):
-        # logits: N × 1 × H × W
-        # target: N × 1 × H × W (0 or 1)
+        # logits: N x 1 x H x W
+        # target: N x 1 x H x W (0 or 1)
 
         pred = torch.sigmoid(logits)
         target = target.float()
 
-        intersection = (pred * target).sum(dim=(2, 3))
-        union = pred.sum(dim=(2, 3)) + target.sum(dim=(2, 3))
+        # tp = (pred * target).sum(dim=(2, 3))
+        # fp = (pred * (1 - target)).sum(dim=(2, 3))
+        # fn = ((1 - pred) * target).sum(dim=(2, 3))
+        tp = (pred * target).sum(dim=(1, 2, 3))
+        fp = (pred * (1 - target)).sum(dim=(1, 2, 3))
+        fn = ((1 - pred) * target).sum(dim=(1, 2, 3))
 
-        dice = (2. * intersection + self.smooth) / (union + self.smooth)
-        loss = (1 - dice)
+        tversky = (tp + self.smooth) / (
+            tp + self.alpha * fp + self.beta * fn + self.smooth
+        )
+
+        loss = 1 - tversky
 
         return loss.mean()
-
 
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     model.train()
@@ -143,6 +172,9 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     size_rates = [0.75, 1, 1.25]
     loss_record = AvgMeter()
     dice, iou = AvgMeter(), AvgMeter()
+    precision_record = AvgMeter()
+    recall_record = AvgMeter()
+    loss_function = TverskyLoss(alpha=0.7, beta=0.3)
     with torch.autograd.set_detect_anomaly(True):
         for i, pack in enumerate(tqdm(train_loader, total=total_step), start=1):
             if epoch <= 1:
@@ -165,18 +197,27 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                     mode='nearest'
                 )
                 # ---- forward ----
-                dice_loss = DiceLoss()
                 map1, map2, map3 = model(images)
                 map1 = F.interpolate(map1, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
                 map2 = F.interpolate(map2, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
                 map3 = F.interpolate(map3, size=(trainsize, trainsize), mode='bilinear', align_corners=False)
-                loss = dice_loss(map1, gts) + dice_loss(map2, gts) + dice_loss(map3, gts) 
+                loss = loss_function(map1, gts) + loss_function(map2, gts) + loss_function(map3, gts) 
             
                 # ---- metrics ----
-                pred = torch.sigmoid(map1)
+                with torch.no_grad():
+                    pred = torch.sigmoid(map1)
+                    pred_mask = (pred > 0.7).float()
 
-                dice_score = dice_m(pred, gts)
-                iou_score  = iou_m(pred, gts)
+                    dice_score = dice_m(pred, gts)
+                    iou_score  = iou_m(pred, gts)
+
+                    tp = (pred_mask * gts).sum()
+                    fp = (pred_mask * (1 - gts)).sum()
+                    fn = ((1 - pred_mask) * gts).sum()
+
+                    precision = tp / (tp + fp + 1e-6)
+                    recall    = tp / (tp + fn + 1e-6)
+
                 # ---- backward ----
                 loss.backward()
                 # clip_gradient(optimizer, args.clip)
@@ -186,13 +227,25 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                     loss_record.update(loss.data, args.batchsize)
                     dice.update(dice_score.data, args.batchsize)
                     iou.update(iou_score.data, args.batchsize)
+                    precision_record.update(precision.item(), args.batchsize)
+                    recall_record.update(recall.item(), args.batchsize)
 
             # ---- train visualization ----
             if i == total_step:
-                print('{} Training Epoch [{:03d}/{:03d}], '
-                        '[loss: {:0.4f}, dice: {:0.4f}, iou: {:0.4f}]'.
-                        format(datetime.now(), epoch, args.num_epochs,\
-                                loss_record.show(), dice.show(), iou.show()))
+                print(
+                    '{} Training Epoch [{:03d}/{:03d}], '
+                    '[loss: {:.4f}, dice: {:.4f}, iou: {:.4f}, '
+                    'precision: {:.4f}, recall: {:.4f}]'.format(
+                        datetime.now(),
+                        epoch,
+                        args.num_epochs,
+                        loss_record.show(),
+                        dice.show(),
+                        iou.show(),
+                        precision_record.show(),
+                        recall_record.show()
+                    )
+                )
 
     ckpt_path = save_path + 'last.pth'
     print('[Saving Checkpoint:]', ckpt_path)
