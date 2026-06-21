@@ -166,6 +166,34 @@ class TverskyLoss(nn.Module):
 
         return loss.mean()
 
+class BCETverskyLoss(nn.Module):
+    def __init__(
+        self,
+        bce_weight=0.5,
+        alpha=0.7,
+        beta=0.3,
+        smooth=1e-6,
+    ):
+        super().__init__()
+
+        self.bce_weight = bce_weight
+        self.bce = nn.BCEWithLogitsLoss()
+        self.tversky = TverskyLoss(
+            alpha=alpha,
+            beta=beta,
+            smooth=smooth,
+        )
+
+    def forward(self, logits, target):
+        bce_loss = self.bce(logits, target.float())
+        tversky_loss = self.tversky(logits, target)
+
+        return (
+            self.bce_weight * bce_loss
+            + (1 - self.bce_weight) * tversky_loss
+        )
+
+
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     model.train()
     # ---- multi-scale training ----
@@ -174,7 +202,12 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     dice, iou = AvgMeter(), AvgMeter()
     precision_record = AvgMeter()
     recall_record = AvgMeter()
-    loss_function = TverskyLoss(alpha=0.7, beta=0.3)
+    loss_function = BCETverskyLoss(
+        bce_weight=0.3,
+        alpha=0.8,
+        beta=0.2,
+    )
+
     with torch.autograd.set_detect_anomaly(True):
         for i, pack in enumerate(tqdm(train_loader, total=total_step), start=1):
             if epoch <= 1:

@@ -229,7 +229,7 @@ def visualize_random_samples(model, args, num_samples=10):
 # ---------------- Main ---------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/last.pth")
+    parser.add_argument("--weight", type=str, default="./snapshots/MMS+RA/best.pth")
     parser.add_argument("--test_path", type=str,
                         default="./data/test")
     args = parser.parse_args()
