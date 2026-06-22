@@ -41,8 +41,6 @@ def make_ra_head(in_ch, mid_ch, out_ch):
         nn.Conv2d(mid_ch, out_ch, kernel_size=1)
     )
 
-import torch.nn as nn
-
 class MHA(nn.Module):
     def __init__(self, in_channels, n_head):
         super().__init__()

@@ -1,4 +1,4 @@
-from model.mms_net import MMSNet
+from model.mms_net_less_branch import MMSNet
 import torch
 import torch.nn as nn
 from torchinfo import summary

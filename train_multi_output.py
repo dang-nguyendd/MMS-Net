@@ -14,7 +14,7 @@ from torch.autograd import Variable
 from datetime import datetime
 import torch.nn.functional as F
 
-from model.mms_net import MMSNet
+from model.mms_net_less_branch import MMSNet
 
 class Dataset(torch.utils.data.Dataset):
     
@@ -53,28 +53,35 @@ class Dataset(torch.utils.data.Dataset):
     
 epsilon = 1e-7
 
-def recall_m(y_true, y_pred):
-    true_positives = torch.sum(torch.round(torch.clip(y_true * y_pred, 0, 1)))
-    possible_positives = torch.sum(torch.round(torch.clip(y_true, 0, 1)))
-    recall = true_positives / (possible_positives + epsilon)
-    return recall
+def get_stats(y_true, y_pred):
+    y_pred = y_pred.float()
+    y_true = y_true.float()
+
+    tp = (y_pred * y_true).sum()
+    fp = (y_pred * (1 - y_true)).sum()
+    fn = ((1 - y_pred) * y_true).sum()
+
+    return tp, fp, fn
+
 
 def precision_m(y_true, y_pred):
-    true_positives = torch.sum(torch.round(torch.clip(y_true * y_pred, 0, 1)))
-    predicted_positives = torch.sum(torch.round(torch.clip(y_pred, 0, 1)))
-    precision = true_positives / (predicted_positives + epsilon)
-    return precision
+    tp, fp, _ = get_stats(y_true, y_pred)
+    return tp / (tp + fp + 1e-6)
+
+
+def recall_m(y_true, y_pred):
+    tp, _, fn = get_stats(y_true, y_pred)
+    return tp / (tp + fn + 1e-6)
+
 
 def dice_m(y_true, y_pred):
-    precision = precision_m(y_true, y_pred)
-    recall = recall_m(y_true, y_pred)
-    return 2*((precision*recall)/(precision+recall+epsilon))
+    tp, fp, fn = get_stats(y_true, y_pred)
+    return (2 * tp) / (2 * tp + fp + fn + 1e-6)
+
 
 def iou_m(y_true, y_pred):
-    precision = precision_m(y_true, y_pred)
-    recall = recall_m(y_true, y_pred)
-    return recall*precision/(recall+precision-recall*precision + epsilon)
-
+    tp, fp, fn = get_stats(y_true, y_pred)
+    return tp / (tp + fp + fn + 1e-6)
 
 # class FocalLossV1(nn.Module):
     
@@ -204,8 +211,8 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     recall_record = AvgMeter()
     loss_function = BCETverskyLoss(
         bce_weight=0.3,
-        alpha=0.8,
-        beta=0.2,
+        alpha=0.3,
+        beta=0.7,
     )
 
     with torch.autograd.set_detect_anomaly(True):
@@ -239,17 +246,13 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
                 # ---- metrics ----
                 with torch.no_grad():
                     pred = torch.sigmoid(map1)
-                    pred_mask = (pred > 0.7).float()
+                    threshold = 0.3  # for higher recall
+                    pred_mask = (pred > threshold).float()
 
                     dice_score = dice_m(pred, gts)
                     iou_score  = iou_m(pred, gts)
-
-                    tp = (pred_mask * gts).sum()
-                    fp = (pred_mask * (1 - gts)).sum()
-                    fn = ((1 - pred_mask) * gts).sum()
-
-                    precision = tp / (tp + fp + 1e-6)
-                    recall    = tp / (tp + fn + 1e-6)
+                    recall = recall_m(gts, pred_mask)
+                    precision = precision_m(gts, pred_mask)
 
                 # ---- backward ----
                 loss.backward()

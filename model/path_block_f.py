@@ -9,6 +9,7 @@ class PathBlockF(nn.Module):
     DF = 2
     256x256 -> 128×128
     """
+    # TODO
 
     def __init__(self, in_ch, dilation=4, stride=4):
         super().__init__()

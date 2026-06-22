@@ -172,6 +172,9 @@ def visualize_random_samples(model, args, num_samples=10):
     for idx in indices:
         image, gt = dataset[idx]
 
+        # Get filename
+        filename = os.path.basename(X_test[idx])
+
         # Prepare GT
         gt_np = gt.numpy().astype(np.float32)
 
@@ -187,10 +190,11 @@ def visualize_random_samples(model, args, num_samples=10):
             else:
                 pred = outputs
 
-
             pred = F.interpolate(
-                pred, size=gt_np.shape,
-                mode='bilinear', align_corners=False
+                pred,
+                size=gt_np.shape,
+                mode='bilinear',
+                align_corners=False
             )
 
             # If 2-channel output (softmax)
@@ -207,6 +211,8 @@ def visualize_random_samples(model, args, num_samples=10):
 
         # ---- Plot ----
         plt.figure(figsize=(12, 4))
+        plt.suptitle(filename, fontsize=14, fontweight="bold")
+        print(filename)
 
         plt.subplot(1, 3, 1)
         plt.imshow(img_np)
@@ -223,7 +229,7 @@ def visualize_random_samples(model, args, num_samples=10):
         plt.title("Prediction")
         plt.axis("off")
 
-        plt.tight_layout()
+        plt.tight_layout(rect=[0, 0, 1, 0.95])  # leave room for suptitle
         plt.show()
 
 # ---------------- Main ---------------------
@@ -244,5 +250,5 @@ if __name__ == "__main__":
         print("Loaded weights:", args.weight)
 
     multi_inference(model, args)
-    # visualize_random_samples(model, args, num_samples=10)
+    visualize_random_samples(model, args, num_samples=30)
 
