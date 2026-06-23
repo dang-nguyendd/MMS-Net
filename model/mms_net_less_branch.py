@@ -10,9 +10,11 @@ from .path_block_c import PathBlockC
 from .path_block_d import PathBlockD
 from .path_block_e import PathBlockE
 from .path_block_f import PathBlockF
-from .se import SpatialSELayer
+from .se import ChannelSpatialSELayer
 from .reverse_attention import ReverseAttention
 from .multi_head_attention import MultiHeadAttention
+from .cbam import CBAM
+
 # -----------------------------
 # 🔹 Basic Blocks
 # -----------------------------
@@ -96,23 +98,25 @@ class MMSNet(nn.Module):
         self.paths_stage2 = nn.ModuleList([
             PathBlockD(in_ch=c1),
             PathBlockE(in_ch=c1),
-            # PathBlockF(in_ch=c1),
+            PathBlockF(in_ch=c1),
         ])
 
         # -----------------
         # SE blocks
         # -----------------
         self.se_stage1 = nn.ModuleList([
-            SpatialSELayer(c4),
-            SpatialSELayer(c4),
-            SpatialSELayer(c4),
+            ChannelSpatialSELayer(c4),
+            ChannelSpatialSELayer(c4),
+            ChannelSpatialSELayer(c4),
         ])
 
         self.se_stage2 = nn.ModuleList([
-            SpatialSELayer(c2),
-            SpatialSELayer(c2),
-            # SpatialSELayer(c2),
+            ChannelSpatialSELayer(c2),
+            ChannelSpatialSELayer(c2),
+            ChannelSpatialSELayer(c2),
         ])
+
+        self.cbam = CBAM(channels= c12 + c1, r=8)
 
         # -----------------
         # Bottleneck
@@ -131,16 +135,16 @@ class MMSNet(nn.Module):
         # -----------------
         # Mid stage
         # -----------------
-        self.mid_up = DeconvBNReLU(c2 + c1 * 4, c2)
+        self.mid_up = DeconvBNReLU(c2 + c1 * 6, c2)
 
         # -----------------
         # Reverse Attention
         # -----------------
         self.ra1 = ReverseAttention(c12 + c1)
-        self.ra2 = ReverseAttention(c1 * 4 + c2)
+        self.ra2 = ReverseAttention(c1 * 6 + c2)
 
         self.ra1_head = make_ra_head(c12 + c1, c2, out_ch)
-        self.ra2_head = make_ra_head(c1 * 4 + c2, c2, out_ch)
+        self.ra2_head = make_ra_head(c1 * 6 + c2, c2, out_ch)
 
         # -----------------
         # Output
@@ -164,6 +168,7 @@ class MMSNet(nn.Module):
         skip1_ds = self.resize(skip1, 0.25)
         fused1 = torch.cat(paths1 + [skip1_ds], dim=1)
 
+        fused1 = self.cbam(fused1)
         # -------- Bottleneck --------
         x = self.bottleneck(fused1)
         # x = self.attention(x)

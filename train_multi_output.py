@@ -176,7 +176,7 @@ class TverskyLoss(nn.Module):
 class BCETverskyLoss(nn.Module):
     def __init__(
         self,
-        bce_weight=0.5,
+        bce_weight=0.3,
         alpha=0.7,
         beta=0.3,
         smooth=1e-6,
@@ -211,8 +211,8 @@ def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     recall_record = AvgMeter()
     loss_function = BCETverskyLoss(
         bce_weight=0.3,
-        alpha=0.3,
-        beta=0.7,
+        alpha=0.7,
+        beta=0.3,
     )
 
     with torch.autograd.set_detect_anomaly(True):

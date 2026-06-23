@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 import random
 import matplotlib.pyplot as plt
-from model.mms_net import MMSNet
+from model.mms_net_less_branch import MMSNet
 
 
 # ---------------- Dataset ----------------
@@ -150,7 +150,7 @@ def inference(model, args):
             pred = torch.sigmoid(pred)
 
         pred = pred.detach().cpu().numpy().squeeze()
-        pr = (pred > 0.5).astype(np.float32)
+        pr = (pred > 0.3).astype(np.float32)
 
         gts.append(gt)
         prs.append(pr)

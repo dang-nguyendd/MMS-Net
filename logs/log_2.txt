@@ -1,0 +1,332 @@
+Save path existed
+#################### Start Training ####################
+ 99% 100/101 [25:59<00:14, 14.88s/it]2026-06-22 18:43:26.096341 Training Epoch [001/100], [loss: 1.6548, dice: 0.4101, iou: 0.2600, precision: 0.3296, recall: 0.7281]
+100% 101/101 [26:13<00:00, 15.58s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 1 (loss=0.4101)
+ 99% 100/101 [04:58<00:02,  2.95s/it]2026-06-22 18:48:27.917067 Training Epoch [002/100], [loss: 1.4853, dice: 0.4627, iou: 0.3029, precision: 0.3858, recall: 0.7092]
+100% 101/101 [05:01<00:00,  2.99s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 2 (loss=0.4627)
+ 99% 100/101 [04:50<00:02,  2.89s/it]2026-06-22 18:53:21.160905 Training Epoch [003/100], [loss: 1.4401, dice: 0.4872, iou: 0.3241, precision: 0.4180, recall: 0.6928]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 3 (loss=0.4872)
+ 99% 100/101 [04:49<00:02,  2.86s/it]2026-06-22 18:58:14.003850 Training Epoch [004/100], [loss: 1.2922, dice: 0.5349, iou: 0.3675, precision: 0.4751, recall: 0.7068]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 4 (loss=0.5349)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 19:03:06.825874 Training Epoch [005/100], [loss: 1.2539, dice: 0.5560, iou: 0.3874, precision: 0.5036, recall: 0.7098]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 5 (loss=0.5560)
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 19:07:59.481177 Training Epoch [006/100], [loss: 1.1019, dice: 0.6110, iou: 0.4420, precision: 0.5672, recall: 0.7463]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 6 (loss=0.6110)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 19:12:52.204422 Training Epoch [007/100], [loss: 1.0345, dice: 0.6306, iou: 0.4628, precision: 0.5971, recall: 0.7331]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 7 (loss=0.6306)
+ 99% 100/101 [04:50<00:02,  2.91s/it]2026-06-22 19:17:45.490776 Training Epoch [008/100], [loss: 0.9679, dice: 0.6592, iou: 0.4945, precision: 0.6308, recall: 0.7533]
+100% 101/101 [04:53<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 8 (loss=0.6592)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-22 19:22:38.616773 Training Epoch [009/100], [loss: 0.8716, dice: 0.6930, iou: 0.5324, precision: 0.6625, recall: 0.7798]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 9 (loss=0.6930)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 19:27:31.586043 Training Epoch [010/100], [loss: 0.8569, dice: 0.7084, iou: 0.5520, precision: 0.6982, recall: 0.7764]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 10 (loss=0.7084)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-22 19:32:23.991843 Training Epoch [011/100], [loss: 0.8026, dice: 0.7287, iou: 0.5753, precision: 0.7187, recall: 0.7891]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 11 (loss=0.7287)
+ 99% 100/101 [04:49<00:02,  2.93s/it]2026-06-22 19:37:16.716831 Training Epoch [012/100], [loss: 0.7954, dice: 0.7219, iou: 0.5677, precision: 0.7283, recall: 0.7603]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 19:42:09.323288 Training Epoch [013/100], [loss: 0.7090, dice: 0.7546, iou: 0.6089, precision: 0.7455, recall: 0.8129]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 13 (loss=0.7546)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 19:47:01.791405 Training Epoch [014/100], [loss: 0.7224, dice: 0.7519, iou: 0.6054, precision: 0.7379, recall: 0.8114]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 19:51:54.660524 Training Epoch [015/100], [loss: 0.6925, dice: 0.7588, iou: 0.6136, precision: 0.7589, recall: 0.8040]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 15 (loss=0.7588)
+ 99% 100/101 [04:49<00:02,  2.91s/it]2026-06-22 19:56:47.223914 Training Epoch [016/100], [loss: 0.7144, dice: 0.7524, iou: 0.6059, precision: 0.7503, recall: 0.8061]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 20:01:39.675881 Training Epoch [017/100], [loss: 0.6372, dice: 0.7761, iou: 0.6372, precision: 0.7577, recall: 0.8352]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 17 (loss=0.7761)
+ 99% 100/101 [04:49<00:02,  2.86s/it]2026-06-22 20:06:32.280098 Training Epoch [018/100], [loss: 0.6635, dice: 0.7681, iou: 0.6268, precision: 0.7692, recall: 0.8141]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 20:11:24.585506 Training Epoch [019/100], [loss: 0.5862, dice: 0.7926, iou: 0.6589, precision: 0.7760, recall: 0.8457]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 19 (loss=0.7926)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-22 20:16:16.955080 Training Epoch [020/100], [loss: 0.5838, dice: 0.7932, iou: 0.6598, precision: 0.7789, recall: 0.8528]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 20 (loss=0.7932)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 20:21:09.720416 Training Epoch [021/100], [loss: 0.6153, dice: 0.7842, iou: 0.6477, precision: 0.7823, recall: 0.8319]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.91s/it]2026-06-22 20:26:02.527760 Training Epoch [022/100], [loss: 0.5746, dice: 0.8014, iou: 0.6721, precision: 0.8055, recall: 0.8377]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 22 (loss=0.8014)
+ 99% 100/101 [04:49<00:02,  2.86s/it]2026-06-22 20:30:55.273812 Training Epoch [023/100], [loss: 0.4875, dice: 0.8246, iou: 0.7044, precision: 0.8116, recall: 0.8686]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 23 (loss=0.8246)
+ 99% 100/101 [04:49<00:02,  2.91s/it]2026-06-22 20:35:48.227556 Training Epoch [024/100], [loss: 0.5019, dice: 0.8182, iou: 0.6954, precision: 0.8109, recall: 0.8644]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 20:40:40.747095 Training Epoch [025/100], [loss: 0.5279, dice: 0.8188, iou: 0.6952, precision: 0.8146, recall: 0.8572]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 20:45:33.094896 Training Epoch [026/100], [loss: 0.4949, dice: 0.8212, iou: 0.6989, precision: 0.8076, recall: 0.8652]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-22 20:50:25.421494 Training Epoch [027/100], [loss: 0.4927, dice: 0.8339, iou: 0.7176, precision: 0.8311, recall: 0.8705]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 27 (loss=0.8339)
+ 99% 100/101 [04:49<00:02,  2.85s/it]2026-06-22 20:55:18.364481 Training Epoch [028/100], [loss: 0.4372, dice: 0.8481, iou: 0.7393, precision: 0.8442, recall: 0.8801]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 28 (loss=0.8481)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 21:00:10.730720 Training Epoch [029/100], [loss: 0.4218, dice: 0.8503, iou: 0.7420, precision: 0.8453, recall: 0.8831]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 29 (loss=0.8503)
+ 99% 100/101 [04:48<00:02,  2.88s/it]2026-06-22 21:05:02.782483 Training Epoch [030/100], [loss: 0.4048, dice: 0.8603, iou: 0.7570, precision: 0.8569, recall: 0.8895]
+100% 101/101 [04:51<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 30 (loss=0.8603)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-22 21:09:55.044992 Training Epoch [031/100], [loss: 0.4196, dice: 0.8541, iou: 0.7472, precision: 0.8468, recall: 0.8844]
+100% 101/101 [04:51<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 21:14:47.434353 Training Epoch [032/100], [loss: 0.4420, dice: 0.8503, iou: 0.7416, precision: 0.8363, recall: 0.8917]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 21:19:39.844294 Training Epoch [033/100], [loss: 0.4317, dice: 0.8545, iou: 0.7488, precision: 0.8454, recall: 0.8940]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 21:24:31.986661 Training Epoch [034/100], [loss: 0.3917, dice: 0.8663, iou: 0.7664, precision: 0.8642, recall: 0.8924]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 34 (loss=0.8663)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-22 21:29:24.784757 Training Epoch [035/100], [loss: 0.3839, dice: 0.8711, iou: 0.7737, precision: 0.8681, recall: 0.8984]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 35 (loss=0.8711)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-22 21:34:17.381881 Training Epoch [036/100], [loss: 0.3412, dice: 0.8840, iou: 0.7940, precision: 0.8699, recall: 0.9195]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 36 (loss=0.8840)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 21:39:10.010196 Training Epoch [037/100], [loss: 0.3389, dice: 0.8823, iou: 0.7908, precision: 0.8743, recall: 0.9086]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-22 21:44:02.594987 Training Epoch [038/100], [loss: 0.3377, dice: 0.8844, iou: 0.7939, precision: 0.8793, recall: 0.9083]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 38 (loss=0.8844)
+ 99% 100/101 [04:49<00:02,  2.94s/it]2026-06-22 21:48:55.498479 Training Epoch [039/100], [loss: 0.3260, dice: 0.8935, iou: 0.8089, precision: 0.8901, recall: 0.9152]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 39 (loss=0.8935)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 21:53:48.446253 Training Epoch [040/100], [loss: 0.3314, dice: 0.8852, iou: 0.7953, precision: 0.8767, recall: 0.9111]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 21:58:40.783440 Training Epoch [041/100], [loss: 0.2976, dice: 0.8991, iou: 0.8177, precision: 0.8921, recall: 0.9218]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 41 (loss=0.8991)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-22 22:03:33.520072 Training Epoch [042/100], [loss: 0.2791, dice: 0.9077, iou: 0.8315, precision: 0.8952, recall: 0.9328]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 42 (loss=0.9077)
+ 99% 100/101 [04:49<00:02,  2.93s/it]2026-06-22 22:08:26.247782 Training Epoch [043/100], [loss: 0.2793, dice: 0.9052, iou: 0.8279, precision: 0.8936, recall: 0.9294]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-22 22:13:18.391261 Training Epoch [044/100], [loss: 0.2554, dice: 0.9147, iou: 0.8436, precision: 0.9013, recall: 0.9401]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 44 (loss=0.9147)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 22:18:10.964232 Training Epoch [045/100], [loss: 0.2552, dice: 0.9187, iou: 0.8506, precision: 0.9077, recall: 0.9409]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 45 (loss=0.9187)
+ 99% 100/101 [04:50<00:02,  2.90s/it]2026-06-22 22:23:04.346425 Training Epoch [046/100], [loss: 0.2360, dice: 0.9230, iou: 0.8575, precision: 0.9134, recall: 0.9437]
+100% 101/101 [04:53<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 46 (loss=0.9230)
+ 99% 100/101 [04:50<00:02,  2.88s/it]2026-06-22 22:27:57.653596 Training Epoch [047/100], [loss: 0.2325, dice: 0.9226, iou: 0.8569, precision: 0.9058, recall: 0.9499]
+100% 101/101 [04:53<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 22:32:50.061084 Training Epoch [048/100], [loss: 0.2203, dice: 0.9264, iou: 0.8637, precision: 0.9126, recall: 0.9508]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 48 (loss=0.9264)
+ 99% 100/101 [04:48<00:02,  2.86s/it]2026-06-22 22:37:42.227528 Training Epoch [049/100], [loss: 0.2200, dice: 0.9286, iou: 0.8673, precision: 0.9108, recall: 0.9556]
+100% 101/101 [04:51<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 49 (loss=0.9286)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 22:42:34.553038 Training Epoch [050/100], [loss: 0.2286, dice: 0.9241, iou: 0.8596, precision: 0.9105, recall: 0.9474]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-22 22:47:26.823327 Training Epoch [051/100], [loss: 0.2170, dice: 0.9294, iou: 0.8684, precision: 0.9136, recall: 0.9531]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 51 (loss=0.9294)
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 22:52:19.407428 Training Epoch [052/100], [loss: 0.1947, dice: 0.9356, iou: 0.8793, precision: 0.9206, recall: 0.9581]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 52 (loss=0.9356)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-22 22:57:12.493003 Training Epoch [053/100], [loss: 0.1911, dice: 0.9368, iou: 0.8815, precision: 0.9182, recall: 0.9631]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 53 (loss=0.9368)
+ 99% 100/101 [04:49<00:02,  2.91s/it]2026-06-22 23:02:04.699877 Training Epoch [054/100], [loss: 0.1986, dice: 0.9365, iou: 0.8810, precision: 0.9175, recall: 0.9629]
+100% 101/101 [04:51<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 23:06:56.830375 Training Epoch [055/100], [loss: 0.1881, dice: 0.9388, iou: 0.8851, precision: 0.9208, recall: 0.9634]
+100% 101/101 [04:51<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 55 (loss=0.9388)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-22 23:11:49.394048 Training Epoch [056/100], [loss: 0.1809, dice: 0.9422, iou: 0.8911, precision: 0.9262, recall: 0.9644]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 56 (loss=0.9422)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-22 23:16:42.183280 Training Epoch [057/100], [loss: 0.1792, dice: 0.9434, iou: 0.8931, precision: 0.9255, recall: 0.9672]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 57 (loss=0.9434)
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 23:21:34.650467 Training Epoch [058/100], [loss: 0.1717, dice: 0.9440, iou: 0.8943, precision: 0.9246, recall: 0.9688]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 58 (loss=0.9440)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-22 23:26:27.394985 Training Epoch [059/100], [loss: 0.1577, dice: 0.9489, iou: 0.9029, precision: 0.9316, recall: 0.9717]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 59 (loss=0.9489)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 23:31:19.821907 Training Epoch [060/100], [loss: 0.1595, dice: 0.9484, iou: 0.9021, precision: 0.9307, recall: 0.9712]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 23:36:12.047856 Training Epoch [061/100], [loss: 0.1632, dice: 0.9478, iou: 0.9009, precision: 0.9287, recall: 0.9719]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.87s/it]2026-06-22 23:41:04.377472 Training Epoch [062/100], [loss: 0.1445, dice: 0.9517, iou: 0.9080, precision: 0.9319, recall: 0.9760]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 62 (loss=0.9517)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-22 23:45:57.042738 Training Epoch [063/100], [loss: 0.1411, dice: 0.9539, iou: 0.9121, precision: 0.9347, recall: 0.9770]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 63 (loss=0.9539)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-22 23:50:49.769350 Training Epoch [064/100], [loss: 0.1480, dice: 0.9523, iou: 0.9092, precision: 0.9327, recall: 0.9760]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.94s/it]2026-06-22 23:55:42.157762 Training Epoch [065/100], [loss: 0.1359, dice: 0.9546, iou: 0.9133, precision: 0.9373, recall: 0.9759]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 65 (loss=0.9546)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 00:00:34.741799 Training Epoch [066/100], [loss: 0.1367, dice: 0.9553, iou: 0.9144, precision: 0.9372, recall: 0.9773]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 66 (loss=0.9553)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 00:05:27.072095 Training Epoch [067/100], [loss: 0.1328, dice: 0.9566, iou: 0.9169, precision: 0.9366, recall: 0.9804]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 67 (loss=0.9566)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 00:10:19.538628 Training Epoch [068/100], [loss: 0.1303, dice: 0.9575, iou: 0.9185, precision: 0.9376, recall: 0.9803]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 68 (loss=0.9575)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-23 00:15:12.245850 Training Epoch [069/100], [loss: 0.1335, dice: 0.9579, iou: 0.9193, precision: 0.9387, recall: 0.9804]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 69 (loss=0.9579)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 00:20:04.594503 Training Epoch [070/100], [loss: 0.1312, dice: 0.9585, iou: 0.9205, precision: 0.9408, recall: 0.9792]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 70 (loss=0.9585)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 00:24:57.177925 Training Epoch [071/100], [loss: 0.1244, dice: 0.9602, iou: 0.9236, precision: 0.9420, recall: 0.9814]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 71 (loss=0.9602)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-23 00:29:49.785874 Training Epoch [072/100], [loss: 0.1292, dice: 0.9588, iou: 0.9210, precision: 0.9391, recall: 0.9814]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.91s/it]2026-06-23 00:34:42.226133 Training Epoch [073/100], [loss: 0.1216, dice: 0.9601, iou: 0.9233, precision: 0.9413, recall: 0.9817]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 00:39:35.019248 Training Epoch [074/100], [loss: 0.1227, dice: 0.9610, iou: 0.9251, precision: 0.9423, recall: 0.9828]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 74 (loss=0.9610)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 00:44:27.565836 Training Epoch [075/100], [loss: 0.1170, dice: 0.9620, iou: 0.9268, precision: 0.9449, recall: 0.9818]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 75 (loss=0.9620)
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 00:49:20.069476 Training Epoch [076/100], [loss: 0.1179, dice: 0.9620, iou: 0.9268, precision: 0.9421, recall: 0.9841]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 00:54:12.575067 Training Epoch [077/100], [loss: 0.1194, dice: 0.9609, iou: 0.9248, precision: 0.9424, recall: 0.9823]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 00:59:05.047483 Training Epoch [078/100], [loss: 0.1115, dice: 0.9632, iou: 0.9290, precision: 0.9444, recall: 0.9843]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 78 (loss=0.9632)
+ 99% 100/101 [04:49<00:02,  2.93s/it]2026-06-23 01:03:57.776162 Training Epoch [079/100], [loss: 0.1127, dice: 0.9632, iou: 0.9291, precision: 0.9448, recall: 0.9840]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 79 (loss=0.9632)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 01:08:50.599231 Training Epoch [080/100], [loss: 0.1074, dice: 0.9656, iou: 0.9335, precision: 0.9489, recall: 0.9845]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 80 (loss=0.9656)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 01:13:43.446872 Training Epoch [081/100], [loss: 0.1087, dice: 0.9647, iou: 0.9319, precision: 0.9467, recall: 0.9853]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-23 01:18:36.051689 Training Epoch [082/100], [loss: 0.1089, dice: 0.9658, iou: 0.9338, precision: 0.9492, recall: 0.9849]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 82 (loss=0.9658)
+ 99% 100/101 [04:49<00:02,  2.88s/it]2026-06-23 01:23:28.696560 Training Epoch [083/100], [loss: 0.1066, dice: 0.9650, iou: 0.9324, precision: 0.9465, recall: 0.9855]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.86s/it]2026-06-23 01:28:21.087089 Training Epoch [084/100], [loss: 0.1033, dice: 0.9661, iou: 0.9344, precision: 0.9494, recall: 0.9850]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 84 (loss=0.9661)
+ 99% 100/101 [04:49<00:02,  2.91s/it]2026-06-23 01:33:13.674008 Training Epoch [085/100], [loss: 0.1074, dice: 0.9662, iou: 0.9346, precision: 0.9493, recall: 0.9853]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 85 (loss=0.9662)
+ 99% 100/101 [04:49<00:02,  2.95s/it]2026-06-23 01:38:06.402149 Training Epoch [086/100], [loss: 0.1101, dice: 0.9654, iou: 0.9332, precision: 0.9472, recall: 0.9856]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+ 99% 100/101 [04:49<00:02,  2.90s/it]2026-06-23 01:42:58.764827 Training Epoch [087/100], [loss: 0.1035, dice: 0.9663, iou: 0.9349, precision: 0.9484, recall: 0.9860]
+100% 101/101 [04:52<00:00,  2.89s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 87 (loss=0.9663)
+ 99% 100/101 [04:49<00:02,  2.92s/it]2026-06-23 01:47:51.653028 Training Epoch [088/100], [loss: 0.1066, dice: 0.9668, iou: 0.9358, precision: 0.9497, recall: 0.9860]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 88 (loss=0.9668)
+ 99% 100/101 [04:49<00:02,  2.89s/it]2026-06-23 01:52:44.397858 Training Epoch [089/100], [loss: 0.0997, dice: 0.9677, iou: 0.9374, precision: 0.9504, recall: 0.9865]
+100% 101/101 [04:52<00:00,  2.90s/it]
+[Saving Checkpoint:] snapshots/MMS+RA/last.pth
+✅ Saved best model at epoch 89 (loss=0.9677)
+
