@@ -13,6 +13,14 @@ from .path_block_f import PathBlockF
 from .se import ChannelSpatialSELayer
 from .reverse_attention import ReverseAttention
 from .multi_head_attention import MultiHeadAttention
+
+# -----------------------------
+# 🔹 MMSNet - 6 branches
+# 🔹 RA
+# 🔹 SE
+# 🔹 Multi-Head Attention
+# -----------------------------
+
 # -----------------------------
 # 🔹 Basic Blocks
 # -----------------------------

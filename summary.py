@@ -1,15 +1,17 @@
-from model.mms_net_less_branch import MMSNet
+from model.mms_net_2 import MMSNet
 import torch
 import torch.nn as nn
 from torchinfo import summary
 
 model = MMSNet()
 inp = torch.randn(1, 3, 128, 128) 
-out1, out2, out3 = model(inp)
+out1, out2, out3, out_bgm = model(inp)
 
 print("Output 1 shape:", out1.shape)
 print("Output 2 shape:", out2.shape)
 print("Output 3 shape:", out3.shape)
+print("Output bgm shape:", out_bgm.shape)
+
 
 summary(model, input_size=(1, 3, 128, 128))
 

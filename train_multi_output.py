@@ -201,6 +201,15 @@ class BCETverskyLoss(nn.Module):
         )
 
 
+def mask_to_boundary(mask):
+    # mask: (B,1,H,W), values in {0,1}
+
+    dilated = F.max_pool2d(mask, kernel_size=3, stride=1, padding=1)
+    eroded = -F.max_pool2d(-mask, kernel_size=3, stride=1, padding=1)
+
+    boundary = (dilated - eroded) > 0
+    return boundary.float()
+
 def train(train_loader, model, optimizer, epoch, lr_scheduler, args):
     model.train()
     # ---- multi-scale training ----
